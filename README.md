@@ -639,3 +639,13 @@ sparky.on('error', function(err) {
   console.log('%s', err || '<empty>');
 });
 ```
+
+## Tests
+
+Tests are basic at this point... after cloning repo, run:
+
+```bash
+$ cd sparky
+$ npm install
+$ TOKEN=<token> npm test
+```
