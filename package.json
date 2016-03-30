@@ -1,6 +1,6 @@
 {
   "name": "node-sparky",
-  "version": "2.0.11",
+  "version": "2.0.12",
   "description": "A simple Cisco Spark API wrapper for NodeJS",
   "main": "index.js",
   "scripts": {
