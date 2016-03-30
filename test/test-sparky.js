@@ -2,7 +2,6 @@ var assert = require('assert');
 var util = require("util");
 
 var Bottleneck = require('bottleneck');
-var async = require('async');
 var _ = require('lodash');
 
 var Sparky = require('../lib/sparky');
@@ -17,29 +16,37 @@ var sparkyOptions = {
 if(!sparkyOptions.token) throw new Error('token not specified');
 
 // used in tests
-var imageUrl = process.env.IMAGE_URL || 'https://en.wikipedia.org/wiki/T.A.P.O.A.F.O.M.#/media/File:MP_Clinton-TAPOAFOM.jpg';
+var imageUrl = process.env.IMAGE_URL || 'https://upload.wikimedia.org/wikipedia/en/a/a0/MP_Clinton-TAPOAFOM.jpg';
 var personEmail = process.env.EMAIL || null;
+var personDisplayName = process.env.DISPLAY_NAME || null;
 
 // config sparky
 var sparky = new Sparky(sparkyOptions);
 
+// create alias functions
+sparky.message.sendRoom = sparky.message.send.room;
+sparky.message.sendPerson = sparky.message.send.person;
+sparky.membership.setModerator = sparky.membership.set.moderator
+sparky.membership.clearModerator = sparky.membership.clear.moderator;
+sparky.webhook.addRoom = sparky.webhook.add.messages.created.room;
+
 function Test() {
   var self = this;
-
   self.rooms = [];
-  self.room = {};
+  self.room = [];
   self.people = [];
-  self.person = {};
+  self.person = [];
   self.messages = [];
-  self.message = {};
+  self.message = [];
   self.memberships = [];
-  self.membership = {};
+  self.membership = [];
   self.webhooks = [];
-  self.webhook = {};
+  self.webhook = [];
 }
 
-// spark response validators
+// spark items validators
 Test.prototype.isRoom = function(room) {
+  if(room instanceof Array) room = room[0];
   var result = (typeof room === 'object'
     && room.id && typeof room.id === 'string'
     && room.title && typeof room.title === 'string'
@@ -48,6 +55,7 @@ Test.prototype.isRoom = function(room) {
   return result;
 }
 Test.prototype.isPerson = function(person) {
+  if(person instanceof Array) person = person[0];
   var result = (typeof person === 'object'
     && person.id && typeof person.id === 'string'
     && person.displayName && typeof person.displayName === 'string'
@@ -58,6 +66,7 @@ Test.prototype.isPerson = function(person) {
   return result;
 }
 Test.prototype.isMessage = function(message) {
+  if(message instanceof Array) message = message[0];
   var result = (typeof message === 'object'
     && message.id && typeof message.id === 'string'
     && message.personId && typeof message.personId === 'string'
@@ -69,6 +78,7 @@ Test.prototype.isMessage = function(message) {
   return result;
 }
 Test.prototype.isMembership = function(membership) {
+  if(membership instanceof Array) membership = membership[0];
   var result = (typeof membership === 'object'
     && membership.id && typeof membership.id === 'string'
     && membership.personId && typeof membership.personId === 'string'
@@ -78,6 +88,7 @@ Test.prototype.isMembership = function(membership) {
   return result;
 }
 Test.prototype.isWebhook = function(webhook) {
+  if(webhook instanceof Array) webhook = webhook[0];
   var result = (typeof webhook === 'object'
     && webhook.id && typeof webhook.id === 'string'
     && webhook.name && typeof webhook.name === 'string'
@@ -107,13 +118,20 @@ Test.prototype.sparky = function(type, cmd, test, options, cb) {
   options = args.length > 0 ? args : [];
 
   // sparky callback
-  options.push(function(err, response) {
+  options.push(function(err, items) {
     var result = false;
-    if(!err && response && response instanceof Array) {
-      self[type] = response;
-      result = test(response[0]);
+    if(!err && items && items instanceof Array) {
+      if(items.length > 0) {
+        // populated result array, validate content
+        self[type] = items;
+        result = test(items);
+      } else {
+        // empty result array, do not validate content
+        result = true;
+      }
     } else if(cmd === 'remove') {
-      result = test(err);
+      // remove action return sucess, but no object(s)
+      result = true;
     }
     cb(err, result);
   });
@@ -123,7 +141,7 @@ Test.prototype.sparky = function(type, cmd, test, options, cb) {
 var test = new Test();
 
 // Test Sparky Constructor
-describe('Sparky', function() {
+describe('Sparky Constructor', function() {
 
   // constructor
   it('return instance of Sparky', function(done) {
@@ -146,6 +164,13 @@ describe('Sparky', function() {
     done();
   });
 
+  // overflow
+  it('return a queue object for "overflow"', function(done) {
+    var result = sparky.overflow instanceof Bottleneck;
+    assert.equal(result, true, 'did not return queue object');
+    done();
+  });
+
 });
 
 // Test Sparky Functions
@@ -153,57 +178,144 @@ describe('Sparky functions', function() {
   // set default timeout
   this.timeout(10 * 1000);
 
-  it('rooms.get', function(done) {
+  // rooms
+
+  it('sparky.rooms.get', function(done) {
     test.sparky('rooms', 'get', test.isRoom, function(err, result) {
       assert(!err && result);
       done();
     });
   });
 
-  it('room.get', function(done) {
+  // room
+
+  it('sparky.room.get', function(done) {
     test.sparky('room', 'get', test.isRoom, test.rooms[0].id, function(err, result) {
       assert(!err && result);
       done();
     });
   });
 
-  it('messages.get', function(done) {
-    test.sparky('messages', 'get', test.isMessage, test.room[0].id, function(err, result) {
+  it('sparky.room.add', function(done) {
+    test.sparky('room', 'add', test.isRoom, 'Test Room', function(err, result) {
       assert(!err && result);
       done();
     });
   });
 
-  it('person.me', function(done) {
+  it('sparky.room.rename', function(done) {
+    test.sparky('room', 'rename', test.isRoom, test.room[0].id, 'Test Room 2', function(err, result) {
+      assert(!err && result);
+      done();
+    });
+  });
+
+  it('sparky.room.remove', function(done) {
+    test.sparky('room', 'remove', test.isRoom, test.room[0].id, function(err, result) {
+      assert(!err && result);
+      done();
+    });
+  });
+
+  // people
+
+  if(personDisplayName) { // requires organization
+    it('sparky.people.search', function(done) {
+      test.sparky('people', 'search', test.isPerson, personDisplayName, function(err, result) {
+        assert(!err && result);
+        done();
+      });
+    });
+  }
+  
+  // person
+
+  it('sparky.person.me', function(done) {
     test.sparky('person', 'me', test.isPerson, function(err, result) {
       assert(!err && result);
       done();
     });
   });
 
-  it('memberships.get', function(done) {
+  it('sparky.person.get', function(done) {
+    test.sparky('person', 'get', test.isPerson, test.person[0].id, function(err, result) {
+      assert(!err && result);
+      done();
+    });
+  });
+
+  if(personEmail) {
+    it('sparky.person.byEmail', function(done) {
+      test.sparky('person', 'byEmail', test.isPerson, personEmail, function(err, result) {
+        assert(!err && result);
+        done();
+      });
+    });
+  }
+  
+  // messages
+
+  it('sparky.messages.get', function(done) {
+    test.sparky('messages', 'get', test.isMessage, test.rooms[0].id, function(err, result) {
+      assert(!err && result);
+      done();
+    });
+  });
+
+  // message
+
+  it('sparky.message.get', function(done) {
+    test.sparky('message', 'get', test.isMessage, test.messages[0].id, function(err, result) {
+      assert(!err && result);
+      done();
+    });
+  });
+  
+  // memberships
+
+  it('sparky.memberships.get', function(done) {
     test.sparky('memberships', 'get', test.isMembership, function(err, result) {
       assert(!err && result);
       done();
     });
   });
 
-  it('membership.get', function(done) {
+  // membership
+
+  it('sparky.membership.get', function(done) {
     test.sparky('membership', 'get', test.isMembership, test.memberships[0].id, function(err, result) {
       assert(!err && result);
       done();
     });
   });
 
-  it('webhooks.get', function(done) {
+  // webhooks
+
+  it('sparky.webhooks.get', function(done) {
     test.sparky('webhooks', 'get', test.isWebhook, function(err, result) {
       assert(!err && result);
       done();
     });
   });
 
-  it('webhook.get', function(done) {
+  // webhook
+
+  it('sparky.webhook.get', function(done) {
     test.sparky('webhook', 'get', test.isWebhook, test.webhooks[0].id, function(err, result) {
+      assert(!err && result);
+      done();
+    });
+  });
+
+  it('sparky.webhook.add.messages.created.room', function(done) {
+    test.sparky('webhook', 'addRoom', test.isWebhook, test.rooms[0].id, 'Test Webhook', function(err, result) {
+      assert(!err && result);
+      done();
+    });
+  });
+
+  it('sparky.webhook.remove', function(done) {
+    test.sparky('webhook', 'remove', test.isWebhook, test.webhook[0].id, function(err, result) {
       assert(!err && result);
       done();
     });

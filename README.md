@@ -17,9 +17,9 @@ sparky.rooms.get(function(err, results) {
 ## Features
 
 * Built in rate limiter and outbound queue that allows control over the number of parallel API calls and the minimum time between each call
-* Transparently handles 429 errors and re-queues the request
-* File Downloader
-* Event emitters tied to request, response, error, and retry operations
+* Transparently handles some (429, 500, 502) errors and re-queues the request
+* File processor for retrieving attachments from room
+* Event emitters tied to request, response, error, retry, and queue drops
 
 
 ## Installation
@@ -40,18 +40,36 @@ var Sparky = require('node-sparky');
 var sparky = new Sparky({
   token: 'mytoken',
   webhook: 'http://mywebhook.url/path',
-  maxItems: 10,
-  maxConcurrent: 2,
-  minTime: 200,
-  requeueMaxRetry: 3
 });
 ```
 * `token` : The Cisco Spark auth token
 * `webhook` : The callback URL sent when setting up a webhook
+
+**Optional config settings**
+
+```js
+var sparky = new Sparky({
+  [...]
+  maxItems: 10,
+  maxConcurrent: 2,
+  minTime: 200,
+  requeueMinTime: 2000,
+  requeueMaxRetry: 3
+  requeueCodes: [ 429, 500, 503 ],
+  requestTimeout: 5000,
+  queueDepthTime: 20000,
+  requeueDepthTime: 80000
+});
+```
 * `maxItems` : Number of items that are retrieved. *Default: `50`*
 * `maxConcurrent` : Number of requests that can be running at the same time. *Default: `2`*
 * `minTime` : Time (ms) to wait after launching a request before launching another one. *Default: `200`ms*
-* `requeueMaxRetry:` : The maximum number of attepts to requeue the same API call. (Applies to calls that receive 429 responses only)
+* `requeueMinTime` : Time (ms) to wait after launching a request before launching another one for requeued requests. *Default: `minTime * 10`ms*
+* `requeueMaxRetry:` : The maximum number of attepts to requeue the same API call.
+* `requeueCodes` : HTTP error codes that are attempted to be requeued. *Default: [ 429, 500, 503 ]*
+* `requestTimeout` : The timeout (ms) that Sparky waits for a connection to be accepted when placing an API call before failing. *Default: 5000ms*
+* `queueDepthTime` : The time (ms) that Sparky will hold a request in the primary queue before dropping oldest. *Default: 20000ms*
+* `requeueDepthTime` : The time (ms) that Sparky will hold a request in the in the retry queue before dropping oldest. *Default: `queueDepthTime * (requeueMinTime / minTime)` ms*
 
 ## Rooms
 
@@ -621,6 +639,8 @@ sparky.webhook.remove(id, function(err) {
 
 The following events can be used to drive debugging or metrics.
 
+**Debug Example:**
+
 ```js
 sparky.on('request', function(url, requestOptions) {
   console.log('requested: %s', url || '<empty>');
@@ -638,6 +658,28 @@ sparky.on('retry', function(response) {
 sparky.on('error', function(err) {
   console.log('%s', err || '<empty>');
 });
+
+sparky.on('dropped', function(request) {
+  console.log('queue size exceeded, dropping oldest request: %j', request);
+});
+```
+
+**Metric Example:**
+
+```js
+var reqPerMin = 0;
+var avgResTime = 0;
+
+sparky.on('request', function(url, requestOptions) {
+   reqPerMin++;
+   avgResTime = ((avgResTime * reqPerMin) + response.elapsedTime) / (reqPerMin + 1);
+});
+
+setInterval(function() {
+  console.log('Requests per minute: %s', reqPerMin);
+  console.log('Average Response time: %s', avgResTime);
+  reqPerMin = 0;
+  }, 60 * 1000);
 ```
 
 ## Tests
