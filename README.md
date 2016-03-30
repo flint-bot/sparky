@@ -672,7 +672,7 @@ var avgResTime = 0;
 
 sparky.on('request', function(url, requestOptions) {
    reqPerMin++;
-   avgResTime = ((avgResTime * reqPerMin) + response.elapsedTime) / (reqPerMin + 1);
+   avgResTime = Math.floor(((avgResTime * reqPerMin) + response.elapsedTime) / (reqPerMin + 1));
 });
 
 setInterval(function() {
