@@ -679,6 +679,7 @@ setInterval(function() {
   console.log('Requests per minute: %s', reqPerMin);
   console.log('Average Response time: %s', avgResTime);
   reqPerMin = 0;
+  avgResTime = 0;
   }, 60 * 1000);
 ```
 
