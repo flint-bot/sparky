@@ -162,7 +162,7 @@ describe('Sparky Constructor', function() {
 // Test Sparky Functions
 describe('Sparky functions', function() {
   // set default timeout
-  this.timeout(10 * 1000);
+  this.timeout(30 * 1000);
 
   // rooms
 
