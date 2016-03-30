@@ -99,13 +99,6 @@ Test.prototype.isWebhook = function(webhook) {
   );
   return result;
 }
-Test.prototype.isRemoved = function(err) {
-  if(!err) {
-    return true;
-  } else {
-    return false;
-  }
-}
 Test.prototype.sparky = function(type, cmd, test, options, cb) {
   var self = this;
 
@@ -160,13 +153,6 @@ describe('Sparky Constructor', function() {
   // requeue
   it('return a queue object for "requeue"', function(done) {
     var result = sparky.requeue instanceof Bottleneck;
-    assert.equal(result, true, 'did not return queue object');
-    done();
-  });
-
-  // overflow
-  it('return a queue object for "overflow"', function(done) {
-    var result = sparky.overflow instanceof Bottleneck;
     assert.equal(result, true, 'did not return queue object');
     done();
   });
