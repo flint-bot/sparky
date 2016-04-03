@@ -73,7 +73,7 @@ Test.prototype.isMessage = function(message) {
     && message.personEmail && typeof message.personEmail === 'string'
     && message.created && typeof message.created === 'string'
     && (message.text && typeof message.text === 'string' 
-      || message.files && typeof message.files instanceof Array)
+      || message.files && message.files instanceof Array)
   );
   return result;
 }
@@ -286,15 +286,15 @@ describe('Sparky functions', function() {
 
   // webhook
 
-  it('sparky.webhook.get', function(done) {
-    test.sparky('webhook', 'get', test.isWebhook, test.webhooks[0].id, function(err, result) {
+  it('sparky.webhook.add.messages.created.room', function(done) {
+    test.sparky('webhook', 'addRoom', test.isWebhook, test.rooms[0].id, 'Test Webhook', function(err, result) {
       assert(!err && result);
       done();
     });
   });
 
-  it('sparky.webhook.add.messages.created.room', function(done) {
-    test.sparky('webhook', 'addRoom', test.isWebhook, test.rooms[0].id, 'Test Webhook', function(err, result) {
+  it('sparky.webhook.get', function(done) {
+    test.sparky('webhook', 'get', test.isWebhook, test.webhook[0].id, function(err, result) {
       assert(!err && result);
       done();
     });
