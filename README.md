@@ -379,6 +379,7 @@ sparky.contents.get(id, function(err, file) {
 ```
 
 
+
 #### Get File by URL:
 Retrieve file by API URL
 ###### SPARKY.contents.byUrl(url, callback(error, file))
@@ -406,7 +407,9 @@ sparky.contents.byUrl(url, function(err, file) {
 #### Example File Object:
 ```json
 {
+  "id": "c2MMWU1LWI03VzL0NPTlRFTlQvNDYTY4NTAtZWVkYy0xWIyYTk1MGMTEtY2lzY29zcGFyazovLFjMDcxLzA",
   "name": "2016-03-06_19-03-57.jpg",
+  "ext": "jpg",
   "type": "image/jpeg",
   "binary": "<Buffer ff d8... >",
   "base64": "/9j/4AAQSkZJ..."
