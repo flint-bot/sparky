@@ -645,8 +645,7 @@ The following events can be used to drive debugging or metrics.
 **Debug Example:**
 
 ```js
-sparky.on('request', function(url, requestOptions) {
-  console.log('requested: %s', url || '<empty>');
+sparky.on('request', function(requestOptions) {
   console.log('options: %j', requestOptions || '<empty>');  
 });
 
@@ -673,7 +672,7 @@ sparky.on('dropped', function(request) {
 var reqPerMin = 0;
 var avgResTime = 0;
 
-sparky.on('request', function(url, requestOptions) {
+sparky.on('response', function(response) {
    reqPerMin++;
    avgResTime = Math.floor(((avgResTime * reqPerMin) + response.elapsedTime) / (reqPerMin + 1));
 });
