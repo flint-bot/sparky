@@ -16,7 +16,7 @@
     "api"
   ],
   "author": "Nicholas Marus <nmarus@gmail.com>",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/nmarus/sparky/issues"
   },
