@@ -241,13 +241,13 @@ sparky.person.me(function(err, results) {
 
 #### Get All (up to max or maxItems) Messages for Room by ID:
 Retrieve messages for a specified room. Callback returns array of message objects.
-###### SPARKY.messages.room.get(roomId, *max,* callback(error, results))
+###### SPARKY.messages.get(roomId, *max,* callback(error, results))
 * `roomId` : UUID of a Spark Room
 * `max` : optionally specify max items to return (defaults to global maxItems)
 * `error` : null or http response code
 * `results` : query results in a collection (array of objects)
 ```js
-sparky.messages.room.get(roomId, function(err, results) {
+sparky.messages.get(roomId, function(err, results) {
   if(!err) {
     console.log(results);
   }
