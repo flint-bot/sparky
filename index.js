@@ -1,1 +1,1 @@
-module.exports = require('./lib/sparky');
+module.exports = require('./lib/spark');

@@ -1,25 +1,42 @@
-# sparky
+# node-sparky
 
+#### Cisco Spark SDK for Node JS (Version 3)
 
-A simple Cisco Spark API wrapper for NodeJS.
 ```js
-var Sparky = require('node-sparky');
+var Spark = require('node-sparky');
 
-var sparky = new Sparky({ token: '<my token>' });
+var spark = new Spark({ token: '<my token>' });
 
-sparky.rooms.get(function(err, results) {
-  if(!err) console.log(results);
-});
-
+spark.roomsGet(10)
+  .then(function(rooms) {
+    // process rooms as array
+    rooms.forEach(function(room) {
+      console.log(room.title);
+    });
+  })
+  .catch(function(err) {
+    // process error
+    console.log(err);
+  });
 ```
 
+***If you are coming from using node-sparky version 2.x or earlier, note that
+the architecture, commands, and some variable names have changed. While this
+release is similar to previous versions, there are some major differences.
+Please read the API docs below and in the /docs folder before migrating your
+code to this release. If you are looking for the old release version,
+node-sparky@2.0.27 is still available to be installed through NPM.***
 
 ## Features
 
-* Built in rate limiter and outbound queue that allows control over the number of parallel API calls and the minimum time between each call
-* Transparently handles some (429, 500, 502) errors and re-queues the request
-* File processor for retrieving attachments from room
-* Event emitters tied to request, response, error, retry, and queue drops
+* Built in rate limiter and outbound queue that allows control over the number
+of parallel API calls and the minimum time between each call.
+* Transparently handles some (429, 500, 502) errors and re-queues the request.
+* File processor for retrieving attachments from room.
+* Event emitters tied to request, response, error, retry, and queue drops.
+* Returns promises that comply with [A+ standards.](https://promisesaplus.com/).
+* Handles pagination transparently. (Receive unlimited records)
+* Support for Spark API Advanced Webhooks
 
 
 ## Installation
@@ -35,379 +52,146 @@ npm install node-sparky --save
 ## API Initialization and Configuration
 
 ```js
-var Sparky = require('node-sparky');
+var Spark = require('node-sparky');
 
-var sparky = new Sparky({
+var spark = new Spark({
   token: 'mytoken',
-  webhook: 'http://mywebhook.url/path',
+  webhookUrl: 'http://mywebhook.url/path',
 });
 ```
+
 * `token` : The Cisco Spark auth token
 * `webhook` : The callback URL sent when setting up a webhook
 
 **Optional config settings**
 
 ```js
-var sparky = new Sparky({
+var spark = new Spark({
   [...]
-  maxItems: 10,
-  maxConcurrent: 2,
-  minTime: 200,
-  requeueMinTime: 2000,
+  maxConcurrent: 3,
+  minTime: 600,
+  requeueMinTime: 6000,
   requeueMaxRetry: 3
   requeueCodes: [ 429, 500, 503 ],
-  requestTimeout: 5000,
-  queueDepthTime: 20000,
-  requeueDepthTime: 80000
-});
-```
-* `maxItems` : Number of items that are retrieved. *Default: `50`*
-* `maxConcurrent` : Number of requests that can be running at the same time. *Default: `2`*
-* `minTime` : Time (ms) to wait after launching a request before launching another one. *Default: `200`ms*
-* `requeueMinTime` : Time (ms) to wait after launching a request before launching another one for requeued requests. *Default: `minTime * 10`ms*
-* `requeueMaxRetry:` : The maximum number of attepts to requeue the same API call.
-* `requeueCodes` : HTTP error codes that are attempted to be requeued. *Default: [ 429, 500, 503 ]*
-* `requestTimeout` : The timeout (ms) that Sparky waits for a connection to be accepted when placing an API call before failing. *Default: 5000ms*
-* `queueDepthTime` : The time (ms) that Sparky will hold a request in the primary queue before dropping oldest. *Default: 20000ms*
-* `requeueDepthTime` : The time (ms) that Sparky will hold a request in the in the retry queue before dropping oldest. *Default: `queueDepthTime * (requeueMinTime / minTime)` ms*
-
-## Rooms
-
-#### Get All (up to maxItems) Rooms:
-Retrieve rooms that authenticated user has joined. Callback returns array of room objects.
-###### SPARKY.rooms.get(callback(error, results))
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.rooms.get(function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
+  requestTimeout: 20000,
+  queueSize: 10000,
+  requeueSize: 10000
 });
 ```
 
+* `maxConcurrent` : Number of requests that can be running at the same time.
+  *Default: `3`*
+* `minTime` : Time (ms) to wait after launching a request before launching
+  another one. *Default: `600`ms (100/minute)*
+* `requeueMinTime` : Time (ms) to wait after launching a request before
+  launching another one for requeued requests. *Default: `minTime * 10`ms*
+* `requeueMaxRetry:` : The maximum number of attepts to requeue the same API
+  call. *Defaut: 3*
+* `requeueCodes` : HTTP error codes that are attempted to be requeued.
+  *Default: [ 429, 500, 503 ]*
+* `requestTimeout` : The timeout (ms) that Spark waits for a connection to be
+  accepted when placing an API call before failing. *Default: 20000ms*
+* `queueSize` : Size of queue for requests that exceed rate limiter.
+* `requeueSize` : Size of queue for requests that fail and need to be requeued.
 
-## Room
+## Spark Methods
+#####Note: [Detailed documentation for Spark Methods can be found here.](https://github.com/nmarus/node-sparky/blob/master/docs/Spark.md)
 
-#### Get Details by ID:
-Retrieve details of a specific room. Callback returns room object.
-###### SPARKY.room.get(id, callback(error, results))
-* `id` : UUID of a Spark Room
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.room.get(id, function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
-});
-```
+#### Spark#roomsGet();
+Returns Promise fulfilled with Rooms array.
 
+#### Spark#roomGet(id);
+Returns Promise fulfilled with Room object.
 
-#### Add:
-Adds a room. Callback returns a room object.
-###### SPARKY.room.add(title, callback(error, results))
-* `title` : Title of room to add
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.room.add(title, function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
-});
-```
+#### Spark#roomAdd(title);
+Returns Promise fulfilled with Room object.
 
+#### Spark#roomRename(id, title);
+Returns Promise fulfilled with Room object.
 
-#### Rename:
-Renames a room. Callback returns a room object.
-###### SPARKY.room.rename(id, title, callback(error, results))
-* `id` : UUID of a Spark Room
-* `title` : Title of room to add
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.room.rename(id, title, function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
-});
-```
+#### Spark#roomRemove(id);
+Returns Promise fulfilled on completion.
 
-
-#### Remove:
-Removes a room. Callback returns either a success or failure.
-###### SPARKY.room.remove(id, callback(error, results))
-* `id` : UUID of a Spark Room
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.room.remove(id, function(err) {
-  if(!err) {
-    console.log('room %s removed', id);
-  }
-});
-```
-
-
-#### Example Room Object:
+##### Example Room Object
 ```json
 {
-  "id" : "Y2lzY29zcGFyazovL3VzL1JPT00vYmJjZWIxYWQtNDNmMS0zYjU4LTkxNDctZjE0YmIwYzRkMTU0",
+  "id" : "Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u",
   "title" : "Project Unicorn - Sprint 0",
-  "sipAddress" : "8675309@ciscospark.com",
+  "type" : "group",
+  "isLocked" : false,
+  "lastActivity" : "2015-10-18T14:26:16+00:00",
   "created" : "2015-10-18T14:26:16+00:00"
 }
 ```
 
+#### Spark#peopleSearch(searchString, max);
+Returns Promise fulfilled with Persons array.
 
-## People
+#### Spark#personGet(id);
+Returns Promise fulfilled with Person object.
 
-#### Search People by Name:
-Retrieve people in organization by name. Callback returns array of person
-objects.
-###### SPARKY.people.search(name, callback(error, results))
-* `name` : full or partial display name of a Spark User
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.people.search(name, function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
-});
-```
+#### Spark#personMe();
+Returns Promise fulfilled with Person object.
 
+#### Spark#personByEmail(email)
+Returns Promise fulfilled with Person object.
 
-## Person
-
-#### Get Details by ID:
-Retrieve details of a specific Spark user by id. Callback returns person object.
-###### SPARKY.person.get(id, callback(error, results))
-* `id` : UUID of a Spark User
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.person.get(id, function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
-});
-```
-
-
-#### Get Details by Email:
-Retrieve details of a specific Spark user by email address. Callback returns
-person object.
-###### SPARKY.person.byEmail(email, callback(error, results))
-* `email` : email address of a Spark User
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.person.byEmail(email, function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
-});
-```
-
-
-#### Get Details of Self:
-Retrieve details of the authenticated user. Callback returns person object.
-###### SPARKY.person.me(callback(error, results))
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.person.me(function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
-});
-```
-
-
-#### Example Person Object:
+##### Example Person Object
 ```json
 {
-  "id" : "OTZhYmMyYWEtM2RjYy0xMWU1LWExNTItZmUzNDgxOWNkYzlh",
+  "id" : "Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u",
   "emails" : [ "johnny.chang@foomail.com", "jchang@barmail.com" ],
   "displayName" : "John Andersen",
   "created" : "2015-10-18T14:26:16+00:00"
 }
 ```
 
+#### Spark#messagesGet(roomId, max);
+Returns Promise fulfilled with Messages array.
 
-## Messages
+#### Spark#messageGet(id);
+Returns Promise fulfilled with Message object.
 
-#### Get All (up to max or maxItems) Messages for Room by ID:
-Retrieve messages for a specified room. Callback returns array of message objects.
-###### SPARKY.messages.get(roomId, *max,* callback(error, results))
-* `roomId` : UUID of a Spark Room
-* `max` : optionally specify max items to return (defaults to global maxItems)
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.messages.get(roomId, function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
-});
-```
+#### Spark#messageSendPerson(email, messageSendObject);
+Returns Promise fulfilled with Message object.
 
+#### Spark#messageSendRoom(roomId, messageSendObject);
+Returns Promise fulfilled with Message object.
 
-## Message
-
-#### Get Details by ID:
-Retrieve details of a specific message by id. Callback returns message object.
-###### SPARKY.message.get(id, callback(error, results))
-* `id` : UUID of a Message
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.message.get(id, function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
-});
-```
-
-
-#### Send Message to Room by ID:
-Sends a message to a room. Callback returns message object.
-###### SPARKY.message.send.room(roomId, {}, callback(error, results))
-* `roomId` : UUID of a Spark Room
-* `{}` : object with text and/or file properties
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.message.send.room(roomId, {
-  text: 'Hello World!',
-  file: 'http://ieatz/nom.gif'
-}, function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
-});
-```
-
-
-#### Send Message to Person by Email Address:
-Sends a message to a person in a 1:1 room. Callback returns message object.
-###### SPARKY.message.send.person(email, {}, callback(error, results))
-* `email` : email address of a Spark User
-* `{}` : object with text and/or file properties
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.message.send.person('person@domain.com', {
-  text: 'Hello World!',
-  file: 'http://ieatz/nom.gif'
-}, function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
-});
-```
-
-
-#### Remove Message by ID:
-Removes a message. Callback returns either a success or failure.
-###### SPARKY.message.remove(id, callback(error, results))
-* `id` : UUID of a Message
-* `error` : null or http response code
-```js
-sparky.message.remove(id, function(err) {
-  if(!err) {
-    console.log('message %s removed', id);
-  }
-});
-```
-
-
-#### Example Message Object:
+##### Example MessageSend Object
 ```json
 {
-  "id" : "46ef3f0a-e810-460c-ad37-c161adb48195",
-  "personId" : "49465565-f6db-432f-ab41-34b15f544a36",
+  "text" : "Hello.",
+  "file" : "http://mydomain.com/myfile.doc",
+}
+```
+
+##### Example Message Response Object
+```json
+{
+  "id" : "Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u",
+  "personId" : "Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u",
   "personEmail" : "matt@example.com",
-  "roomId" : "24aaa2aa-3dcc-11e5-a152-fe34819cdc9a",
+  "roomId" : "Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u",
   "text" : "PROJECT UPDATE - A new project project plan has been published on Box",
-  "files" : [ "http://www.example.com/images/media.png" ],
+  "files" : [ "http://api.ciscospark.com/v1/contents/Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u" ],
   "created" : "2015-10-18T14:26:16+00:00"
 }
 ```
 
+#### Spark#messageRemove(id);
+Returns Promise fulfilled on completion.
 
-## Contents
-The Content API is designed to process file URLs in the message object responses. A message object would look something like this:
+#### Spark#contentGet(id);
+Returns Promise fulfilled with File object.
 
-```js
-{
-  "id": "Y2BhLWE1ZTEtODE5vL3VzL01FUMTAtZWVlMy0xMWUlzY29zcGFyazo11NBR0UvOTgzOTNWZmMTlkYzk3",
-  "roomId": "3VzLYTAtYTNiZS1JPT00xMWODY5OWZhY2lzY2U1LWI0v9zcGFyazovL3MjAtYzMzNjg0ZDdlODE0",
-  "text": "This is a file...",
-  "personId": "Y2lzY29zcGFyazovL3VzL1BFT1BMRS9mM2I0ZDNjOC1kMDhlLTQyM2UtODc1Yi1iMzcxZmE0Zjc1OWY",
-  "files": [
-    "https://api.ciscospark.com/v1/contents/c2MMWU1LWI03VzL0NPTlRFTlQvNDYTY4NTAtZWVkYy0xWIyYTk1MGMTEtY2lzY29zcGFyazovLFjMDcxLzA"
-  ],  
-  "personEmail": "something@somedomain.com",
-  "created": "2016-03-20T21:34:58.353Z"
-},
-```
+#### Spark#contentGetByUrl(url);
+Returns Promise fulfilled with File object.
 
-#### Get File by ID:
-Retrieve file by ID
-###### SPARKY.contents.get(id, callback(error, file))
-* `id` : UUID of a File
-* `error` : null or http response code
-* `file` : object with file contents
-```js
-var id = 'c2MMWU1LWI03VzL0NPTlRFTlQvNDYTY4NTAtZWVkYy0xWIyYTk1MGMTEtY2lzY29zcGFyazovLFjMDcxLzA';
-
-sparky.contents.get(id, function(err, file) {
-  console.log('Filename: %s', file.name);
-  console.log('Type: %s', file.type);
-
-  fs.writeFile(file.name, file.binary, function(err) {
-    if(err) {
-      console.log(err);
-    } else {
-      console.log('done');
-    }
-  });
-});
-```
-
-
-
-#### Get File by URL:
-Retrieve file by API URL
-###### SPARKY.contents.byUrl(url, callback(error, file))
-* `url` : URL of a a file in a message object
-* `error` : null or http response code
-* `file` : object with file contents
-```js
-var url = 'https://api.ciscospark.com/v1/contents/c2MMWU1LWI03VzL0NPTlRFTlQvNDYTY4NTAtZWVkYy0xWIyYTk1MGMTEtY2lzY29zcGFyazovLFjMDcxLzA';
-
-sparky.contents.byUrl(url, function(err, file) {
-  console.log('Filename: %s', file.name);
-  console.log('Type: %s', file.type);
-
-  fs.writeFile(file.name, file.binary, function(err) {
-    if(err) {
-      console.log(err);
-    } else {
-      console.log('done');
-    }
-  });
-});
-```
-
-
-#### Example File Object:
+##### Example File Object
 ```json
 {
-  "id": "c2MMWU1LWI03VzL0NPTlRFTlQvNDYTY4NTAtZWVkYy0xWIyYTk1MGMTEtY2lzY29zcGFyazovLFjMDcxLzA",
+  "id": "Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u",
   "name": "2016-03-06_19-03-57.jpg",
   "ext": "jpg",
   "type": "image/jpeg",
@@ -416,223 +200,64 @@ sparky.contents.byUrl(url, function(err, file) {
 }
 ```
 
+#### Spark#membershipsGet(max);
+Returns Promise fulfilled with memberships array.
 
-## Memberships
+#### Spark#membershipsByRoom(roomId, max);
+Returns Promise fulfilled with memberships array.
 
-#### Get All (up to maxItems) Room Memberships of Self:
-Retrieve all room memberships for authenticated user. Callback returns array of
-membership objects.
-###### SPARKY.memberships.get(callback(error, results))
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.memberships.get(function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
-});
-```
+#### Spark#membershipGet(id);
+Returns Promise fulfilled with membership object.
 
+#### Spark#membershipByRoomByEmail(roomId, email);
+Returns Promise fulfilled with membership object.
 
-#### Get All (up to maxItems) User Memberships of a Room:
-Retrieve memberships by room id. Callback returns array of membership objects.
-###### SPARKY.memberships.byRoom(roomId, callback(error, results))
-* `roomId` : UUID of a Spark Room
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.memberships.byRoom(roomId, function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
-});
-```
+#### Spark#membershipAdd(roomId, email, moderator);
+Returns Promise fulfilled with membership object.
 
+#### Spark#membershipSetModerator(id);
+Returns Promise fulfilled with membership object.
 
-## Membership
+#### Spark#membershipClearModerator(id);
+Returns Promise fulfilled with membership object.
 
-#### Get Details by ID:
-Retrieve details of a specific membership by id. Callback returns membership
-object.
-###### SPARKY.membership.get(id, callback(error, results))
-* `id` : UUID of a Membership
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.membership.get(id, function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
-});
-```
+#### Spark#membershipRemove(id);
+Returns Promise fulfilled on completion.
 
-
-#### Get Details by ID:
-Retrieve details of a specific membership by id. Callback returns membership
-object.
-###### SPARKY.membership.byRoomByEmail(id, email, callback(error, results))
-* `id` : UUID of a Membership
-* `email` : email address of a Spark User
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.membership.byRoomByEmail(id, email, function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
-});
-```
-
-
-#### Add:
-Adds a user membership to a room by email. Callback returns membership object.
-###### SPARKY.membership.add(roomId, email, callback(error, results))
-* `roomId` : UUID of a Spark Room
-* `email` : email address of a Spark User
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.membership.add(roomId, email, function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
-});
-```
-
-
-#### Add Moderator to Membership:
-Enables a moderator privileges on a membership. Callback returns membership
-object.
-###### SPARKY.membership.set.moderator(id, callback(error, results))
-* `id` : UUID of a Membership
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.membership.set.moderator(id, function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
-});
-```
-
-
-#### Remove Moderator from Membership:
-Disables a moderator privileges on a membership. Callback returns membership
-object.
-###### SPARKY.membership.clear.moderator(id, callback(error, results))
-* `id` : UUID of a Membership
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.membership.clear.moderator(id, function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
-});
-```
-
-
-#### Remove by ID:
-Removes a membership. Callback returns either a success or failure.
-###### SPARKY.membership.remove(id, callback(error))
-* `id` : UUID of a Membership
-* `error` : null or http response code
-```js
-sparky.membership.remove(id, function(err) {
-  if(!err) {
-    console.log('membership %s removed', id);
-  }
-});
-```
-
-
-#### Example Membership Object:
+##### Example Membership Object
 ```json
 {
-  "id" : "Y2lzY29zcGFyazovL3VzL1JPT00vYmJjZWIxYWQtNDNmMS0zYjU4LTkxNDcEdsRkMTU0",
-  "roomId" : "24aaa2aa3dcc11e5a152fe34819cdc9a",
-  "personId" : "96abc2aa3dcc-11e5a152fe34819cdc9a",
+  "id" : "Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u",
+  "roomId" : "Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u",
+  "personId" : "Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u",
   "personEmail" : "r2d2@example.com",
   "isModerator" : true,
+  "isMonitor" : false,
   "created" : "2015-10-18T14:26:16+00:00"
 }
 ```
 
+#### Spark#webhooksGet(max);
+Returns Promise fulfilled with webhooks array.
 
-## Webhooks
+#### Spark#webhookGet(id);
+Returns Promise fulfilled with webhook object.
 
-#### Get All (up to maxItems) Webhooks:
-Retrieve all webhooks that the authenticated user has active in joined rooms.
-Callback returns array of webhook objects.
-###### SPARKY.webhooks.get(callback(error, results))
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.webhooks.get(function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
-});
-```
+#### Spark#webhookAdd(resource, event, name, roomId);
+Returns Promise fulfilled with webhook object.
 
+#### Spark#webhookRemove(id);
+Returns Promise fulfilled on completion.
 
-## Webhook
-
-#### Get Details by ID:
-Retrieve details of a webhook by its ID. Callback returns a webhook object.
-###### SPARKY.webhook.get(id, callback(error, results))
-* `id` : UUID of a webhook object
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.webhook.get(id, function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
-});
-```
-
-
-#### Add:
-Adds a "messages created" webhook in room by id. This webhook triggers whenever
-a new message is posted into a room. Callback returns a webhook object.
-###### SPARKY.webhook.add.messages.created.room(roomId, *name,* callback(error, results))
-* `roomId` : UUID of a Spark Room
-* `name` : optional name for webhook (else defaults to roomid)
-* `error` : null or http response code
-* `results` : query results in a collection (array of objects)
-```js
-sparky.webhook.add.messages.created.room(roomId, function(err, results) {
-  if(!err) {
-    console.log(results);
-  }
-});
-```
-
-
-#### Remove by ID:
-Removes a webhook by its ID. Callback returns either a success or failure.
-###### SPARKY.webhook.remove(id, callback(error))
-* `id` : UUID of a webhook object
-* `error` : null or http response code
-```js
-sparky.webhook.remove(id, function(err) {
-  if(!err) {
-    console.log('webhook %s removed', id);
-  }
-});
-```
-
-
-#### Example Webhook Object:
+##### Example Webhook Object
 ```json
 {
-  "id" : "96abc2aa-3dcc-11e5-a152-fe34819cdc9a",
+  "id" : "Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u",
   "name" : "My Awesome Webhook",
   "targetUrl" : "https://example.com/mywebhook",
   "resource" : "messages",
   "event" : "created",
-  "filter" : "roomId=Y2lzY29zcGFyazovL3VzL1JPT00vYmJjZWIxYWQtNDNmMS0zYjU4LTkx",
+  "filter" : "roomId=Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u",
   "created" : "2015-10-18T14:26:16+00:00"
 }
 ```
@@ -640,73 +265,41 @@ sparky.webhook.remove(id, function(err) {
 
 ## Events
 
-The following events can be used to drive debugging or metrics.
+#### Spark#on('dropped', function(droppedRequest) {});
+Emitted when a request is dropped due to queue overflow.
 
-**Debug Example:**
+#### Spark#on('request', function(request) {});
+Emitted when Spark makes a request to the API.
 
-```js
-sparky.on('request', function(requestOptions) {
-  console.log('options: %j', requestOptions || '<empty>');  
-});
+#### Spark#on('response', function(response) {});
+Emitted when Spark gets a response from the API.
 
-sparky.on('response', function(response) {
-  console.log('response: %j', response || '<empty>'); 
-});
+#### Spark#on('retry', function(request) {});
+Emitted when Spark has to retry a request.
 
-sparky.on('retry', function(response) {
-  console.log('retry: %j', response || '<empty>'); 
-});
-
-sparky.on('error', function(err) {
-  console.log('%s', err || '<empty>');
-});
-
-sparky.on('dropped', function(request) {
-  console.log('queue size exceeded, dropping oldest request: %j', request);
-});
-```
-
-**Metric Example:**
-
-```js
-var reqPerMin = 0;
-var avgResTime = 0;
-
-sparky.on('response', function(response) {
-   reqPerMin++;
-   avgResTime = Math.floor(((avgResTime * reqPerMin) + response.elapsedTime) / (reqPerMin + 1));
-});
-
-setInterval(function() {
-  console.log('Requests per minute: %s', reqPerMin);
-  console.log('Average Response time: %s', avgResTime);
-  reqPerMin = 0;
-  avgResTime = 0;
-  }, 60 * 1000);
-```
 
 ## Tests
 
 Tests are basic at this point... after cloning repo, run:
 
 ```bash
-$ cd sparky
+$ cd node-sparky
 $ npm install
 $ TOKEN=<token> npm test
 ```
 
+
 ## License
 
-Copyright 2016 Nicholas Marus
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
 
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+You should have received a copy of the GNU Lesser General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
