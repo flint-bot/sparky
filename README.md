@@ -95,7 +95,7 @@ var spark = new Spark({
 * `requeueSize` : Size of queue for requests that fail and need to be requeued.
 
 ## Spark Methods
-#####Note: [Detailed documentation for Spark Methods can be found here.](https://github.com/nmarus/node-sparky/blob/master/docs/Spark.md)
+#####Note: [Detailed documentation for Spark Methods can be found here.](https://github.com/nmarus/sparky/blob/master/docs/Spark.md)
 
 #### Spark#roomsGet();
 Returns Promise fulfilled with Rooms array.
