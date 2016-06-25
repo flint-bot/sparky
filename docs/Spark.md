@@ -38,7 +38,7 @@
 <a name="new_Spark_new"></a>
 
 ### new Spark(options)
-Creates a Spark API instance that is then attached to a Spark Room.
+Creates a Spark API instance that is then attached to a Spark Account.
 
 
 | Param | Type | Description |
