@@ -152,9 +152,8 @@ $ TOKEN=<token> npm test
     * [.teamRoomAdd(teamId, title)](#Spark+teamRoomAdd) ⇒ <code>Promise.&lt;Room&gt;</code>
     * [.teamRename(teamId, name)](#Spark+teamRename) ⇒ <code>Promise.&lt;Team&gt;</code>
     * [.teamRemove(teamId)](#Spark+teamRemove) ⇒ <code>Promise</code>
-    * [.teamMembershipsGet(max)](#Spark+teamMembershipsGet) ⇒ <code>Promise.&lt;Array&gt;</code>
+    * [.teamMembershipsGet(teamId, max)](#Spark+teamMembershipsGet) ⇒ <code>Promise.&lt;Array&gt;</code>
     * [.teamMembershipGet(membershipId)](#Spark+teamMembershipGet) ⇒ <code>Promise.&lt;Membership&gt;</code>
-    * [.teamMembershipByEmail(teamId, personEmail)](#Spark+teamMembershipByEmail) ⇒ <code>Promise.&lt;Membership&gt;</code>
     * [.teamMembershipAdd(teamId, email, moderator)](#Spark+teamMembershipAdd) ⇒ <code>Promise.&lt;Membership&gt;</code>
     * [.teamMembershipSetModerator(membershipId)](#Spark+teamMembershipSetModerator) ⇒ <code>Promise.&lt;Membership&gt;</code>
     * [.teamMembershipClearModerator(membershipId)](#Spark+teamMembershipClearModerator) ⇒ <code>Promise.&lt;Membership&gt;</code>
@@ -782,7 +781,7 @@ spark.teamRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 ```
 <a name="Spark+teamMembershipsGet"></a>
 
-### spark.teamMembershipsGet(max) ⇒ <code>Promise.&lt;Array&gt;</code>
+### spark.teamMembershipsGet(teamId, max) ⇒ <code>Promise.&lt;Array&gt;</code>
 Return all Spark Team Memberships for a specific Team.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
@@ -790,6 +789,7 @@ Return all Spark Team Memberships for a specific Team.
 
 | Param | Type | Description |
 | --- | --- | --- |
+| teamId | <code>String</code> | Spark Team ID. |
 | max | <code>Integer</code> | (optional, defaults to all items) Number of records to return. |
 
 **Example**  
@@ -823,29 +823,6 @@ Return Spark Team Membership by ID.
 spark.membershipGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
   .then(function(membership) {
     console.log(membership.personEmail);
-  })
-  .catch(function(err){
-    console.log(err);
-  });
-```
-<a name="Spark+teamMembershipByEmail"></a>
-
-### spark.teamMembershipByEmail(teamId, personEmail) ⇒ <code>Promise.&lt;Membership&gt;</code>
-Return a Spark Team Membership by Email.
-
-**Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.&lt;Membership&gt;</code> - Promise fulfilled with Membership object.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| teamId | <code>String</code> | Spark Membership ID. |
-| personEmail | <code>String</code> | Email of Person. |
-
-**Example**  
-```js
-spark.teamMembershipByEmail('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 'aperson@company.com')
-  .then(function(membership) {
-    console.log(membership.id);
   })
   .catch(function(err){
     console.log(err);
