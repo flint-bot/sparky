@@ -1,6 +1,6 @@
 {
   "name": "node-sparky",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Spark SDK for NodeJS",
   "main": "index.js",
   "scripts": {
