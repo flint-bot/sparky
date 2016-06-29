@@ -794,7 +794,7 @@ Return all Spark Team Memberships for a specific Team.
 
 **Example**  
 ```js
-spark.teamMembershipsGet(100)
+spark.teamMembershipsGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 100)
   .then(function(memberships) {
     // process memberships as array
     memberships.forEach(function(membership) {
