@@ -115,7 +115,7 @@ Emitted when Spark has to retry a request.
 Tests are basic at this point... after cloning repo, run:
 
 ```bash
-$ cd node-sparky
+$ cd sparky
 $ npm install
 $ TOKEN=<token> npm test
 ```
