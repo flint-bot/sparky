@@ -61,8 +61,6 @@ var spark = new Spark({
 });
 ```
 
-* `token` : The Cisco Spark auth token
-* `webhook` : The callback URL sent when setting up a webhook
 
 ## API
 ## Objects
