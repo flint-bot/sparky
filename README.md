@@ -1204,15 +1204,15 @@ Options Object
 | --- | --- | --- | --- |
 | token | <code>string</code> |  | Spark Token. |
 | webhookUrl | <code>string</code> |  | URL that is used for SPark API to send callbacks. |
-| maxPageItems | <code>string</code> | <code>50</code> | Max results that the paginator uses. |
-| maxConcurrent | <code>string</code> | <code>3</code> | Max concurrent sessions to the Spark API |
-| minTime | <code>string</code> | <code>600</code> | Min time between consecutive request starts. |
-| requeueMinTime | <code>string</code> | <code>&quot;minTime*10&quot;</code> | Min time between consecutive request starts of requests that have been re-queued. |
-| requeueMaxRetry | <code>string</code> | <code>3</code> | Msx number of atteempts to make for failed request. |
-| requeueCodes | <code>string</code> | <code>&quot;[429,500,503]&quot;</code> | Array of http result codes that should be retried. |
-| requestTimeout | <code>string</code> | <code>20000</code> | Timeout for an individual request recieving a response. |
-| queueSize | <code>string</code> | <code>10000</code> | Size of the buffer that holds outbound requests. |
-| requeueSize | <code>string</code> | <code>10000</code> | Size of the buffer that holds outbound re-queue requests. |
+| maxPageItems | <code>number</code> | <code>50</code> | Max results that the paginator uses. |
+| maxConcurrent | <code>number</code> | <code>3</code> | Max concurrent sessions to the Spark API |
+| minTime | <code>number</code> | <code>600</code> | Min time between consecutive request starts. |
+| requeueMinTime | <code>number</code> | <code>minTime*10</code> | Min time between consecutive request starts of requests that have been re-queued. |
+| requeueMaxRetry | <code>number</code> | <code>3</code> | Msx number of atteempts to make for failed request. |
+| requeueCodes | <code>array</code> | <code>[429,500,503]</code> | Array of http result codes that should be retried. |
+| requestTimeout | <code>number</code> | <code>20000</code> | Timeout for an individual request recieving a response. |
+| queueSize | <code>number</code> | <code>10000</code> | Size of the buffer that holds outbound requests. |
+| requeueSize | <code>number</code> | <code>10000</code> | Size of the buffer that holds outbound re-queue requests. |
 
 <a name="Room"></a>
 
