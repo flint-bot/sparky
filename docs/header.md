@@ -60,6 +60,3 @@ var spark = new Spark({
   webhookUrl: 'http://mywebhook.url/path',
 });
 ```
-
-
-## API
