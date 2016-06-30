@@ -66,6 +66,9 @@ var spark = new Spark({
 <dt><a href="#Spark">Spark</a> : <code>object</code></dt>
 <dd><p>Creates a Spark API instance that is then attached to a Spark Account.</p>
 </dd>
+<dt><a href="#Room">Room</a> : <code>object</code></dt>
+<dd><p>Room Object</p>
+</dd>
 <dt><a href="#Person">Person</a> : <code>object</code></dt>
 <dd><p>Person Object</p>
 </dd>
@@ -74,6 +77,9 @@ var spark = new Spark({
 </dd>
 <dt><a href="#File">File</a> : <code>object</code></dt>
 <dd><p>File Object</p>
+</dd>
+<dt><a href="#Team">Team</a> : <code>object</code></dt>
+<dd><p>Team Object</p>
 </dd>
 <dt><a href="#Validator">Validator</a> : <code>object</code></dt>
 <dd><p>Spark Validation.</p>
@@ -116,9 +122,9 @@ Creates a Spark API instance that is then attached to a Spark Account.
         * [.roomsDirect([max])](#Spark+roomsDirect) ⇒ <code>Promise.&lt;Array&gt;</code>
         * [.roomsGroup([max])](#Spark+roomsGroup) ⇒ <code>Promise.&lt;Array&gt;</code>
         * [.roomsByTeam(teamId, [max])](#Spark+roomsByTeam) ⇒ <code>Promise.&lt;Array&gt;</code>
-        * [.roomGet(roomId)](#Spark+roomGet) ⇒ <code>Promise.&lt;Room&gt;</code>
-        * [.roomAdd(title)](#Spark+roomAdd) ⇒ <code>Promise.&lt;Room&gt;</code>
-        * [.roomRename(roomId, title)](#Spark+roomRename) ⇒ <code>Promise.&lt;Room&gt;</code>
+        * [.roomGet(roomId)](#Spark+roomGet) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
+        * [.roomAdd(title)](#Spark+roomAdd) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
+        * [.roomRename(roomId, title)](#Spark+roomRename) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
         * [.roomRemove(roomId)](#Spark+roomRemove) ⇒ <code>Promise</code>
         * [.peopleSearch(displayName, [max])](#Spark+peopleSearch) ⇒ <code>Promise.&lt;Array&gt;</code>
         * [.personGet(personId)](#Spark+personGet) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
@@ -132,10 +138,10 @@ Creates a Spark API instance that is then attached to a Spark Account.
         * [.contentGet(id)](#Spark+contentGet) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
         * [.contentByUrl(url)](#Spark+contentByUrl) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
         * [.teamsGet([max])](#Spark+teamsGet) ⇒ <code>Promise.&lt;Array&gt;</code>
-        * [.teamGet(teamId)](#Spark+teamGet) ⇒ <code>Promise.&lt;Team&gt;</code>
-        * [.teamAdd(name)](#Spark+teamAdd) ⇒ <code>Promise.&lt;Team&gt;</code>
-        * [.teamRoomAdd(teamId, title)](#Spark+teamRoomAdd) ⇒ <code>Promise.&lt;Room&gt;</code>
-        * [.teamRename(teamId, name)](#Spark+teamRename) ⇒ <code>Promise.&lt;Team&gt;</code>
+        * [.teamGet(teamId)](#Spark+teamGet) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
+        * [.teamAdd(name)](#Spark+teamAdd) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
+        * [.teamRoomAdd(teamId, title)](#Spark+teamRoomAdd) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
+        * [.teamRename(teamId, name)](#Spark+teamRename) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
         * [.teamRemove(teamId)](#Spark+teamRemove) ⇒ <code>Promise</code>
         * [.teamMembershipsGet(teamId, [max])](#Spark+teamMembershipsGet) ⇒ <code>Promise.&lt;Array&gt;</code>
         * [.teamMembershipGet(membershipId)](#Spark+teamMembershipGet) ⇒ <code>Promise.&lt;Membership&gt;</code>
@@ -265,11 +271,11 @@ spark.roomsByTeam('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 10)
 ```
 <a name="Spark+roomGet"></a>
 
-### spark.roomGet(roomId) ⇒ <code>Promise.&lt;Room&gt;</code>
+### spark.roomGet(roomId) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
 Return details of Spark Room by ID.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.&lt;Room&gt;</code> - Promise fulfilled with Room object.  
+**Returns**: <code>[Promise.&lt;Room&gt;](#Room)</code> - Promise fulfilled with Room object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -288,11 +294,11 @@ spark.roomGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 ```
 <a name="Spark+roomAdd"></a>
 
-### spark.roomAdd(title) ⇒ <code>Promise.&lt;Room&gt;</code>
+### spark.roomAdd(title) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
 Add new Spark Room.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.&lt;Room&gt;</code> - Promise fulfilled with Room object.  
+**Returns**: <code>[Promise.&lt;Room&gt;](#Room)</code> - Promise fulfilled with Room object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -311,11 +317,11 @@ spark.roomAdd('myroom')
 ```
 <a name="Spark+roomRename"></a>
 
-### spark.roomRename(roomId, title) ⇒ <code>Promise.&lt;Room&gt;</code>
+### spark.roomRename(roomId, title) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
 Rename Spark Room.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.&lt;Room&gt;</code> - Promise fulfilled with Room object.  
+**Returns**: <code>[Promise.&lt;Room&gt;](#Room)</code> - Promise fulfilled with Room object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -641,11 +647,11 @@ spark.teamsGet(10)
 ```
 <a name="Spark+teamGet"></a>
 
-### spark.teamGet(teamId) ⇒ <code>Promise.&lt;Team&gt;</code>
+### spark.teamGet(teamId) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
 Return details of Spark Team by ID.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.&lt;Team&gt;</code> - Promise fulfilled with Team object.  
+**Returns**: <code>[Promise.&lt;Team&gt;](#Team)</code> - Promise fulfilled with Team object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -664,11 +670,11 @@ spark.teamGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 ```
 <a name="Spark+teamAdd"></a>
 
-### spark.teamAdd(name) ⇒ <code>Promise.&lt;Team&gt;</code>
+### spark.teamAdd(name) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
 Add new Spark Team.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.&lt;Team&gt;</code> - Promise fulfilled with Team object.  
+**Returns**: <code>[Promise.&lt;Team&gt;](#Team)</code> - Promise fulfilled with Team object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -687,11 +693,11 @@ spark.teamAdd('myteam')
 ```
 <a name="Spark+teamRoomAdd"></a>
 
-### spark.teamRoomAdd(teamId, title) ⇒ <code>Promise.&lt;Room&gt;</code>
+### spark.teamRoomAdd(teamId, title) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
 Add new Spark Team Room.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.&lt;Room&gt;</code> - Promise fulfilled with Room object.  
+**Returns**: <code>[Promise.&lt;Room&gt;](#Room)</code> - Promise fulfilled with Room object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -711,11 +717,11 @@ spark.teamRoomAdd('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 'myroom')
 ```
 <a name="Spark+teamRename"></a>
 
-### spark.teamRename(teamId, name) ⇒ <code>Promise.&lt;Team&gt;</code>
+### spark.teamRename(teamId, name) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
 Rename a Spark Team.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.&lt;Team&gt;</code> - Promise fulfilled with Team object.  
+**Returns**: <code>[Promise.&lt;Team&gt;](#Team)</code> - Promise fulfilled with Team object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1202,6 +1208,24 @@ Options Object
 | queueSize | <code>string</code> | <code>10000</code> | Size of the buffer that holds outbound requests. |
 | requeueSize | <code>string</code> | <code>10000</code> | Size of the buffer that holds outbound re-queue requests. |
 
+<a name="Room"></a>
+
+## Room : <code>object</code>
+Room Object
+
+**Kind**: global namespace  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> | Room ID |
+| title | <code>string</code> | Room Title |
+| type | <code>string</code> | Room Type |
+| isLocked | <code>boolean</code> | Room Moderated/Locked |
+| teamId | <code>string</code> | Team ID |
+| lastActivity | <code>date</code> | Last Activity in Room |
+| created | <code>date</code> | Room Created |
+
 <a name="Person"></a>
 
 ## Person : <code>object</code>
@@ -1256,6 +1280,20 @@ File Object
 | binary | <code>buffer</code> | File contents as binary |
 | base64 | <code>string</code> | File contents as base64 encoded string |
 
+<a name="Team"></a>
+
+## Team : <code>object</code>
+Team Object
+
+**Kind**: global namespace  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> | Message ID |
+| name | <code>string</code> | Team name |
+| created | <code>date</code> | Date Team created |
+
 <a name="Validator"></a>
 
 ## Validator : <code>object</code>
@@ -1303,7 +1341,7 @@ Validate Spark Room Object.
 
 | Param | Type |
 | --- | --- |
-| object | <code>Room</code> | 
+| object | <code>[Room](#Room)</code> | 
 
 <a name="Validator.isPerson"></a>
 
@@ -1315,7 +1353,7 @@ Validate Spark Person Object.
 
 | Param | Type |
 | --- | --- |
-| object | <code>Room</code> | 
+| object | <code>[Room](#Room)</code> | 
 
 <a name="Validator.isMessage"></a>
 
@@ -1363,7 +1401,7 @@ Validate Spark Team Object.
 
 | Param | Type |
 | --- | --- |
-| object | <code>Team</code> | 
+| object | <code>[Team](#Team)</code> | 
 
 <a name="Validator.isRooms"></a>
 
