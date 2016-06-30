@@ -123,52 +123,72 @@ Creates a Spark API instance that is then attached to a Spark Account.
 
 
 * [Spark](#Spark) : <code>object</code>
-    * _instance_
-        * [.roomsGet([max])](#Spark+roomsGet) ⇒ <code>Promise.&lt;Array&gt;</code>
-        * [.roomsDirect([max])](#Spark+roomsDirect) ⇒ <code>Promise.&lt;Array&gt;</code>
-        * [.roomsGroup([max])](#Spark+roomsGroup) ⇒ <code>Promise.&lt;Array&gt;</code>
-        * [.roomsByTeam(teamId, [max])](#Spark+roomsByTeam) ⇒ <code>Promise.&lt;Array&gt;</code>
-        * [.roomGet(roomId)](#Spark+roomGet) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
-        * [.roomAdd(title)](#Spark+roomAdd) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
-        * [.roomRename(roomId, title)](#Spark+roomRename) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
-        * [.roomRemove(roomId)](#Spark+roomRemove) ⇒ <code>Promise</code>
-        * [.peopleSearch(displayName, [max])](#Spark+peopleSearch) ⇒ <code>Promise.&lt;Array&gt;</code>
-        * [.personGet(personId)](#Spark+personGet) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
-        * [.personMe()](#Spark+personMe) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
-        * [.personByEmail(email)](#Spark+personByEmail) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
-        * [.messagesGet(roomId, [max])](#Spark+messagesGet) ⇒ <code>Promise.&lt;Array&gt;</code>
-        * [.messageGet(Message)](#Spark+messageGet) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
-        * [.messageSendPerson(email)](#Spark+messageSendPerson) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
-        * [.messageSendRoom(roomId)](#Spark+messageSendRoom) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
-        * [.messageRemove(messageId)](#Spark+messageRemove) ⇒ <code>Promise</code>
-        * [.contentGet(id)](#Spark+contentGet) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
-        * [.contentByUrl(url)](#Spark+contentByUrl) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
-        * [.teamsGet([max])](#Spark+teamsGet) ⇒ <code>Promise.&lt;Array&gt;</code>
-        * [.teamGet(teamId)](#Spark+teamGet) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
-        * [.teamAdd(name)](#Spark+teamAdd) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
-        * [.teamRoomAdd(teamId, title)](#Spark+teamRoomAdd) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
-        * [.teamRename(teamId, name)](#Spark+teamRename) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
-        * [.teamRemove(teamId)](#Spark+teamRemove) ⇒ <code>Promise</code>
-        * [.teamMembershipsGet(teamId, [max])](#Spark+teamMembershipsGet) ⇒ <code>Promise.&lt;Array&gt;</code>
-        * [.teamMembershipGet(membershipId)](#Spark+teamMembershipGet) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-        * [.teamMembershipAdd(teamId, email, moderator)](#Spark+teamMembershipAdd) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-        * [.teamMembershipSetModerator(membershipId)](#Spark+teamMembershipSetModerator) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-        * [.teamMembershipClearModerator(membershipId)](#Spark+teamMembershipClearModerator) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-        * [.teamMembershipRemove(membershipId)](#Spark+teamMembershipRemove) ⇒ <code>Promise</code>
-        * [.membershipsGet([max])](#Spark+membershipsGet) ⇒ <code>Promise.&lt;Array&gt;</code>
-        * [.membershipsByRoom(roomId, [max])](#Spark+membershipsByRoom) ⇒ <code>Promise.&lt;Array&gt;</code>
-        * [.membershipGet(membershipId)](#Spark+membershipGet) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-        * [.membershipByRoomByEmail(roomId, personEmail)](#Spark+membershipByRoomByEmail) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-        * [.membershipAdd(roomId, email, moderator)](#Spark+membershipAdd) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-        * [.membershipSetModerator(membershipId)](#Spark+membershipSetModerator) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-        * [.membershipClearModerator(membershipId)](#Spark+membershipClearModerator) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-        * [.membershipRemove(membershipId)](#Spark+membershipRemove) ⇒ <code>Promise</code>
-        * [.webhooksGet([max])](#Spark+webhooksGet) ⇒ <code>Promise.&lt;Array&gt;</code>
-        * [.webhookGet(webhookId)](#Spark+webhookGet) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
-        * [.webhookAdd(resource, event, [name], [roomId])](#Spark+webhookAdd) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
-        * [.webhookRemove(webhookId)](#Spark+webhookRemove) ⇒ <code>Promise</code>
-    * _static_
-        * [.options](#Spark.options) : <code>object</code>
+    * [.options](#Spark+options) : <code>object</code>
+    * [.roomsGet([max])](#Spark+roomsGet) ⇒ <code>Promise.&lt;Array&gt;</code>
+    * [.roomsDirect([max])](#Spark+roomsDirect) ⇒ <code>Promise.&lt;Array&gt;</code>
+    * [.roomsGroup([max])](#Spark+roomsGroup) ⇒ <code>Promise.&lt;Array&gt;</code>
+    * [.roomsByTeam(teamId, [max])](#Spark+roomsByTeam) ⇒ <code>Promise.&lt;Array&gt;</code>
+    * [.roomGet(roomId)](#Spark+roomGet) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
+    * [.roomAdd(title)](#Spark+roomAdd) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
+    * [.roomRename(roomId, title)](#Spark+roomRename) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
+    * [.roomRemove(roomId)](#Spark+roomRemove) ⇒ <code>Promise</code>
+    * [.peopleSearch(displayName, [max])](#Spark+peopleSearch) ⇒ <code>Promise.&lt;Array&gt;</code>
+    * [.personGet(personId)](#Spark+personGet) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+    * [.personMe()](#Spark+personMe) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+    * [.personByEmail(email)](#Spark+personByEmail) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+    * [.messagesGet(roomId, [max])](#Spark+messagesGet) ⇒ <code>Promise.&lt;Array&gt;</code>
+    * [.messageGet(Message)](#Spark+messageGet) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
+    * [.messageSendPerson(email)](#Spark+messageSendPerson) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
+    * [.messageSendRoom(roomId)](#Spark+messageSendRoom) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
+    * [.messageRemove(messageId)](#Spark+messageRemove) ⇒ <code>Promise</code>
+    * [.contentGet(id)](#Spark+contentGet) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
+    * [.contentByUrl(url)](#Spark+contentByUrl) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
+    * [.teamsGet([max])](#Spark+teamsGet) ⇒ <code>Promise.&lt;Array&gt;</code>
+    * [.teamGet(teamId)](#Spark+teamGet) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
+    * [.teamAdd(name)](#Spark+teamAdd) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
+    * [.teamRoomAdd(teamId, title)](#Spark+teamRoomAdd) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
+    * [.teamRename(teamId, name)](#Spark+teamRename) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
+    * [.teamRemove(teamId)](#Spark+teamRemove) ⇒ <code>Promise</code>
+    * [.teamMembershipsGet(teamId, [max])](#Spark+teamMembershipsGet) ⇒ <code>Promise.&lt;Array&gt;</code>
+    * [.teamMembershipGet(membershipId)](#Spark+teamMembershipGet) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+    * [.teamMembershipAdd(teamId, email, moderator)](#Spark+teamMembershipAdd) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+    * [.teamMembershipSetModerator(membershipId)](#Spark+teamMembershipSetModerator) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+    * [.teamMembershipClearModerator(membershipId)](#Spark+teamMembershipClearModerator) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+    * [.teamMembershipRemove(membershipId)](#Spark+teamMembershipRemove) ⇒ <code>Promise</code>
+    * [.membershipsGet([max])](#Spark+membershipsGet) ⇒ <code>Promise.&lt;Array&gt;</code>
+    * [.membershipsByRoom(roomId, [max])](#Spark+membershipsByRoom) ⇒ <code>Promise.&lt;Array&gt;</code>
+    * [.membershipGet(membershipId)](#Spark+membershipGet) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+    * [.membershipByRoomByEmail(roomId, personEmail)](#Spark+membershipByRoomByEmail) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+    * [.membershipAdd(roomId, email, moderator)](#Spark+membershipAdd) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+    * [.membershipSetModerator(membershipId)](#Spark+membershipSetModerator) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+    * [.membershipClearModerator(membershipId)](#Spark+membershipClearModerator) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+    * [.membershipRemove(membershipId)](#Spark+membershipRemove) ⇒ <code>Promise</code>
+    * [.webhooksGet([max])](#Spark+webhooksGet) ⇒ <code>Promise.&lt;Array&gt;</code>
+    * [.webhookGet(webhookId)](#Spark+webhookGet) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
+    * [.webhookAdd(resource, event, [name], [roomId])](#Spark+webhookAdd) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
+    * [.webhookRemove(webhookId)](#Spark+webhookRemove) ⇒ <code>Promise</code>
+
+<a name="Spark+options"></a>
+
+### spark.options : <code>object</code>
+Options Object
+
+**Kind**: instance namespace of <code>[Spark](#Spark)</code>  
+**Properties**
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| token | <code>string</code> |  | Spark Token. |
+| webhookUrl | <code>string</code> |  | URL that is used for SPark API to send callbacks. |
+| maxPageItems | <code>number</code> | <code>50</code> | Max results that the paginator uses. |
+| maxConcurrent | <code>number</code> | <code>3</code> | Max concurrent sessions to the Spark API |
+| minTime | <code>number</code> | <code>600</code> | Min time between consecutive request starts. |
+| requeueMinTime | <code>number</code> | <code>minTime*10</code> | Min time between consecutive request starts of requests that have been re-queued. |
+| requeueMaxRetry | <code>number</code> | <code>3</code> | Msx number of atteempts to make for failed request. |
+| requeueCodes | <code>array</code> | <code>[429,500,503]</code> | Array of http result codes that should be retried. |
+| requestTimeout | <code>number</code> | <code>20000</code> | Timeout for an individual request recieving a response. |
+| queueSize | <code>number</code> | <code>10000</code> | Size of the buffer that holds outbound requests. |
+| requeueSize | <code>number</code> | <code>10000</code> | Size of the buffer that holds outbound re-queue requests. |
 
 <a name="Spark+roomsGet"></a>
 
@@ -1192,28 +1212,6 @@ spark.webhookRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
     console.log(err);
   });
 ```
-<a name="Spark.options"></a>
-
-### Spark.options : <code>object</code>
-Options Object
-
-**Kind**: static namespace of <code>[Spark](#Spark)</code>  
-**Properties**
-
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| token | <code>string</code> |  | Spark Token. |
-| webhookUrl | <code>string</code> |  | URL that is used for SPark API to send callbacks. |
-| maxPageItems | <code>number</code> | <code>50</code> | Max results that the paginator uses. |
-| maxConcurrent | <code>number</code> | <code>3</code> | Max concurrent sessions to the Spark API |
-| minTime | <code>number</code> | <code>600</code> | Min time between consecutive request starts. |
-| requeueMinTime | <code>number</code> | <code>minTime*10</code> | Min time between consecutive request starts of requests that have been re-queued. |
-| requeueMaxRetry | <code>number</code> | <code>3</code> | Msx number of atteempts to make for failed request. |
-| requeueCodes | <code>array</code> | <code>[429,500,503]</code> | Array of http result codes that should be retried. |
-| requestTimeout | <code>number</code> | <code>20000</code> | Timeout for an individual request recieving a response. |
-| queueSize | <code>number</code> | <code>10000</code> | Size of the buffer that holds outbound requests. |
-| requeueSize | <code>number</code> | <code>10000</code> | Size of the buffer that holds outbound re-queue requests. |
-
 <a name="Room"></a>
 
 ## Room : <code>object</code>
