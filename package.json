@@ -4,7 +4,8 @@
   "description": "Spark SDK for NodeJS",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/mocha ./test/test-spark.js"
+    "test": "node_modules/.bin/mocha ./test/test-spark.js",
+    "prepublish": "cd docs && ./build.sh"
   },
   "repository": {
     "type": "git",
@@ -12,8 +13,13 @@
   },
   "keywords": [
     "cisco",
+    "cisco spark",
     "spark",
-    "api",
+    "spark api",
+    "spark team",
+    "spark teams",
+    "spark bot",
+    "spark machine accounts",
     "flint"
   ],
   "author": "Nicholas Marus <nmarus@gmail.com>",
