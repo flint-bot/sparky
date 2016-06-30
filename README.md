@@ -37,6 +37,7 @@ of parallel API calls and the minimum time between each call.
 * Returns promises that comply with [A+ standards.](https://promisesaplus.com/).
 * Handles pagination transparently. (Receive unlimited records)
 * Support for Spark API Advanced Webhooks
+* Support Teams API
 
 
 ## Installation
@@ -49,7 +50,7 @@ npm install node-sparky --save
 
 # Reference
 
-## API Initialization and Configuration
+## Initialization and Configuration
 
 ```js
 var Spark = require('node-sparky');
@@ -62,6 +63,8 @@ var spark = new Spark({
 
 * `token` : The Cisco Spark auth token
 * `webhook` : The callback URL sent when setting up a webhook
+
+## API
 ## Objects
 
 <dl>
@@ -155,7 +158,7 @@ Creates a Spark API instance that is then attached to a Spark Account.
         * [.membershipRemove(membershipId)](#Spark+membershipRemove) ⇒ <code>Promise</code>
         * [.webhooksGet([max])](#Spark+webhooksGet) ⇒ <code>Promise.&lt;Array&gt;</code>
         * [.webhookGet(webhookId)](#Spark+webhookGet) ⇒ <code>Promise.&lt;Webhook&gt;</code>
-        * [.webhookAdd(resource, event, [name], roomId)](#Spark+webhookAdd) ⇒ <code>Promise.&lt;Webhook&gt;</code>
+        * [.webhookAdd(resource, event, [name], [roomId])](#Spark+webhookAdd) ⇒ <code>Promise.&lt;Webhook&gt;</code>
         * [.webhookRemove(webhookId)](#Spark+webhookRemove) ⇒ <code>Promise</code>
     * _static_
         * [.options](#Spark.options) : <code>object</code>
@@ -1136,7 +1139,7 @@ spark.webhookGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 ```
 <a name="Spark+webhookAdd"></a>
 
-### spark.webhookAdd(resource, event, [name], roomId) ⇒ <code>Promise.&lt;Webhook&gt;</code>
+### spark.webhookAdd(resource, event, [name], [roomId]) ⇒ <code>Promise.&lt;Webhook&gt;</code>
 Add new Spark Webhook.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
@@ -1147,7 +1150,7 @@ Add new Spark Webhook.
 | resource | <code>String</code> |  | Resource for webhook. |
 | event | <code>String</code> |  | Event for webhook. |
 | [name] | <code>String</code> | <code>&#x27;mywebhook&#x27;</code> | Name assigned to webhook to add. |
-| roomId | <code>String</code> |  | (required only if resource !== 'all') Spark Room ID. |
+| [roomId] | <code>String</code> |  | (required only if resource !== 'all') Spark Room ID. |
 
 **Example**  
 ```js
@@ -1190,19 +1193,19 @@ Options Object
 **Kind**: static namespace of <code>[Spark](#Spark)</code>  
 **Properties**
 
-| Name | Type | Description |
-| --- | --- | --- |
-| token | <code>string</code> | Spark Token. |
-| webhookUrl | <code>string</code> | URL that is used for SPark API to send callbacks. |
-| maxPageItems | <code>string</code> | Max results that the paginator uses. |
-| maxConcurrent | <code>string</code> | Max concurrent sessions to the Spark API |
-| minTime | <code>string</code> | Min time between consecutive request starts. |
-| requeueMinTime | <code>string</code> | Min time between consecutive request starts of requests that have been re-queued. |
-| requeueMaxRetry | <code>string</code> | Msx number of atteempts to make for failed request. |
-| requeueCodes | <code>string</code> | Array of http result codes that should be retried. |
-| requestTimeout | <code>string</code> | Timeout for an individual request recieving a response. |
-| queueSize | <code>string</code> | Size of the buffer that holds outbound requests. |
-| requeueSize | <code>string</code> | Size of the buffer that holds outbound re-queue requests. |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| token | <code>string</code> |  | Spark Token. |
+| webhookUrl | <code>string</code> |  | URL that is used for SPark API to send callbacks. |
+| maxPageItems | <code>string</code> | <code>50</code> | Max results that the paginator uses. |
+| maxConcurrent | <code>string</code> | <code>3</code> | Max concurrent sessions to the Spark API |
+| minTime | <code>string</code> | <code>600</code> | Min time between consecutive request starts. |
+| requeueMinTime | <code>string</code> | <code>&quot;minTime*10&quot;</code> | Min time between consecutive request starts of requests that have been re-queued. |
+| requeueMaxRetry | <code>string</code> | <code>3</code> | Msx number of atteempts to make for failed request. |
+| requeueCodes | <code>string</code> | <code>&quot;[429,500,503]&quot;</code> | Array of http result codes that should be retried. |
+| requestTimeout | <code>string</code> | <code>20000</code> | Timeout for an individual request recieving a response. |
+| queueSize | <code>string</code> | <code>10000</code> | Size of the buffer that holds outbound requests. |
+| requeueSize | <code>string</code> | <code>10000</code> | Size of the buffer that holds outbound re-queue requests. |
 
 <a name="Person"></a>
 
@@ -1273,12 +1276,13 @@ Spark Validation.
     * [.isMessage(object)](#Validator.isMessage) ⇒ <code>Boolean</code>
     * [.isMembership(object)](#Validator.isMembership) ⇒ <code>Boolean</code>
     * [.isWebhook(object)](#Validator.isWebhook) ⇒ <code>Boolean</code>
+    * [.isTeam(object)](#Validator.isTeam) ⇒ <code>Boolean</code>
     * [.isRooms(rooms)](#Validator.isRooms) ⇒ <code>Boolean</code>
     * [.isPeople(persons)](#Validator.isPeople) ⇒ <code>Boolean</code>
     * [.isMessages(messages)](#Validator.isMessages) ⇒ <code>Boolean</code>
     * [.isMemberships(memberships)](#Validator.isMemberships) ⇒ <code>Boolean</code>
     * [.isWebhooks(webhooks)](#Validator.isWebhooks) ⇒ <code>Boolean</code>
-    * [.isTeam(object)](#Validator.isTeam) ⇒ <code>Boolean</code>
+    * [.isTeams(teams)](#Validator.isTeams) ⇒ <code>Boolean</code>
 
 <a name="Validator.isEmail"></a>
 
@@ -1309,7 +1313,7 @@ Validate Spark Room Object.
 <a name="Validator.isPerson"></a>
 
 ### Validator.isPerson(object) ⇒ <code>Boolean</code>
-Validate Spark Room Object.
+Validate Spark Person Object.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
 **Returns**: <code>Boolean</code> - True/false result of validation.  
@@ -1353,6 +1357,18 @@ Validate Spark Webhook Object.
 | Param | Type |
 | --- | --- |
 | object | <code>Webhook</code> | 
+
+<a name="Validator.isTeam"></a>
+
+### Validator.isTeam(object) ⇒ <code>Boolean</code>
+Validate Spark Team Object.
+
+**Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - True/false result of validation.  
+
+| Param | Type |
+| --- | --- |
+| object | <code>Team</code> | 
 
 <a name="Validator.isRooms"></a>
 
@@ -1414,17 +1430,17 @@ Validate Spark Webhook Objects in Array.
 | --- | --- |
 | webhooks | <code>Array</code> | 
 
-<a name="Validator.isTeam"></a>
+<a name="Validator.isTeams"></a>
 
-### Validator.isTeam(object) ⇒ <code>Boolean</code>
-Validate Spark Team Object.
+### Validator.isTeams(teams) ⇒ <code>Boolean</code>
+Validate Spark Team Objects in Array.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
 **Returns**: <code>Boolean</code> - True/false result of validation.  
 
 | Param | Type |
 | --- | --- |
-| object | <code>Team</code> | 
+| teams | <code>Array</code> | 
 
 <a name="event_drop"></a>
 

@@ -37,6 +37,7 @@ of parallel API calls and the minimum time between each call.
 * Returns promises that comply with [A+ standards.](https://promisesaplus.com/).
 * Handles pagination transparently. (Receive unlimited records)
 * Support for Spark API Advanced Webhooks
+* Support Teams API
 
 
 ## Installation
@@ -49,7 +50,7 @@ npm install node-sparky --save
 
 # Reference
 
-## API Initialization and Configuration
+## Initialization and Configuration
 
 ```js
 var Spark = require('node-sparky');
@@ -62,3 +63,5 @@ var spark = new Spark({
 
 * `token` : The Cisco Spark auth token
 * `webhook` : The callback URL sent when setting up a webhook
+
+## API
