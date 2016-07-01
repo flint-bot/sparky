@@ -81,6 +81,9 @@ var spark = new Spark({
 <dt><a href="#Team">Team</a> : <code>object</code></dt>
 <dd><p>Team Object</p>
 </dd>
+<dt><a href="#TeamMembership">TeamMembership</a> : <code>object</code></dt>
+<dd><p>Team Membership Object</p>
+</dd>
 <dt><a href="#Membership">Membership</a> : <code>object</code></dt>
 <dd><p>Membership Object</p>
 </dd>
@@ -150,10 +153,10 @@ Creates a Spark API instance that is then attached to a Spark Account.
     * [.teamRename(teamId, name)](#Spark+teamRename) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
     * [.teamRemove(teamId)](#Spark+teamRemove) ⇒ <code>Promise</code>
     * [.teamMembershipsGet(teamId, [max])](#Spark+teamMembershipsGet) ⇒ <code>Promise.&lt;Array&gt;</code>
-    * [.teamMembershipGet(membershipId)](#Spark+teamMembershipGet) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-    * [.teamMembershipAdd(teamId, email, moderator)](#Spark+teamMembershipAdd) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-    * [.teamMembershipSetModerator(membershipId)](#Spark+teamMembershipSetModerator) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-    * [.teamMembershipClearModerator(membershipId)](#Spark+teamMembershipClearModerator) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+    * [.teamMembershipGet(membershipId)](#Spark+teamMembershipGet) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
+    * [.teamMembershipAdd(teamId, email, moderator)](#Spark+teamMembershipAdd) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
+    * [.teamMembershipSetModerator(membershipId)](#Spark+teamMembershipSetModerator) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
+    * [.teamMembershipClearModerator(membershipId)](#Spark+teamMembershipClearModerator) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
     * [.teamMembershipRemove(membershipId)](#Spark+teamMembershipRemove) ⇒ <code>Promise</code>
     * [.membershipsGet([max])](#Spark+membershipsGet) ⇒ <code>Promise.&lt;Array&gt;</code>
     * [.membershipsByRoom(roomId, [max])](#Spark+membershipsByRoom) ⇒ <code>Promise.&lt;Array&gt;</code>
@@ -165,7 +168,7 @@ Creates a Spark API instance that is then attached to a Spark Account.
     * [.membershipRemove(membershipId)](#Spark+membershipRemove) ⇒ <code>Promise</code>
     * [.webhooksGet([max])](#Spark+webhooksGet) ⇒ <code>Promise.&lt;Array&gt;</code>
     * [.webhookGet(webhookId)](#Spark+webhookGet) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
-    * [.webhookAdd(resource, event, [name], [roomId])](#Spark+webhookAdd) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
+    * [.webhookAdd(resource, event, name, [roomId])](#Spark+webhookAdd) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
     * [.webhookRemove(webhookId)](#Spark+webhookRemove) ⇒ <code>Promise</code>
 
 <a name="Spark+options"></a>
@@ -794,7 +797,7 @@ spark.teamRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 Return all Spark Team Memberships for a specific Team.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.&lt;Array&gt;</code> - Promise fulfilled with array of Membership objects.  
+**Returns**: <code>Promise.&lt;Array&gt;</code> - Promise fulfilled with array of Team Membership objects.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -817,11 +820,11 @@ spark.teamMembershipsGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 100
 ```
 <a name="Spark+teamMembershipGet"></a>
 
-### spark.teamMembershipGet(membershipId) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+### spark.teamMembershipGet(membershipId) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
 Return Spark Team Membership by ID.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Membership&gt;](#Membership)</code> - Promise fulfilled Membership object.  
+**Returns**: <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code> - Promise fulfilled Membership object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -839,11 +842,11 @@ spark.membershipGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 ```
 <a name="Spark+teamMembershipAdd"></a>
 
-### spark.teamMembershipAdd(teamId, email, moderator) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+### spark.teamMembershipAdd(teamId, email, moderator) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
 Add new Spark Team Membership.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Membership&gt;](#Membership)</code> - Promise fulfilled with Membership object.  
+**Returns**: <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code> - Promise fulfilled with Membership object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -863,11 +866,11 @@ spark.teamMembershipAdd('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 'ape
 ```
 <a name="Spark+teamMembershipSetModerator"></a>
 
-### spark.teamMembershipSetModerator(membershipId) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+### spark.teamMembershipSetModerator(membershipId) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
 Set a Team Membership as moderator.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Membership&gt;](#Membership)</code> - Promise fulfilled with Membership object.  
+**Returns**: <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code> - Promise fulfilled with Membership object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -885,11 +888,11 @@ spark.teamMembershipSetModerator('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi
 ```
 <a name="Spark+teamMembershipClearModerator"></a>
 
-### spark.teamMembershipClearModerator(membershipId) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+### spark.teamMembershipClearModerator(membershipId) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
 Remove a Team Membership as moderator.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Membership&gt;](#Membership)</code> - Promise fulfilled with Membership object.  
+**Returns**: <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code> - Promise fulfilled with Membership object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1166,18 +1169,18 @@ spark.webhookGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 ```
 <a name="Spark+webhookAdd"></a>
 
-### spark.webhookAdd(resource, event, [name], [roomId]) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
+### spark.webhookAdd(resource, event, name, [roomId]) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
 Add new Spark Webhook.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
 **Returns**: <code>[Promise.&lt;Webhook&gt;](#Webhook)</code> - Promise fulfilled with Webhook object.  
 
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| resource | <code>String</code> |  | Resource for webhook. |
-| event | <code>String</code> |  | Event for webhook. |
-| [name] | <code>String</code> | <code>&#x27;mywebhook&#x27;</code> | Name assigned to webhook to add. |
-| [roomId] | <code>String</code> |  | (required only if resource !== 'all') Spark Room ID. |
+| Param | Type | Description |
+| --- | --- | --- |
+| resource | <code>String</code> | Resource for webhook. |
+| event | <code>String</code> | Event for webhook. |
+| name | <code>String</code> | Name assigned to webhook to add. |
+| [roomId] | <code>String</code> | Spark Room ID. |
 
 **Example**  
 ```js
@@ -1297,6 +1300,23 @@ Team Object
 | id | <code>string</code> | Message ID |
 | name | <code>string</code> | Team name |
 | created | <code>date</code> | Date Team created |
+
+<a name="TeamMembership"></a>
+
+## TeamMembership : <code>object</code>
+Team Membership Object
+
+**Kind**: global namespace  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> | Membership ID |
+| teamId | <code>string</code> | Team ID |
+| personId | <code>string</code> | Person ID |
+| personEmail | <code>string</code> | Person Email |
+| isModerator | <code>boolean</code> | Membership is a moderator |
+| created | <code>date</code> | Date Membership created |
 
 <a name="Membership"></a>
 
