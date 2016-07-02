@@ -60,12 +60,16 @@ var spark = new Spark({
   webhookUrl: 'http://mywebhook.url/path',
 });
 ```
+## Classes
+
+<dl>
+<dt><a href="#Spark">Spark</a></dt>
+<dd></dd>
+</dl>
+
 ## Objects
 
 <dl>
-<dt><a href="#Spark">Spark</a> : <code>object</code></dt>
-<dd><p>Creates a Spark API instance that is then attached to a Spark Account.</p>
-</dd>
 <dt><a href="#Room">Room</a> : <code>object</code></dt>
 <dd><p>Room Object</p>
 </dd>
@@ -114,18 +118,12 @@ var spark = new Spark({
 
 <a name="Spark"></a>
 
-## Spark : <code>object</code>
-Creates a Spark API instance that is then attached to a Spark Account.
-
-**Kind**: global namespace  
+## Spark
+**Kind**: global class  
 **Throw**: <code>Error</code> Throws on spark token missing in options object.  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| options | <code>Object</code> | Configuration object containing Spark settings. |
-
-
-* [Spark](#Spark) : <code>object</code>
+* [Spark](#Spark)
+    * [new Spark(options)](#new_Spark_new)
     * [.options](#Spark+options) : <code>object</code>
     * [.roomsGet([max])](#Spark+roomsGet) ⇒ <code>Promise.&lt;Array&gt;</code>
     * [.roomsDirect([max])](#Spark+roomsDirect) ⇒ <code>Promise.&lt;Array&gt;</code>
@@ -140,7 +138,7 @@ Creates a Spark API instance that is then attached to a Spark Account.
     * [.personMe()](#Spark+personMe) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
     * [.personByEmail(email)](#Spark+personByEmail) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
     * [.messagesGet(roomId, [max])](#Spark+messagesGet) ⇒ <code>Promise.&lt;Array&gt;</code>
-    * [.messageGet(Message)](#Spark+messageGet) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
+    * [.messageGet(messageId)](#Spark+messageGet) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
     * [.messageSendPerson(email)](#Spark+messageSendPerson) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
     * [.messageSendRoom(roomId)](#Spark+messageSendRoom) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
     * [.messageRemove(messageId)](#Spark+messageRemove) ⇒ <code>Promise</code>
@@ -171,6 +169,16 @@ Creates a Spark API instance that is then attached to a Spark Account.
     * [.webhookAdd(resource, event, name, [roomId])](#Spark+webhookAdd) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
     * [.webhookRemove(webhookId)](#Spark+webhookRemove) ⇒ <code>Promise</code>
 
+<a name="new_Spark_new"></a>
+
+### new Spark(options)
+Creates a Spark API instance that is then attached to a Spark Account.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>Object</code> | Configuration object containing Spark settings |
+
 <a name="Spark+options"></a>
 
 ### spark.options : <code>object</code>
@@ -199,11 +207,10 @@ Options Object
 Return all Spark Rooms registered to account.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.&lt;Array&gt;</code> - Promise fulfilled with array of Room objects.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [max] | <code>Integer</code> | Number of records to return. |
+| [max] | <code>Integer</code> | Number of records to return |
 
 **Example**  
 ```js
@@ -225,11 +232,10 @@ spark.roomsGet(10)
 Return all Spark 1:1 Rooms.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.&lt;Array&gt;</code> - Promise fulfilled with array of Room objects.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [max] | <code>Integer</code> | Number of records to return. |
+| [max] | <code>Integer</code> | Number of records to return |
 
 **Example**  
 ```js
@@ -251,11 +257,10 @@ spark.roomsDirect(10)
 Return all Spark Group Rooms.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.&lt;Array&gt;</code> - Promise fulfilled with array of Room objects.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [max] | <code>Integer</code> | Number of records to return. |
+| [max] | <code>Integer</code> | Number of records to return |
 
 **Example**  
 ```js
@@ -277,12 +282,11 @@ spark.roomsGroup(10)
 Return all Spark Rooms for a particular Team ID.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.&lt;Array&gt;</code> - Promise fulfilled with array of Room objects.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| teamId | <code>String</code> | The Spark Team ID. |
-| [max] | <code>Integer</code> | Number of records to return. |
+| teamId | <code>String</code> | The Spark Team ID |
+| [max] | <code>Integer</code> | Number of records to return |
 
 **Example**  
 ```js
@@ -304,11 +308,10 @@ spark.roomsByTeam('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 10)
 Return details of Spark Room by ID.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Room&gt;](#Room)</code> - Promise fulfilled with Room object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| roomId | <code>String</code> | Spark Room ID. |
+| roomId | <code>String</code> | Spark Room ID |
 
 **Example**  
 ```js
@@ -327,11 +330,10 @@ spark.roomGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 Add new Spark Room.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Room&gt;](#Room)</code> - Promise fulfilled with Room object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| title | <code>String</code> | Title for new Room. |
+| title | <code>String</code> | Title for new Room |
 
 **Example**  
 ```js
@@ -350,12 +352,11 @@ spark.roomAdd('myroom')
 Rename Spark Room.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Room&gt;](#Room)</code> - Promise fulfilled with Room object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | roomId | <code>String</code> | Spark Room ID |
-| title | <code>String</code> | Title for new Room. |
+| title | <code>String</code> | Title for new Room |
 
 **Example**  
 ```js
@@ -374,11 +375,10 @@ spark.roomRename('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 'myroom2')
 Remove Spark Room by ID.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise</code> - Promise fulfilled on delete.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| roomId | <code>String</code> | Spark Room ID. |
+| roomId | <code>String</code> | Spark Room ID |
 
 **Example**  
 ```js
@@ -397,12 +397,11 @@ spark.roomRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 Search Spark for People by display name.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.&lt;Array&gt;</code> - Promise fulfilled with array of Message objects.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| displayName | <code>String</code> | Search String to find as display name. |
-| [max] | <code>Integer</code> | Number of records to return. |
+| displayName | <code>String</code> | Search String to find as display name |
+| [max] | <code>Integer</code> | Number of records to return |
 
 **Example**  
 ```js
@@ -424,11 +423,10 @@ spark.peopleSearch('John', 10)
 Return details of Spark User by ID.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Person&gt;](#Person)</code> - Promise fulfilled with Person object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| personId | <code>String</code> | Spark Person ID. |
+| personId | <code>String</code> | Spark Person ID |
 
 **Example**  
 ```js
@@ -447,7 +445,6 @@ spark.personGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 Return details of Spark User that has authenticated.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Person&gt;](#Person)</code> - Promise fulfilled with Person object.  
 **Example**  
 ```js
 spark.personMe()
@@ -465,11 +462,10 @@ spark.personMe()
 Return details of Spark User by Email.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Person&gt;](#Person)</code> - Promise fulfilled with Person object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| email | <code>String</code> | Email address of Spark User. |
+| email | <code>String</code> | Email address of Spark User |
 
 **Example**  
 ```js
@@ -488,12 +484,11 @@ spark.personByEmail('aperson@company.com')
 Return messages in a Spark Room.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.&lt;Array&gt;</code> - Promise fulfilled with array of Message objects.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| roomId | <code>String</code> | Spark Room ID. |
-| [max] | <code>Integer</code> | Number of records to return. |
+| roomId | <code>String</code> | Spark Room ID |
+| [max] | <code>Integer</code> | Number of records to return |
 
 **Example**  
 ```js
@@ -511,15 +506,14 @@ spark.messagesGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 100)
 ```
 <a name="Spark+messageGet"></a>
 
-### spark.messageGet(Message) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
+### spark.messageGet(messageId) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
 Return details of Spark Message by ID.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Message&gt;](#Message)</code> - Promise fulfilled with Message object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| Message | <code>String</code> | ID Spark Message ID. |
+| messageId | <code>String</code> | Spark Message ID |
 
 **Example**  
 ```js
@@ -538,7 +532,6 @@ spark.messageGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 100)
 Sends 1:1 Spark message to a person.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Message&gt;](#Message)</code> - Promise fulfilled with Message object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -563,11 +556,10 @@ spark.messageSendPerson('aperson@company.com', {
 Sends Spark message to a room.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Message&gt;](#Message)</code> - Promise fulfilled with Message object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| roomId | <code>String</code> | Spark Room ID. |
+| roomId | <code>String</code> | Spark Room ID |
 
 **Example**  
 ```js
@@ -588,11 +580,10 @@ spark.messageSendRoom('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', {
 Remove Spark Message by ID.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise</code> - Promise fulfilled on delete.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| messageId | <code>String</code> | Spark Message ID. |
+| messageId | <code>String</code> | Spark Message ID |
 
 **Example**  
 ```js
@@ -610,11 +601,10 @@ spark.messageRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 Return details of Spark File by Content ID.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;File&gt;](#File)</code> - Promise fulfilled with File object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| id | <code>String</code> | Spark Content ID. |
+| id | <code>String</code> | Spark Content ID |
 
 **Example**  
 ```js
@@ -632,11 +622,10 @@ spark.contentGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 Return details of Spark File by Spark Content URL.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;File&gt;](#File)</code> - Promise fulfilled with File object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| url | <code>String</code> | Spark Content URL. |
+| url | <code>String</code> | Spark Content URL |
 
 **Example**  
 ```js
@@ -654,11 +643,10 @@ spark.contentByUrl('http://api.ciscospark.com/v1/contents/Tm90aGluZyB0byBzZWUgaG
 Return all Spark Teams registered to account.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.&lt;Array&gt;</code> - Promise fulfilled with array of Team objects.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [max] | <code>Integer</code> | Number of records to return. |
+| [max] | <code>Integer</code> | Number of records to return |
 
 **Example**  
 ```js
@@ -680,11 +668,10 @@ spark.teamsGet(10)
 Return details of Spark Team by ID.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Team&gt;](#Team)</code> - Promise fulfilled with Team object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| teamId | <code>String</code> | Spark Team ID. |
+| teamId | <code>String</code> | Spark Team ID |
 
 **Example**  
 ```js
@@ -703,11 +690,10 @@ spark.teamGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 Add new Spark Team.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Team&gt;](#Team)</code> - Promise fulfilled with Team object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| name | <code>String</code> | Name for new Team. |
+| name | <code>String</code> | Name for new Team |
 
 **Example**  
 ```js
@@ -726,12 +712,11 @@ spark.teamAdd('myteam')
 Add new Spark Team Room.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Room&gt;](#Room)</code> - Promise fulfilled with Room object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| teamId | <code>String</code> | Spark Team ID. |
-| title | <code>String</code> | Title for new Room. |
+| teamId | <code>String</code> | Spark Team ID |
+| title | <code>String</code> | Title for new Room |
 
 **Example**  
 ```js
@@ -750,12 +735,11 @@ spark.teamRoomAdd('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 'myroom')
 Rename a Spark Team.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Team&gt;](#Team)</code> - Promise fulfilled with Team object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | teamId | <code>String</code> | Spark Team ID |
-| name | <code>String</code> | Name for new Team. |
+| name | <code>String</code> | Name for new Team |
 
 **Example**  
 ```js
@@ -774,11 +758,10 @@ spark.teamRename('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 'myteam2')
 Remove Spark Team by ID.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise</code> - Promise fulfilled on delete.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| teamId | <code>String</code> | Spark Team ID. |
+| teamId | <code>String</code> | Spark Team ID |
 
 **Example**  
 ```js
@@ -797,12 +780,11 @@ spark.teamRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 Return all Spark Team Memberships for a specific Team.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.&lt;Array&gt;</code> - Promise fulfilled with array of Team Membership objects.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| teamId | <code>String</code> | Spark Team ID. |
-| [max] | <code>Integer</code> | Number of records to return. |
+| teamId | <code>String</code> | Spark Team ID |
+| [max] | <code>Integer</code> | Number of records to return |
 
 **Example**  
 ```js
@@ -824,11 +806,10 @@ spark.teamMembershipsGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 100
 Return Spark Team Membership by ID.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code> - Promise fulfilled Membership object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| membershipId | <code>String</code> | Spark Membership ID. |
+| membershipId | <code>String</code> | Spark Membership ID |
 
 **Example**  
 ```js
@@ -846,13 +827,12 @@ spark.membershipGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 Add new Spark Team Membership.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code> - Promise fulfilled with Membership object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| teamId | <code>String</code> | Spark Team ID. |
-| email | <code>String</code> | Email address of person to add. |
-| moderator | <code>Boolean</code> | Boolean value to add as moderator. |
+| teamId | <code>String</code> | Spark Team ID |
+| email | <code>String</code> | Email address of person to add |
+| moderator | <code>Boolean</code> | Boolean value to add as moderator |
 
 **Example**  
 ```js
@@ -870,11 +850,10 @@ spark.teamMembershipAdd('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 'ape
 Set a Team Membership as moderator.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code> - Promise fulfilled with Membership object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| membershipId | <code>String</code> | Spark Membership ID. |
+| membershipId | <code>String</code> | Spark Membership ID |
 
 **Example**  
 ```js
@@ -892,11 +871,10 @@ spark.teamMembershipSetModerator('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi
 Remove a Team Membership as moderator.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code> - Promise fulfilled with Membership object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| membershipId | <code>String</code> | Spark Membership ID. |
+| membershipId | <code>String</code> | Spark Membership ID |
 
 **Example**  
 ```js
@@ -911,14 +889,13 @@ spark.teamMembershipClearModerator('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25n
 <a name="Spark+teamMembershipRemove"></a>
 
 ### spark.teamMembershipRemove(membershipId) ⇒ <code>Promise</code>
-Remove Spark Team Membership by ID.
+Remove Spark Team Membership by ID..
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise</code> - Promise fulfilled on delete.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| membershipId | <code>String</code> | Spark Membership ID. |
+| membershipId | <code>String</code> | Spark Membership ID |
 
 **Example**  
 ```js
@@ -933,14 +910,13 @@ spark.teamMembershipRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 <a name="Spark+membershipsGet"></a>
 
 ### spark.membershipsGet([max]) ⇒ <code>Promise.&lt;Array&gt;</code>
-Return all Spark Memberships registered to account.
+Return all Spark Memberships registered to account..
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.&lt;Array&gt;</code> - Promise fulfilled with array of Membership objects.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [max] | <code>Integer</code> | Number of records to return. |
+| [max] | <code>Integer</code> | Number of records to return |
 
 **Example**  
 ```js
@@ -959,15 +935,14 @@ spark.membershipsGet(100)
 <a name="Spark+membershipsByRoom"></a>
 
 ### spark.membershipsByRoom(roomId, [max]) ⇒ <code>Promise.&lt;Array&gt;</code>
-Return all Spark Memberships in a Spark Room.
+Return all Spark Memberships in a Spark Room..
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.&lt;Array&gt;</code> - Promise fulfilled with array of Membership objects.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| roomId | <code>String</code> | Spark Room ID. |
-| [max] | <code>Integer</code> | Number of records to return. |
+| roomId | <code>String</code> | Spark Room ID |
+| [max] | <code>Integer</code> | Number of records to return |
 
 **Example**  
 ```js
@@ -986,14 +961,13 @@ spark.membershipsByRoom('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 100)
 <a name="Spark+membershipGet"></a>
 
 ### spark.membershipGet(membershipId) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-Return Spark Membership by ID.
+Return Spark Membership by ID..
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Membership&gt;](#Membership)</code> - Promise fulfilled Membership object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| membershipId | <code>String</code> | Spark Membership ID. |
+| membershipId | <code>String</code> | Spark Membership ID |
 
 **Example**  
 ```js
@@ -1008,15 +982,14 @@ spark.membershipGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 <a name="Spark+membershipByRoomByEmail"></a>
 
 ### spark.membershipByRoomByEmail(roomId, personEmail) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-Return Spark Membership by Room and Email.
+Return Spark Membership by Room and Email..
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Membership&gt;](#Membership)</code> - Promise fulfilled with Membership object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| roomId | <code>String</code> | Spark Membership ID. |
-| personEmail | <code>String</code> | Email of Person. |
+| roomId | <code>String</code> | Spark Membership ID |
+| personEmail | <code>String</code> | Email of Person |
 
 **Example**  
 ```js
@@ -1031,16 +1004,15 @@ spark.membershipByRoomByEmail('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u'
 <a name="Spark+membershipAdd"></a>
 
 ### spark.membershipAdd(roomId, email, moderator) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-Add new Spark Membership.
+Add new Spark Membership..
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Membership&gt;](#Membership)</code> - Promise fulfilled with Membership object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| roomId | <code>String</code> | Spark Room ID. |
-| email | <code>String</code> | Email address of person to add. |
-| moderator | <code>Boolean</code> | Boolean value to add as moderator. |
+| roomId | <code>String</code> | Spark Room ID |
+| email | <code>String</code> | Email address of person to add |
+| moderator | <code>Boolean</code> | Boolean value to add as moderator |
 
 **Example**  
 ```js
@@ -1058,11 +1030,10 @@ spark.membershipAdd('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 'aperson
 Set a Membership as moderator.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Membership&gt;](#Membership)</code> - Promise fulfilled with Membership object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| membershipId | <code>String</code> | Spark Membership ID. |
+| membershipId | <code>String</code> | Spark Membership ID |
 
 **Example**  
 ```js
@@ -1080,11 +1051,10 @@ spark.membershipSetModerator('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 Remove a Membership as moderator.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Membership&gt;](#Membership)</code> - Promise fulfilled with Membership object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| membershipId | <code>String</code> | Spark Membership ID. |
+| membershipId | <code>String</code> | Spark Membership ID |
 
 **Example**  
 ```js
@@ -1102,11 +1072,10 @@ spark.membershipClearModerator('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u
 Remove Spark Membership by ID.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise</code> - Promise fulfilled on delete.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| membershipId | <code>String</code> | Spark Membership ID. |
+| membershipId | <code>String</code> | Spark Membership ID |
 
 **Example**  
 ```js
@@ -1124,11 +1093,10 @@ spark.membershipRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 Return all Spark Webhooks registered to account.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.&lt;Array&gt;</code> - Promise fulfills with array of Webhook objects.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [max] | <code>Integer</code> | Number of records to return. |
+| [max] | <code>Integer</code> | Number of records to return |
 
 **Example**  
 ```js
@@ -1150,11 +1118,10 @@ spark.webhooksGet(100)
 Return details of Spark Webhook by ID.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Webhook&gt;](#Webhook)</code> - Promise fulfills with Webhook object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| webhookId | <code>String</code> | Spark Webhook ID. |
+| webhookId | <code>String</code> | Spark Webhook ID |
 
 **Example**  
 ```js
@@ -1173,14 +1140,13 @@ spark.webhookGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 Add new Spark Webhook.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>[Promise.&lt;Webhook&gt;](#Webhook)</code> - Promise fulfilled with Webhook object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| resource | <code>String</code> | Resource for webhook. |
-| event | <code>String</code> | Event for webhook. |
-| name | <code>String</code> | Name assigned to webhook to add. |
-| [roomId] | <code>String</code> | Spark Room ID. |
+| resource | <code>String</code> | Resource for webhook |
+| event | <code>String</code> | Event for webhook |
+| name | <code>String</code> | Name assigned to webhook to add |
+| [roomId] | <code>String</code> | Spark Room ID |
 
 **Example**  
 ```js
@@ -1199,7 +1165,6 @@ spark.webhookAdd('messages', 'created', 'mywebhook', 'Tm90aGluZyB0byBzZWUgaGVyZS
 Remove Spark Webhook by ID.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise</code> - Promise fulfilled on delete.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1361,8 +1326,8 @@ Spark Validation functions.
 **Kind**: global namespace  
 
 * [Validator](#Validator) : <code>object</code>
-    * [.isEmail()](#Validator.isEmail) ⇒ <code>Boolean</code>
-    * [.isUrl()](#Validator.isUrl) ⇒ <code>Boolean</code>
+    * [.isEmail(email)](#Validator.isEmail) ⇒ <code>Boolean</code>
+    * [.isUrl(url)](#Validator.isUrl) ⇒ <code>Boolean</code>
     * [.isRoom(object)](#Validator.isRoom) ⇒ <code>Boolean</code>
     * [.isPerson(object)](#Validator.isPerson) ⇒ <code>Boolean</code>
     * [.isMessage(object)](#Validator.isMessage) ⇒ <code>Boolean</code>
@@ -1378,18 +1343,28 @@ Spark Validation functions.
 
 <a name="Validator.isEmail"></a>
 
-### Validator.isEmail() ⇒ <code>Boolean</code>
+### Validator.isEmail(email) ⇒ <code>Boolean</code>
 Validate String is Email.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
 **Returns**: <code>Boolean</code> - Returns results of validation..  
+
+| Param | Type |
+| --- | --- |
+| email | <code>String</code> | 
+
 <a name="Validator.isUrl"></a>
 
-### Validator.isUrl() ⇒ <code>Boolean</code>
+### Validator.isUrl(url) ⇒ <code>Boolean</code>
 Validate String is URL.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
 **Returns**: <code>Boolean</code> - Returns results of validation..  
+
+| Param | Type |
+| --- | --- |
+| url | <code>String</code> | 
+
 <a name="Validator.isRoom"></a>
 
 ### Validator.isRoom(object) ⇒ <code>Boolean</code>
