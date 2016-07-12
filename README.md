@@ -139,8 +139,9 @@ var spark = new Spark({
     * [.personByEmail(email)](#Spark+personByEmail) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
     * [.messagesGet(roomId, [max])](#Spark+messagesGet) ⇒ <code>Promise.&lt;Array&gt;</code>
     * [.messageGet(messageId)](#Spark+messageGet) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
-    * [.messageSendPerson(email)](#Spark+messageSendPerson) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
-    * [.messageSendRoom(roomId)](#Spark+messageSendRoom) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
+    * [.messageSendPerson(email, message)](#Spark+messageSendPerson) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
+    * [.messageSendRoom(roomId, message)](#Spark+messageSendRoom) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
+    * [.messageStreamRoom(roomId, message)](#Spark+messageStreamRoom) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
     * [.messageRemove(messageId)](#Spark+messageRemove) ⇒ <code>Promise</code>
     * [.contentGet(id)](#Spark+contentGet) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
     * [.contentByUrl(url)](#Spark+contentByUrl) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
@@ -528,7 +529,7 @@ spark.messageGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 100)
 ```
 <a name="Spark+messageSendPerson"></a>
 
-### spark.messageSendPerson(email) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
+### spark.messageSendPerson(email, message) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
 Sends 1:1 Spark message to a person.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
@@ -536,6 +537,7 @@ Sends 1:1 Spark message to a person.
 | Param | Type | Description |
 | --- | --- | --- |
 | email | <code>String</code> | Email address of Spark User |
+| message | <code>Object</code> | Message Object |
 
 **Example**  
 ```js
@@ -543,7 +545,7 @@ spark.messageSendPerson('aperson@company.com', {
     text: 'Hello!',
     files: ['http://company.com/myfile.doc']
   })
-  .then(function(message {
+  .then(function(message) {
     console.log('Message sent: %s', message.txt) ;
   })
   .catch(function(err){
@@ -552,7 +554,7 @@ spark.messageSendPerson('aperson@company.com', {
 ```
 <a name="Spark+messageSendRoom"></a>
 
-### spark.messageSendRoom(roomId) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
+### spark.messageSendRoom(roomId, message) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
 Sends Spark message to a room.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
@@ -560,6 +562,7 @@ Sends Spark message to a room.
 | Param | Type | Description |
 | --- | --- | --- |
 | roomId | <code>String</code> | Spark Room ID |
+| message | <code>Object</code> | Message Object |
 
 **Example**  
 ```js
@@ -567,7 +570,33 @@ spark.messageSendRoom('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', {
     text: 'Hello!',
     files: ['http://company.com/myfile.doc']
   })
-  .then(function(message {
+  .then(function(message) {
+    console.log('Message sent: %s', message.txt);
+  })
+  .catch(function(err){
+    console.log(err);
+  });
+```
+<a name="Spark+messageStreamRoom"></a>
+
+### spark.messageStreamRoom(roomId, message) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
+Streams Spark message to a room.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| roomId | <code>String</code> | Spark Room ID |
+| message | <code>Object</code> | Message Object |
+
+**Example**  
+```js
+var roomId = 'Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u';
+var text = 'Hello';
+var stream = fs.createReadStream('test.png');
+var message = { 'text': text, 'stream': stream };
+spark.messageStreamRoom(roomId, message)
+  .then(function(message) {
     console.log('Message sent: %s', message.txt);
   })
   .catch(function(err){

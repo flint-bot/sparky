@@ -4,8 +4,7 @@
   "description": "Spark SDK for NodeJS",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/mocha ./test/test-spark.js",
-    "prepublish": "cd docs && ./build.sh"
+    "test": "node_modules/.bin/mocha ./test/test-spark.js"
   },
   "repository": {
     "type": "git",
