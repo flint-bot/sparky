@@ -142,6 +142,7 @@ var spark = new Spark({
     * [.messageSendPerson(email, message)](#Spark+messageSendPerson) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
     * [.messageSendRoom(roomId, message)](#Spark+messageSendRoom) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
     * [.messageStreamRoom(roomId, message)](#Spark+messageStreamRoom) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
+    * [.upload(roomId, filepath)](#Spark+upload) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
     * [.messageRemove(messageId)](#Spark+messageRemove) ⇒ <code>Promise</code>
     * [.contentGet(id)](#Spark+contentGet) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
     * [.contentByUrl(url)](#Spark+contentByUrl) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
@@ -593,8 +594,9 @@ Streams Spark message to a room.
 ```js
 var roomId = 'Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u';
 var text = 'Hello';
-var stream = fs.createReadStream('test.png');
-var message = { 'text': text, 'stream': stream };
+var filename = 'test.png';
+var stream = fs.createReadStream(filename);
+var message = { 'text': text, 'filename': filename, 'stream': stream };
 spark.messageStreamRoom(roomId, message)
   .then(function(message) {
     console.log('Message sent: %s', message.txt);
@@ -602,6 +604,23 @@ spark.messageStreamRoom(roomId, message)
   .catch(function(err){
     console.log(err);
   });
+```
+<a name="Spark+upload"></a>
+
+### spark.upload(roomId, filepath) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
+Upload a file by path to Spark Room
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| roomId | <code>String</code> | Spark Room ID |
+| filepath | <code>String</code> | path to file |
+
+**Example**  
+```js
+var roomId = 'Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u';
+spark.upload(roomId, '/some/local/file.png');
 ```
 <a name="Spark+messageRemove"></a>
 
