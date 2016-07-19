@@ -172,7 +172,7 @@ var spark = new Spark({
     * [.webhookGet(webhookId)](#Spark+webhookGet) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
     * [.webhookAdd(resource, event, name, [filter])](#Spark+webhookAdd) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
     * [.webhookRemove(webhookId)](#Spark+webhookRemove) ⇒ <code>Promise</code>
-    * [.webhookAuth(signature, })](#Spark+webhookAuth) ⇒ <code>Boolen</code>
+    * [.webhookAuth(signature, payload)](#Spark+webhookAuth) ⇒ <code>Boolen</code>
 
 <a name="new_Spark_new"></a>
 
@@ -1234,7 +1234,7 @@ spark.webhookRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 ```
 <a name="Spark+webhookAuth"></a>
 
-### spark.webhookAuth(signature, }) ⇒ <code>Boolen</code>
+### spark.webhookAuth(signature, payload) ⇒ <code>Boolen</code>
 Authenticate X-Spark-Signature HMAC-SHA1 Hash.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
@@ -1242,7 +1242,7 @@ Authenticate X-Spark-Signature HMAC-SHA1 Hash.
 | Param | Type | Description |
 | --- | --- | --- |
 | signature | <code>String</code> | Value of "X-Spark-Signature" from header |
-| } | <code>String</code> &#124; <code>Object</code> | payload - This can either be the json object or a string representation of the webhook's body json payload |
+| payload | <code>String</code> &#124; <code>Object</code> | This can either be the json object or a string representation of the webhook's body json payload |
 
 **Example**  
 ```js
