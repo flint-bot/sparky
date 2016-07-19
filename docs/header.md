@@ -31,13 +31,15 @@ available to be installed through NPM.***
 
 * Built in rate limiter and outbound queue that allows control over the number
 of parallel API calls and the minimum time between each call.
-* Transparently handles some (429, 500, 502) errors and re-queues the request.
+* Transparently handles 429 (and/or other customizable) http errors and re-queues those requests.
 * File processor for retrieving attachments from room.
 * Event emitters tied to request, response, error, retry, and queue drops.
 * Returns promises that comply with [A+ standards.](https://promisesaplus.com/).
 * Handles pagination transparently. (Receive unlimited records)
-* Support for Spark API Advanced Webhooks
-* Support Teams API
+* **(new)** Support for Spark API Advanced Webhooks
+* **(new)** Support Teams API
+* **(new)** Support for markdown formatted messages
+* **(new)** Support for [authenticated HMAC-SHA1 webhooks](https://developer.ciscospark.com/webhooks-explained.html#sensitive-data)
 
 
 ## Installation

@@ -31,13 +31,15 @@ available to be installed through NPM.***
 
 * Built in rate limiter and outbound queue that allows control over the number
 of parallel API calls and the minimum time between each call.
-* Transparently handles some (429, 500, 502) errors and re-queues the request.
+* Transparently handles 429 (and/or other customizable) http errors and re-queues those requests.
 * File processor for retrieving attachments from room.
 * Event emitters tied to request, response, error, retry, and queue drops.
 * Returns promises that comply with [A+ standards.](https://promisesaplus.com/).
 * Handles pagination transparently. (Receive unlimited records)
-* Support for Spark API Advanced Webhooks
-* Support Teams API
+* **(new)** Support for Spark API Advanced Webhooks
+* **(new)** Support Teams API
+* **(new)** Support for markdown formatted messages
+* **(new)** Support for [authenticated HMAC-SHA1 webhooks](https://developer.ciscospark.com/webhooks-explained.html#sensitive-data)
 
 
 ## Installation
@@ -168,8 +170,9 @@ var spark = new Spark({
     * [.membershipRemove(membershipId)](#Spark+membershipRemove) ⇒ <code>Promise</code>
     * [.webhooksGet([max])](#Spark+webhooksGet) ⇒ <code>Promise.&lt;Array&gt;</code>
     * [.webhookGet(webhookId)](#Spark+webhookGet) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
-    * [.webhookAdd(resource, event, name, [roomId])](#Spark+webhookAdd) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
+    * [.webhookAdd(resource, event, name, [filter])](#Spark+webhookAdd) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
     * [.webhookRemove(webhookId)](#Spark+webhookRemove) ⇒ <code>Promise</code>
+    * [.webhookAuth(signature, })](#Spark+webhookAuth) ⇒ <code>Boolen</code>
 
 <a name="new_Spark_new"></a>
 
@@ -193,6 +196,7 @@ Options Object
 | --- | --- | --- | --- |
 | token | <code>string</code> |  | Spark Token. |
 | webhookUrl | <code>string</code> |  | URL that is used for SPark API to send callbacks. |
+| webhookSecret | <code>string</code> |  | If specified, creates webhooks using this secret. The incoming webhook must still be authenticated. See Spark.webhookAuth(). |
 | maxPageItems | <code>number</code> | <code>50</code> | Max results that the paginator uses. |
 | maxConcurrent | <code>number</code> | <code>3</code> | Max concurrent sessions to the Spark API |
 | minTime | <code>number</code> | <code>600</code> | Min time between consecutive request starts. |
@@ -1184,7 +1188,7 @@ spark.webhookGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 ```
 <a name="Spark+webhookAdd"></a>
 
-### spark.webhookAdd(resource, event, name, [roomId]) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
+### spark.webhookAdd(resource, event, name, [filter]) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
 Add new Spark Webhook.
 
 **Kind**: instance method of <code>[Spark](#Spark)</code>  
@@ -1194,7 +1198,7 @@ Add new Spark Webhook.
 | resource | <code>String</code> | Resource for webhook |
 | event | <code>String</code> | Event for webhook |
 | name | <code>String</code> | Name assigned to webhook to add |
-| [roomId] | <code>String</code> | Spark Room ID |
+| [filter] | <code>String</code> | filter |
 
 **Example**  
 ```js
@@ -1227,6 +1231,27 @@ spark.webhookRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
   .catch(function(err){
     console.log(err);
   });
+```
+<a name="Spark+webhookAuth"></a>
+
+### spark.webhookAuth(signature, }) ⇒ <code>Boolen</code>
+Authenticate X-Spark-Signature HMAC-SHA1 Hash.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| signature | <code>String</code> | Value of "X-Spark-Signature" from header |
+| } | <code>String</code> &#124; <code>Object</code> | payload - This can either be the json object or a string representation of the webhook's body json payload |
+
+**Example**  
+```js
+var sig = req.headers['x-spark-signature'];
+if(spark.webhookAuth(sig, req.body)) {
+  // webhook is valid
+} else {
+  // webhook is invalid
+}
 ```
 <a name="Room"></a>
 
