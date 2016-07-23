@@ -1,5 +1,7 @@
 # node-sparky
 
+[![NPM](https://nodei.co/npm/node-sparky.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/node-sparky/)
+
 #### Cisco Spark SDK for Node JS (Version 3)
 
 ```js
