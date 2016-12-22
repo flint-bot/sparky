@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nmarus/sparky.git"
+    "url": "git+https://github.com/flint-bot/sparky.git"
   },
   "keywords": [
     "cisco",
@@ -24,9 +24,9 @@
   "author": "Nicholas Marus <nmarus@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nmarus/sparky/issues"
+    "url": "https://github.com/flint-bot/sparky/issues"
   },
-  "homepage": "https://github.com/nmarus/sparky#readme",
+  "homepage": "https://github.com/flint-bot/sparky#readme",
   "dependencies": {
     "bottleneck": "1.12.0",
     "debug": "2.2.0",
