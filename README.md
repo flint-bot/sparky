@@ -1403,6 +1403,7 @@ Spark Validation functions.
 * [Validator](#Validator) : <code>object</code>
     * [.isEmail(email)](#Validator.isEmail) ⇒ <code>Boolean</code>
     * [.isUrl(url)](#Validator.isUrl) ⇒ <code>Boolean</code>
+    * [.isFilePath(path)](#Validator.isFilePath) ⇒ <code>Boolean</code>
     * [.isRoom(object)](#Validator.isRoom) ⇒ <code>Boolean</code>
     * [.isPerson(object)](#Validator.isPerson) ⇒ <code>Boolean</code>
     * [.isMessage(object)](#Validator.isMessage) ⇒ <code>Boolean</code>
@@ -1422,7 +1423,6 @@ Spark Validation functions.
 Validate String is Email.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
-**Returns**: <code>Boolean</code> - Returns results of validation..  
 
 | Param | Type |
 | --- | --- |
@@ -1434,11 +1434,21 @@ Validate String is Email.
 Validate String is URL.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
-**Returns**: <code>Boolean</code> - Returns results of validation..  
 
 | Param | Type |
 | --- | --- |
 | url | <code>String</code> | 
+
+<a name="Validator.isFilePath"></a>
+
+### Validator.isFilePath(path) ⇒ <code>Boolean</code>
+Validate String is File path.
+
+**Kind**: static method of <code>[Validator](#Validator)</code>  
+
+| Param | Type |
+| --- | --- |
+| path | <code>String</code> | 
 
 <a name="Validator.isRoom"></a>
 
@@ -1446,7 +1456,6 @@ Validate String is URL.
 Validate Spark Room Object.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
-**Returns**: <code>Boolean</code> - True/false result of validation.  
 
 | Param | Type |
 | --- | --- |
@@ -1458,7 +1467,6 @@ Validate Spark Room Object.
 Validate Spark Person Object.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
-**Returns**: <code>Boolean</code> - True/false result of validation.  
 
 | Param | Type |
 | --- | --- |
@@ -1470,7 +1478,6 @@ Validate Spark Person Object.
 Validate Spark Message Object.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
-**Returns**: <code>Boolean</code> - True/false result of validation.  
 
 | Param | Type |
 | --- | --- |
@@ -1482,7 +1489,6 @@ Validate Spark Message Object.
 Validate Spark Membership Object.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
-**Returns**: <code>Boolean</code> - True/false result of validation.  
 
 | Param | Type |
 | --- | --- |
@@ -1494,7 +1500,6 @@ Validate Spark Membership Object.
 Validate Spark Webhook Object.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
-**Returns**: <code>Boolean</code> - True/false result of validation.  
 
 | Param | Type |
 | --- | --- |
@@ -1506,7 +1511,6 @@ Validate Spark Webhook Object.
 Validate Spark Team Object.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
-**Returns**: <code>Boolean</code> - True/false result of validation.  
 
 | Param | Type |
 | --- | --- |
@@ -1518,7 +1522,6 @@ Validate Spark Team Object.
 Validate Spark Room Objects in Array.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
-**Returns**: <code>Boolean</code> - True/false result of validation.  
 
 | Param | Type |
 | --- | --- |
@@ -1530,7 +1533,6 @@ Validate Spark Room Objects in Array.
 Validate Spark Person Objects in Array.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
-**Returns**: <code>Boolean</code> - True/false result of validation.  
 
 | Param | Type |
 | --- | --- |
@@ -1542,7 +1544,6 @@ Validate Spark Person Objects in Array.
 Validate Spark Message Objects in Array.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
-**Returns**: <code>Boolean</code> - True/false result of validation.  
 
 | Param | Type |
 | --- | --- |
@@ -1554,7 +1555,6 @@ Validate Spark Message Objects in Array.
 Validate Spark Membership Objects in Array.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
-**Returns**: <code>Boolean</code> - True/false result of validation.  
 
 | Param | Type |
 | --- | --- |
@@ -1566,7 +1566,6 @@ Validate Spark Membership Objects in Array.
 Validate Spark Webhook Objects in Array.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
-**Returns**: <code>Boolean</code> - True/false result of validation.  
 
 | Param | Type |
 | --- | --- |
@@ -1578,7 +1577,6 @@ Validate Spark Webhook Objects in Array.
 Validate Spark Team Objects in Array.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
-**Returns**: <code>Boolean</code> - True/false result of validation.  
 
 | Param | Type |
 | --- | --- |
@@ -1638,15 +1636,24 @@ Spark retry event.
 
 ## License
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+The MIT License (MIT)
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
+Copyright (c) 2016-2017
 
-You should have received a copy of the GNU Lesser General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
