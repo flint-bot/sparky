@@ -29,6 +29,11 @@ Please read the API docs below before migrating your code to this release.
 If you are looking for the old release version, node-sparky@2.0.27 is still
 available to be installed through NPM.***
 
+
+## What's New? (v3.2.x)
+
+* Support for Spark Admin API (2/18/2017)
+
 ## Features
 
 * Built in rate limiter and outbound queue that allows control over the number
@@ -38,10 +43,7 @@ of parallel API calls and the minimum time between each call.
 * Event emitters tied to request, response, error, retry, and queue drops.
 * Returns promises that comply with [A+ standards.](https://promisesaplus.com/).
 * Handles pagination transparently. (Receive unlimited records)
-* **(new)** Support for Spark API Advanced Webhooks
-* **(new)** Support Teams API
-* **(new)** Support for markdown formatted messages
-* **(new)** Support for [authenticated HMAC-SHA1 webhooks](https://developer.ciscospark.com/webhooks-explained.html#sensitive-data)
+* Support for [authenticated HMAC-SHA1 webhooks](https://developer.ciscospark.com/webhooks-explained.html#sensitive-data)
 
 
 ## Installation

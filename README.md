@@ -29,6 +29,11 @@ Please read the API docs below before migrating your code to this release.
 If you are looking for the old release version, node-sparky@2.0.27 is still
 available to be installed through NPM.***
 
+
+## What's New? (v3.2.x)
+
+* Support for Spark Admin API (2/18/2017)
+
 ## Features
 
 * Built in rate limiter and outbound queue that allows control over the number
@@ -38,10 +43,7 @@ of parallel API calls and the minimum time between each call.
 * Event emitters tied to request, response, error, retry, and queue drops.
 * Returns promises that comply with [A+ standards.](https://promisesaplus.com/).
 * Handles pagination transparently. (Receive unlimited records)
-* **(new)** Support for Spark API Advanced Webhooks
-* **(new)** Support Teams API
-* **(new)** Support for markdown formatted messages
-* **(new)** Support for [authenticated HMAC-SHA1 webhooks](https://developer.ciscospark.com/webhooks-explained.html#sensitive-data)
+* Support for [authenticated HMAC-SHA1 webhooks](https://developer.ciscospark.com/webhooks-explained.html#sensitive-data)
 
 
 ## Installation
@@ -145,11 +147,15 @@ var spark = new Spark({
     * [.roomGet(roomId)](#Spark+roomGet) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
     * [.roomAdd(title)](#Spark+roomAdd) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
     * [.roomRename(roomId, title)](#Spark+roomRename) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
+    * [.roomUpdate(room)](#Spark+roomUpdate) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
     * [.roomRemove(roomId)](#Spark+roomRemove) ⇒ <code>Promise</code>
     * [.peopleSearch(displayName, [max])](#Spark+peopleSearch) ⇒ <code>Promise.&lt;Array&gt;</code>
     * [.personGet(personId)](#Spark+personGet) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
     * [.personMe()](#Spark+personMe) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
     * [.personByEmail(email)](#Spark+personByEmail) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+    * [.personAdd(person)](#Spark+personAdd) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+    * [.personUpdate(person)](#Spark+personUpdate) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+    * [.personRemove(personId)](#Spark+personRemove) ⇒ <code>Promise</code>
     * [.messagesGet(roomId, [max])](#Spark+messagesGet) ⇒ <code>Promise.&lt;Array&gt;</code>
     * [.messageGet(messageId)](#Spark+messageGet) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
     * [.messageSendPerson(email, message)](#Spark+messageSendPerson) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
@@ -162,12 +168,14 @@ var spark = new Spark({
     * [.teamsGet([max])](#Spark+teamsGet) ⇒ <code>Promise.&lt;Array&gt;</code>
     * [.teamGet(teamId)](#Spark+teamGet) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
     * [.teamAdd(name)](#Spark+teamAdd) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
+    * [.teamUpdate(team)](#Spark+teamUpdate) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
     * [.teamRoomAdd(teamId, title)](#Spark+teamRoomAdd) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
     * [.teamRename(teamId, name)](#Spark+teamRename) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
     * [.teamRemove(teamId)](#Spark+teamRemove) ⇒ <code>Promise</code>
     * [.teamMembershipsGet(teamId, [max])](#Spark+teamMembershipsGet) ⇒ <code>Promise.&lt;Array&gt;</code>
     * [.teamMembershipGet(membershipId)](#Spark+teamMembershipGet) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
     * [.teamMembershipAdd(teamId, email, moderator)](#Spark+teamMembershipAdd) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
+    * [.teamMembershipUpdate(teamMembership)](#Spark+teamMembershipUpdate) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
     * [.teamMembershipSetModerator(membershipId)](#Spark+teamMembershipSetModerator) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
     * [.teamMembershipClearModerator(membershipId)](#Spark+teamMembershipClearModerator) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
     * [.teamMembershipRemove(membershipId)](#Spark+teamMembershipRemove) ⇒ <code>Promise</code>
@@ -176,12 +184,14 @@ var spark = new Spark({
     * [.membershipGet(membershipId)](#Spark+membershipGet) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
     * [.membershipByRoomByEmail(roomId, personEmail)](#Spark+membershipByRoomByEmail) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
     * [.membershipAdd(roomId, email, moderator)](#Spark+membershipAdd) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+    * [.membershipUpdate(membership)](#Spark+membershipUpdate) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
     * [.membershipSetModerator(membershipId)](#Spark+membershipSetModerator) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
     * [.membershipClearModerator(membershipId)](#Spark+membershipClearModerator) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
     * [.membershipRemove(membershipId)](#Spark+membershipRemove) ⇒ <code>Promise</code>
     * [.webhooksGet([max])](#Spark+webhooksGet) ⇒ <code>Promise.&lt;Array&gt;</code>
     * [.webhookGet(webhookId)](#Spark+webhookGet) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
     * [.webhookAdd(resource, event, name, [filter])](#Spark+webhookAdd) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
+    * [.webhookUpdate(webhook)](#Spark+webhookUpdate) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
     * [.webhookRemove(webhookId)](#Spark+webhookRemove) ⇒ <code>Promise</code>
     * [.webhookAuth(signature, payload)](#Spark+webhookAuth) ⇒ <code>Boolen</code>
     * [.organizationsGet([max])](#Spark+organizationsGet) ⇒ <code>Promise.&lt;Array&gt;</code>
@@ -190,9 +200,6 @@ var spark = new Spark({
     * [.licenseGet(licenseId)](#Spark+licenseGet) ⇒ <code>[Promise.&lt;License&gt;](#License)</code>
     * [.rolesGet([max])](#Spark+rolesGet) ⇒ <code>Promise.&lt;Array&gt;</code>
     * [.roleGet(roleId)](#Spark+roleGet) ⇒ <code>[Promise.&lt;Role&gt;](#Role)</code>
-    * [.personAdd([emails], displayName, firstName, lastName, avatar, orgId, [roles], [licenses])](#Spark+personAdd) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
-    * [.personUpdate([emails], displayName, firstName, lastName, avatar, orgId, [roles], [licenses])](#Spark+personUpdate) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
-    * [.personRemove(personId)](#Spark+personRemove) ⇒ <code>Promise</code>
 
 <a name="new_Spark_new"></a>
 
@@ -395,6 +402,33 @@ spark.roomRename('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 'myroom2')
     console.log(err);
   });
 ```
+<a name="Spark+roomUpdate"></a>
+
+### spark.roomUpdate(room) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
+Update a Room.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| room | <code>[Object.&lt;Room&gt;](#Room)</code> | Spark Room Object |
+
+**Example**  
+```js
+spark.roomGet(Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u)
+  .then(function(room) {
+    // change value of retrieved room object
+    room.title = 'Another Title';
+    return spark.roomUpdate(room);
+  )
+  .then(function(room) {
+    console.log(room.title);
+  })
+  .catch(function(err) {
+    // process error
+    console.log(err);
+  });
+```
 <a name="Spark+roomRemove"></a>
 
 ### spark.roomRemove(roomId) ⇒ <code>Promise</code>
@@ -498,6 +532,88 @@ Return details of Spark User by Email.
 spark.personByEmail('aperson@company.com')
   .then(function(person) {
     console.log(person.displayName);
+  })
+  .catch(function(err) {
+    // process error
+    console.log(err);
+  });
+```
+<a name="Spark+personAdd"></a>
+
+### spark.personAdd(person) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+Add new Person.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| person | <code>[Object.&lt;Person&gt;](#Person)</code> | Spark Person Object |
+
+**Example**  
+```js
+var newPerson = {
+  emails: ['aperson@company.com'],
+  displayName: 'Any Person',
+  firstName: 'Any',
+  lastName: 'Person',
+  avatar: 'http://lorempixel.com/400/400/',
+  orgId: 'Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u',
+  roles: ['Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u'],
+  licenses: ['Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u']
+};
+
+spark.personAdd(newPerson)
+  .then(function(person) {
+    console.log(person.displayName);
+  })
+  .catch(function(err) {
+    // process error
+    console.log(err);
+  });
+```
+<a name="Spark+personUpdate"></a>
+
+### spark.personUpdate(person) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+Update a Person.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| person | <code>[Object.&lt;Person&gt;](#Person)</code> | Spark Person Object |
+
+**Example**  
+```js
+spark.personGet(Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u)
+  .then(function(person) {
+    // change value of retrieved person object
+    person.displayName = 'Another Person';
+    return spark.personUpdate(person);
+  )
+  .then(function(person) {
+    console.log(person.displayName);
+  })
+  .catch(function(err) {
+    // process error
+    console.log(err);
+  });
+```
+<a name="Spark+personRemove"></a>
+
+### spark.personRemove(personId) ⇒ <code>Promise</code>
+Remove Spark Person by ID.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| personId | <code>String</code> | Spark Person ID |
+
+**Example**  
+```js
+spark.personRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
+  .then(function() {
+    console.log('Person removed.');
   })
   .catch(function(err) {
     // process error
@@ -778,6 +894,33 @@ spark.teamAdd('myteam')
     console.log(err);
   });
 ```
+<a name="Spark+teamUpdate"></a>
+
+### spark.teamUpdate(team) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
+Update a Team.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| team | <code>[Object.&lt;Team&gt;](#Team)</code> | Spark Team Object |
+
+**Example**  
+```js
+spark.teamGet(Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u)
+  .then(function(team) {
+    // change value of retrieved team object
+    team.name = 'Another Team';
+    return spark.teamUpdate(team);
+  )
+  .then(function(team) {
+    console.log(team.name);
+  })
+  .catch(function(err) {
+    // process error
+    console.log(err);
+  });
+```
 <a name="Spark+teamRoomAdd"></a>
 
 ### spark.teamRoomAdd(teamId, title) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
@@ -913,6 +1056,33 @@ spark.teamMembershipAdd('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 'ape
     console.log(membership.id);
   })
   .catch(function(err){
+    console.log(err);
+  });
+```
+<a name="Spark+teamMembershipUpdate"></a>
+
+### spark.teamMembershipUpdate(teamMembership) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
+Update a Team Membership.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| teamMembership | <code>[Object.&lt;TeamMembership&gt;](#TeamMembership)</code> | Spark TeamMembership Object |
+
+**Example**  
+```js
+spark.teamMembershipGet(Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u)
+  .then(function(teamMembership) {
+    // change value of retrieved teamMembership object
+    teamMembership.isModerator = true;
+    return spark.teamMembershipUpdate(teamMembership);
+  )
+  .then(function(teamMembership) {
+    console.log(teamMembership.isModerator);
+  })
+  .catch(function(err) {
+    // process error
     console.log(err);
   });
 ```
@@ -1096,6 +1266,33 @@ spark.membershipAdd('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 'aperson
     console.log(err);
   });
 ```
+<a name="Spark+membershipUpdate"></a>
+
+### spark.membershipUpdate(membership) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+Update a Membership.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| membership | <code>[Object.&lt;Membership&gt;](#Membership)</code> | Spark Membership Object |
+
+**Example**  
+```js
+spark.membershipGet(Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u)
+  .then(function(membership) {
+    // change value of retrieved membership object
+    membership.isModerator = true;
+    return spark.membershipUpdate(membership);
+  )
+  .then(function(membership) {
+    console.log(membership.isModerator);
+  })
+  .catch(function(err) {
+    // process error
+    console.log(err);
+  });
+```
 <a name="Spark+membershipSetModerator"></a>
 
 ### spark.membershipSetModerator(membershipId) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
@@ -1223,6 +1420,33 @@ Add new Spark Webhook.
 **Example**  
 ```js
 spark.webhookAdd('messages', 'created', 'mywebhook', 'Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
+  .then(function(webhook) {
+    console.log(webhook.name);
+  })
+  .catch(function(err) {
+    // process error
+    console.log(err);
+  });
+```
+<a name="Spark+webhookUpdate"></a>
+
+### spark.webhookUpdate(webhook) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
+Update a Webhook.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| webhook | <code>[Object.&lt;Webhook&gt;](#Webhook)</code> | Spark Webhook Object |
+
+**Example**  
+```js
+spark.webhookGet(Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u)
+  .then(function(webhook) {
+    // change value of retrieved webhook object
+    webhook.name = 'Another Webhook';
+    return spark.webhookUpdate(webhook);
+  )
   .then(function(webhook) {
     console.log(webhook.name);
   })
@@ -1408,86 +1632,6 @@ Return details for a Spark Role by ID.
 spark.roleGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
   .then(function(role) {
     console.log(role.name);
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
-```
-<a name="Spark+personAdd"></a>
-
-### spark.personAdd([emails], displayName, firstName, lastName, avatar, orgId, [roles], [licenses]) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
-Add new Person.
-
-**Kind**: instance method of <code>[Spark](#Spark)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| [emails] | <code>String</code> | Email addresses for person |
-| displayName | <code>String</code> | Display name for person |
-| firstName | <code>String</code> | First name of the person being added |
-| lastName | <code>String</code> | Last name of the person being added |
-| avatar | <code>String</code> | Url to an image to upload as the avatar of the person being added |
-| orgId | <code>String</code> | Organization ID to add the person to |
-| [roles] | <code>String</code> | Roles to assign to the person |
-| [licenses] | <code>String</code> | Licenses to assign to the person |
-
-**Example**  
-```js
-spark.personAdd('[aperson@company.com]', 'Any Person', 'Any', 'Person', 'http://lorempixel.com/400/400/', 'Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', [Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u], [Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u])
-  .then(function(person) {
-    console.log(person.displayName);
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
-```
-<a name="Spark+personUpdate"></a>
-
-### spark.personUpdate([emails], displayName, firstName, lastName, avatar, orgId, [roles], [licenses]) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
-Update a Person.
-
-**Kind**: instance method of <code>[Spark](#Spark)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| [emails] | <code>String</code> | Email addresses for person |
-| displayName | <code>String</code> | Display name for person |
-| firstName | <code>String</code> | First name of the person being added |
-| lastName | <code>String</code> | Last name of the person being added |
-| avatar | <code>String</code> | Url to an image to upload as the avatar of the person being added |
-| orgId | <code>String</code> | Organization ID to add the person to |
-| [roles] | <code>String</code> | Roles to assign to the person |
-| [licenses] | <code>String</code> | Licenses to assign to the person |
-
-**Example**  
-```js
-spark.personUpdate('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u',[aperson@company.com]', 'Any Person', 'Any', 'Person', 'http://lorempixel.com/400/400/', 'Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', [Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u], [Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u])
-  .then(function(person) {
-    console.log(person.displayName);
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
-```
-<a name="Spark+personRemove"></a>
-
-### spark.personRemove(personId) ⇒ <code>Promise</code>
-Remove Spark Person by ID.
-
-**Kind**: instance method of <code>[Spark](#Spark)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| personId | <code>String</code> | Spark Team ID |
-
-**Example**  
-```js
-spark.personRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function() {
-    console.log('Person removed.');
   })
   .catch(function(err) {
     // process error
@@ -1691,12 +1835,15 @@ Spark Validation functions.
     * [.isMembership(object)](#Validator.isMembership) ⇒ <code>Boolean</code>
     * [.isWebhook(object)](#Validator.isWebhook) ⇒ <code>Boolean</code>
     * [.isTeam(object)](#Validator.isTeam) ⇒ <code>Boolean</code>
+    * [.isTeamMembership(object)](#Validator.isTeamMembership) ⇒ <code>Boolean</code>
+    * [.isEmails(emails)](#Validator.isEmails) ⇒ <code>Boolean</code>
     * [.isRooms(rooms)](#Validator.isRooms) ⇒ <code>Boolean</code>
     * [.isPeople(persons)](#Validator.isPeople) ⇒ <code>Boolean</code>
     * [.isMessages(messages)](#Validator.isMessages) ⇒ <code>Boolean</code>
     * [.isMemberships(memberships)](#Validator.isMemberships) ⇒ <code>Boolean</code>
     * [.isWebhooks(webhooks)](#Validator.isWebhooks) ⇒ <code>Boolean</code>
     * [.isTeams(teams)](#Validator.isTeams) ⇒ <code>Boolean</code>
+    * [.isTeamMemberships(teamMemberships)](#Validator.isTeamMemberships) ⇒ <code>Boolean</code>
 
 <a name="Validator.isEmail"></a>
 
@@ -1797,6 +1944,28 @@ Validate Spark Team Object.
 | --- | --- |
 | object | <code>[Team](#Team)</code> | 
 
+<a name="Validator.isTeamMembership"></a>
+
+### Validator.isTeamMembership(object) ⇒ <code>Boolean</code>
+Validate Spark Team Membership Object.
+
+**Kind**: static method of <code>[Validator](#Validator)</code>  
+
+| Param | Type |
+| --- | --- |
+| object | <code>[TeamMembership](#TeamMembership)</code> | 
+
+<a name="Validator.isEmails"></a>
+
+### Validator.isEmails(emails) ⇒ <code>Boolean</code>
+Validate Emails in Array.
+
+**Kind**: static method of <code>[Validator](#Validator)</code>  
+
+| Param | Type |
+| --- | --- |
+| emails | <code>Array</code> | 
+
 <a name="Validator.isRooms"></a>
 
 ### Validator.isRooms(rooms) ⇒ <code>Boolean</code>
@@ -1862,6 +2031,17 @@ Validate Spark Team Objects in Array.
 | Param | Type |
 | --- | --- |
 | teams | <code>Array</code> | 
+
+<a name="Validator.isTeamMemberships"></a>
+
+### Validator.isTeamMemberships(teamMemberships) ⇒ <code>Boolean</code>
+Validate Spark Team Membership Objects in Array.
+
+**Kind**: static method of <code>[Validator](#Validator)</code>  
+
+| Param | Type |
+| --- | --- |
+| teamMemberships | <code>Array</code> | 
 
 <a name="event_drop"></a>
 
