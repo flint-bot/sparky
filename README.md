@@ -98,6 +98,15 @@ var spark = new Spark({
 <dt><a href="#Webhook">Webhook</a> : <code>object</code></dt>
 <dd><p>Webhook Object</p>
 </dd>
+<dt><a href="#Organization">Organization</a> : <code>object</code></dt>
+<dd><p>Organization Object</p>
+</dd>
+<dt><a href="#License">License</a> : <code>object</code></dt>
+<dd><p>License Object</p>
+</dd>
+<dt><a href="#Role">Role</a> : <code>object</code></dt>
+<dd><p>Role Object</p>
+</dd>
 <dt><a href="#Validator">Validator</a> : <code>object</code></dt>
 <dd><p>Spark Validation functions.</p>
 </dd>
@@ -175,6 +184,15 @@ var spark = new Spark({
     * [.webhookAdd(resource, event, name, [filter])](#Spark+webhookAdd) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
     * [.webhookRemove(webhookId)](#Spark+webhookRemove) ⇒ <code>Promise</code>
     * [.webhookAuth(signature, payload)](#Spark+webhookAuth) ⇒ <code>Boolen</code>
+    * [.organizationsGet([max])](#Spark+organizationsGet) ⇒ <code>Promise.&lt;Array&gt;</code>
+    * [.organizationGet(orgId)](#Spark+organizationGet) ⇒ <code>[Promise.&lt;Organization&gt;](#Organization)</code>
+    * [.licensesGet([max])](#Spark+licensesGet) ⇒ <code>Promise.&lt;Array&gt;</code>
+    * [.licenseGet(licenseId)](#Spark+licenseGet) ⇒ <code>[Promise.&lt;License&gt;](#License)</code>
+    * [.rolesGet([max])](#Spark+rolesGet) ⇒ <code>Promise.&lt;Array&gt;</code>
+    * [.roleGet(roleId)](#Spark+roleGet) ⇒ <code>[Promise.&lt;Role&gt;](#Role)</code>
+    * [.personAdd([emails], displayName, firstName, lastName, avatar, orgId, [roles], [licenses])](#Spark+personAdd) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+    * [.personUpdate([emails], displayName, firstName, lastName, avatar, orgId, [roles], [licenses])](#Spark+personUpdate) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+    * [.personRemove(personId)](#Spark+personRemove) ⇒ <code>Promise</code>
 
 <a name="new_Spark_new"></a>
 
@@ -1255,6 +1273,227 @@ if(spark.webhookAuth(sig, req.body)) {
   // webhook is invalid
 }
 ```
+<a name="Spark+organizationsGet"></a>
+
+### spark.organizationsGet([max]) ⇒ <code>Promise.&lt;Array&gt;</code>
+Return all Spark Organizations registered to account.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [max] | <code>Integer</code> | Number of records to return |
+
+**Example**  
+```js
+spark.organizationsGet(100)
+  .then(function(organizations) {
+    // process organizations as array
+    organizations.forEach(function(organization) {
+      console.log(organization.displayName);
+    });
+  })
+  .catch(function(err) {
+    // process error
+    console.log(err);
+  });
+```
+<a name="Spark+organizationGet"></a>
+
+### spark.organizationGet(orgId) ⇒ <code>[Promise.&lt;Organization&gt;](#Organization)</code>
+Return details for a Spark Organization by ID.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| orgId | <code>String</code> | Spark Organization ID |
+
+**Example**  
+```js
+spark.organizationGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
+  .then(function(organization) {
+    console.log(organization.displayName);
+  })
+  .catch(function(err) {
+    // process error
+    console.log(err);
+  });
+```
+<a name="Spark+licensesGet"></a>
+
+### spark.licensesGet([max]) ⇒ <code>Promise.&lt;Array&gt;</code>
+Return all Spark Licenses registered to a given organization.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [max] | <code>Integer</code> | Number of records to return |
+
+**Example**  
+```js
+spark.licensesGet(100)
+  .then(function(licenses) {
+    // process licenses as array
+    licenses.forEach(function(license) {
+      console.log(license.name);
+    });
+  })
+  .catch(function(err) {
+    // process error
+    console.log(err);
+  });
+```
+<a name="Spark+licenseGet"></a>
+
+### spark.licenseGet(licenseId) ⇒ <code>[Promise.&lt;License&gt;](#License)</code>
+Return details for a Spark License by ID.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| licenseId | <code>String</code> | Spark License ID |
+
+**Example**  
+```js
+spark.licenseGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
+  .then(function(license) {
+    console.log(license.name);
+  })
+  .catch(function(err) {
+    // process error
+    console.log(err);
+  });
+```
+<a name="Spark+rolesGet"></a>
+
+### spark.rolesGet([max]) ⇒ <code>Promise.&lt;Array&gt;</code>
+Return all Spark Roles.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [max] | <code>Integer</code> | Number of records to return |
+
+**Example**  
+```js
+spark.rolesGet(100)
+  .then(function(roles) {
+    // process roles as array
+    roles.forEach(function(role) {
+      console.log(role.name);
+    });
+  })
+  .catch(function(err) {
+    // process error
+    console.log(err);
+  });
+```
+<a name="Spark+roleGet"></a>
+
+### spark.roleGet(roleId) ⇒ <code>[Promise.&lt;Role&gt;](#Role)</code>
+Return details for a Spark Role by ID.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| roleId | <code>String</code> | Spark Role ID |
+
+**Example**  
+```js
+spark.roleGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
+  .then(function(role) {
+    console.log(role.name);
+  })
+  .catch(function(err) {
+    // process error
+    console.log(err);
+  });
+```
+<a name="Spark+personAdd"></a>
+
+### spark.personAdd([emails], displayName, firstName, lastName, avatar, orgId, [roles], [licenses]) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+Add new Person.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [emails] | <code>String</code> | Email addresses for person |
+| displayName | <code>String</code> | Display name for person |
+| firstName | <code>String</code> | First name of the person being added |
+| lastName | <code>String</code> | Last name of the person being added |
+| avatar | <code>String</code> | Url to an image to upload as the avatar of the person being added |
+| orgId | <code>String</code> | Organization ID to add the person to |
+| [roles] | <code>String</code> | Roles to assign to the person |
+| [licenses] | <code>String</code> | Licenses to assign to the person |
+
+**Example**  
+```js
+spark.personAdd('[aperson@company.com]', 'Any Person', 'Any', 'Person', 'http://lorempixel.com/400/400/', 'Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', [Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u], [Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u])
+  .then(function(person) {
+    console.log(person.displayName);
+  })
+  .catch(function(err) {
+    // process error
+    console.log(err);
+  });
+```
+<a name="Spark+personUpdate"></a>
+
+### spark.personUpdate([emails], displayName, firstName, lastName, avatar, orgId, [roles], [licenses]) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+Update a Person.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [emails] | <code>String</code> | Email addresses for person |
+| displayName | <code>String</code> | Display name for person |
+| firstName | <code>String</code> | First name of the person being added |
+| lastName | <code>String</code> | Last name of the person being added |
+| avatar | <code>String</code> | Url to an image to upload as the avatar of the person being added |
+| orgId | <code>String</code> | Organization ID to add the person to |
+| [roles] | <code>String</code> | Roles to assign to the person |
+| [licenses] | <code>String</code> | Licenses to assign to the person |
+
+**Example**  
+```js
+spark.personUpdate('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u',[aperson@company.com]', 'Any Person', 'Any', 'Person', 'http://lorempixel.com/400/400/', 'Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', [Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u], [Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u])
+  .then(function(person) {
+    console.log(person.displayName);
+  })
+  .catch(function(err) {
+    // process error
+    console.log(err);
+  });
+```
+<a name="Spark+personRemove"></a>
+
+### spark.personRemove(personId) ⇒ <code>Promise</code>
+Remove Spark Person by ID.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| personId | <code>String</code> | Spark Team ID |
+
+**Example**  
+```js
+spark.personRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
+  .then(function() {
+    console.log('Person removed.');
+  })
+  .catch(function(err) {
+    // process error
+    console.log(err);
+  });
+```
 <a name="Room"></a>
 
 ## Room : <code>object</code>
@@ -1392,6 +1631,48 @@ Webhook Object
 | event | <code>boolean</code> | Webhook event |
 | filter | <code>boolean</code> | Webhook filter |
 | created | <code>date</code> | Date Webhook created |
+
+<a name="Organization"></a>
+
+## Organization : <code>object</code>
+Organization Object
+
+**Kind**: global namespace  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> | Organization ID |
+| displayName | <code>string</code> | Organization name |
+| created | <code>date</code> | Date Organization created |
+
+<a name="License"></a>
+
+## License : <code>object</code>
+License Object
+
+**Kind**: global namespace  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> | License ID |
+| name | <code>string</code> | License name |
+| totalUnits | <code>int</code> | Total units of license available |
+| consumedUnits | <code>int</code> | Number of license units consumed |
+
+<a name="Role"></a>
+
+## Role : <code>object</code>
+Role Object
+
+**Kind**: global namespace  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> | Role ID |
+| name | <code>string</code> | Role name |
 
 <a name="Validator"></a>
 
