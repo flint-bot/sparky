@@ -66,7 +66,7 @@ node-sparky just as you can with with node-js.
 
     <script>
         $(document).ready(function() {
-            var spark = new window.Sparky({
+            var spark = new Sparky({
                 token: '<my token>'
             });
 
