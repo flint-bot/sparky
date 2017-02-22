@@ -64,12 +64,9 @@ node-sparky just as you can with with node-js.
     <h1>Test</h1>
     <div id="messageId"></div>
 
-
     <script>
-        var Spark = require('node-sparky');
-
         $(document).ready(function() {
-            var spark = new Spark({
+            var spark = new window.Sparky({
                 token: '<my token>'
             });
 
