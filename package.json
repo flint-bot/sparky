@@ -4,7 +4,8 @@
   "description": "Spark SDK for NodeJS",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/mocha ./test/test-spark.js"
+    "test": "node_modules/.bin/mocha",
+    "browserify": "node_modules/.bin/browserify -r ./index.js:node-sparky -o ./browser/node-sparky.js"
   },
   "repository": {
     "type": "git",
@@ -28,15 +29,14 @@
   },
   "homepage": "https://github.com/flint-bot/sparky#readme",
   "dependencies": {
-    "bottleneck": "1.12.0",
-    "debug": "2.2.0",
     "lodash": "4.13.1",
-    "mime-types": "^2.1.11",
+    "mime-types": "^2.1.14",
     "request": "^2.79.0",
-    "uuid": "^2.0.2",
     "when": "3.7.7"
   },
   "devDependencies": {
-    "jsdoc-to-markdown": "^3.0.0"
+    "browserify": "^14.1.0",
+    "jsdoc-to-markdown": "^3.0.0",
+    "mocha": "^3.2.0"
   }
 }
