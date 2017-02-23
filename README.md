@@ -89,6 +89,11 @@ node-sparky just as you can with with node-js.
 </html>
 ```
 
+_**Note: The above is a simple example. It is not recommended to include the
+token in anything client accessible. This would ideally be part of a broader
+application that makes use of oauth2 to cross authenticate the user to Spark to
+grab their token through a Spark integration should you use node-sparky in the
+browser side JS.**_
 
 ## Tests
 
