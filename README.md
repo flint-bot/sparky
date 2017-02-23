@@ -194,7 +194,6 @@ corresponding environmental variable.**_
 
 ## Spark
 **Kind**: global class  
-**Throw**: <code>Error</code> Throws on Spark token missing in options object.  
 
 * [Spark](#Spark)
     * [new Spark(options)](#new_Spark_new)
@@ -1349,10 +1348,57 @@ spark.webhookAuth(secret, sig, req.body)
 <a name="Spark.webhookListen"></a>
 
 ### Spark.webhookListen() ⇒ <code>[webhookHandler](#Spark.webhookListen..webhookHandler)</code>
-Process request from connect, express, or resitify servers
+Process request from connect, express, or resitify routes. Return function
+that accepts req, res, and next arguments.
 
 **Kind**: static method of <code>[Spark](#Spark)</code>  
 **Returns**: <code>[webhookHandler](#Spark.webhookListen..webhookHandler)</code> - function  
+**Example**  
+```js
+"use strict";
+
+const Spark = require('node-sparky');
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
+
+const spark = new Spark({ token: 'myToken'});
+
+// add events
+spark.on('messages', function(event, message, req) {
+  if(event === 'created') {
+    spark.messageGet(message.id)
+      .then(function(message) {
+        console.log('%s said %s', message.personEmail, message.text);
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+  }
+});
+
+spark.on('request', function(req) {
+  console.log('%s.%s web hook received', hook.resource, hook.event);
+});
+
+const app = express();
+app.use(bodyParser.json());
+
+// add route for path that which is listening for web hooks
+app.post('/webhook', spark.webhookListen());
+
+// start express server
+const server = app.listen('3000', function() {
+  // create spark webhook directed back to express route defined above
+  spark.webhookAdd({
+    name: 'my webhook',
+    targetUrl: 'https://example.com/webhook',
+    resource: 'messages',
+    event: 'created'
+  });
+  console.log('Listening on port %s', '3000');
+});
+```
 <a name="Spark.webhookListen..webhookHandler"></a>
 
 #### webhookListen~webhookHandler(req, [res], [next])
@@ -2017,9 +2063,9 @@ Webhook membership event
 
 | Name | Type | Description |
 | --- | --- | --- |
-| Triggered | <code>String</code> | event (created, updated, deleted) |
-| Membership | <code>[Object.&lt;Membership&gt;](#Membership)</code> | Object found in Webhook |
-| Full | <code>Object.&lt;Request&gt;</code> | Request Object |
+| event | <code>String</code> | Triggered event (created, updated, deleted) |
+| membership | <code>[Object.&lt;Membership&gt;](#Membership)</code> | Membership Object found in Webhook |
+| req | <code>Object.&lt;Request&gt;</code> | Full Request Object |
 
 <a name="event_messages"></a>
 
@@ -2031,9 +2077,9 @@ Webhook messages event
 
 | Name | Type | Description |
 | --- | --- | --- |
-| Triggered | <code>String</code> | event (created, deleted) |
-| Message | <code>[Object.&lt;Message&gt;](#Message)</code> | Object found in Webhook |
-| Full | <code>Object.&lt;Request&gt;</code> | Request Object |
+| event | <code>String</code> | Triggered event (created, deleted) |
+| message | <code>[Object.&lt;Message&gt;](#Message)</code> | Message Object found in Webhook |
+| req | <code>Object.&lt;Request&gt;</code> | Full Request Object |
 
 <a name="event_rooms"></a>
 
@@ -2045,9 +2091,9 @@ Webhook rooms event
 
 | Name | Type | Description |
 | --- | --- | --- |
-| Triggered | <code>String</code> | event (created, updated) |
-| Room | <code>[Object.&lt;Room&gt;](#Room)</code> | Object found in Webhook |
-| Full | <code>Object.&lt;Request&gt;</code> | Request Object |
+| event | <code>String</code> | Triggered event (created, updated) |
+| room | <code>[Object.&lt;Room&gt;](#Room)</code> | Room Object found in Webhook |
+| req | <code>Object.&lt;Request&gt;</code> | Full Request Object |
 
 <a name="event_request"></a>
 
@@ -2059,7 +2105,7 @@ Webhook request event
 
 | Name | Type | Description |
 | --- | --- | --- |
-| Full | <code>Object.&lt;Request&gt;</code> | Request Object |
+| req | <code>Object.&lt;Request&gt;</code> | Full Request Object |
 
 ## License
 
