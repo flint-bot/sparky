@@ -224,7 +224,6 @@ corresponding environmental variable.**_
     * [.webhookAdd(webhook)](#Spark.webhookAdd) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
     * [.webhookUpdate(webhook)](#Spark.webhookUpdate) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
     * [.webhookRemove(webhookId)](#Spark.webhookRemove) ⇒ <code>Promise</code>
-    * [.webhookAuth(secret, signature, payload)](#Spark.webhookAuth) ⇒ <code>Boolen</code>
 
 <a name="new_Spark_new"></a>
 
@@ -1299,28 +1298,6 @@ spark.webhookRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
   .catch(function(err){
     console.log(err);
   });
-```
-<a name="Spark.webhookAuth"></a>
-
-### Spark.webhookAuth(secret, signature, payload) ⇒ <code>Boolen</code>
-Authenticate X-Spark-Signature HMAC-SHA1 Hash.
-
-**Kind**: static method of <code>[Spark](#Spark)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| secret | <code>String</code> | Value of secret used when creating webhook |
-| signature | <code>String</code> | Value of "X-Spark-Signature" from header |
-| payload | <code>String</code> &#124; <code>Object</code> | This can either be the json object or a string representation of the webhook's body json payload |
-
-**Example**  
-```js
-let sig = req.headers['x-spark-signature'];
-if(spark.webhookAuth(sig, req.body)) {
-  // webhook is valid
-} else {
-  // webhook is invalid
-}
 ```
 <a name="File"></a>
 
