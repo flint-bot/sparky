@@ -173,6 +173,23 @@ corresponding environmental variable.**_
 </dd>
 </dl>
 
+## Events
+
+<dl>
+<dt><a href="#event_memberships">"memberships"</a></dt>
+<dd><p>Webhook membership event</p>
+</dd>
+<dt><a href="#event_messages">"messages"</a></dt>
+<dd><p>Webhook messages event</p>
+</dd>
+<dt><a href="#event_rooms">"rooms"</a></dt>
+<dd><p>Webhook rooms event</p>
+</dd>
+<dt><a href="#event_request">"request"</a></dt>
+<dd><p>Webhook request event</p>
+</dd>
+</dl>
+
 <a name="Spark"></a>
 
 ## Spark
@@ -224,6 +241,9 @@ corresponding environmental variable.**_
     * [.webhookAdd(webhook)](#Spark.webhookAdd) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
     * [.webhookUpdate(webhook)](#Spark.webhookUpdate) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
     * [.webhookRemove(webhookId)](#Spark.webhookRemove) ⇒ <code>Promise</code>
+    * [.webhookAuth(secret, signature, payload)](#Spark.webhookAuth) ⇒ <code>Promise.String</code> &#124; <code>Object</code>
+    * [.webhookListen()](#Spark.webhookListen) ⇒ <code>[webhookHandler](#Spark.webhookListen..webhookHandler)</code>
+        * [~webhookHandler(req, [res], [next])](#Spark.webhookListen..webhookHandler)
 
 <a name="new_Spark_new"></a>
 
@@ -1299,6 +1319,53 @@ spark.webhookRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
     console.log(err);
   });
 ```
+<a name="Spark.webhookAuth"></a>
+
+### Spark.webhookAuth(secret, signature, payload) ⇒ <code>Promise.String</code> &#124; <code>Object</code>
+Authenticate X-Spark-Signature HMAC-SHA1 Hash.
+
+**Kind**: static method of <code>[Spark](#Spark)</code>  
+**Returns**: <code>Promise.String</code> &#124; <code>Object</code> - payload  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| secret | <code>String</code> | Value of secret used when creating webhook |
+| signature | <code>String</code> | Value of "X-Spark-Signature" from header |
+| payload | <code>String</code> &#124; <code>Object</code> | This can either be the json object or a string representation of the webhook's body json payload |
+
+**Example**  
+```js
+let sig = req.headers['x-spark-signature'];
+let secret = 'mySecret';
+
+spark.webhookAuth(secret, sig, req.body)
+  .then(function() {
+    // webhook is valid
+  })
+  .catch(function(err) {
+    // webhook is invalid
+  });
+```
+<a name="Spark.webhookListen"></a>
+
+### Spark.webhookListen() ⇒ <code>[webhookHandler](#Spark.webhookListen..webhookHandler)</code>
+Process request from connect, express, or resitify servers
+
+**Kind**: static method of <code>[Spark](#Spark)</code>  
+**Returns**: <code>[webhookHandler](#Spark.webhookListen..webhookHandler)</code> - function  
+<a name="Spark.webhookListen..webhookHandler"></a>
+
+#### webhookListen~webhookHandler(req, [res], [next])
+Function returned by spark.webhookListen()
+
+**Kind**: inner method of <code>[webhookListen](#Spark.webhookListen)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| req | <code>Object</code> | request object |
+| [res] | <code>Object</code> | response object |
+| [next] | <code>function</code> | next function |
+
 <a name="File"></a>
 
 ## File : <code>object</code>
@@ -1939,6 +2006,60 @@ Validate Spark Webhook Objects in Array.
 | Param | Type |
 | --- | --- |
 | webhooks | <code>Array</code> | 
+
+<a name="event_memberships"></a>
+
+## "memberships"
+Webhook membership event
+
+**Kind**: event emitted  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| Triggered | <code>String</code> | event (created, updated, deleted) |
+| Membership | <code>[Object.&lt;Membership&gt;](#Membership)</code> | Object found in Webhook |
+| Full | <code>Object.&lt;Request&gt;</code> | Request Object |
+
+<a name="event_messages"></a>
+
+## "messages"
+Webhook messages event
+
+**Kind**: event emitted  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| Triggered | <code>String</code> | event (created, deleted) |
+| Message | <code>[Object.&lt;Message&gt;](#Message)</code> | Object found in Webhook |
+| Full | <code>Object.&lt;Request&gt;</code> | Request Object |
+
+<a name="event_rooms"></a>
+
+## "rooms"
+Webhook rooms event
+
+**Kind**: event emitted  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| Triggered | <code>String</code> | event (created, updated) |
+| Room | <code>[Object.&lt;Room&gt;](#Room)</code> | Object found in Webhook |
+| Full | <code>Object.&lt;Request&gt;</code> | Request Object |
+
+<a name="event_request"></a>
+
+## "request"
+Webhook request event
+
+**Kind**: event emitted  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| Full | <code>Object.&lt;Request&gt;</code> | Request Object |
 
 ## License
 
