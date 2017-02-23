@@ -1529,55 +1529,14 @@ module.exports = function(Spark) {
       .then(res => when(true));
   };
 
-  /**
-   * Authenticate X-Spark-Signature HMAC-SHA1 Hash.
-   *
-   * @function
-   * @param {String} secret - Value of secret used when creating webhook
-   * @param {String} signature - Value of "X-Spark-Signature" from header
-   * @param {(String|Object)} payload - This can either be the json object or a string representation of the webhook's body json payload
-   * @returns {Boolen}
-   *
-   * @example
-   * let sig = req.headers['x-spark-signature'];
-   * if(spark.webhookAuth(sig, req.body)) {
-   *   // webhook is valid
-   * } else {
-   *   // webhook is invalid
-   * }
-   */
-   Spark.webhookAuth = function(secret, sig, payload) {
-     // if object...
-     if(typeof payload === 'object') {
-       try {
-         payload = JSON.stringify(payload);
-       }
-
-       catch(err) {
-         return when.reject(err);
-       }
-     }
-
-     //validate
-     if(typeof secret === 'string' && typeof sig === 'string') {
-       let hmac = crypto.createHmac('sha1', secret);
-       hmac.update(payload);
-       let digest = hmac.digest('hex');
-       return (sig === digest);
-     } else {
-       return false;
-     }
-   };
-
-   // return the Spark Object
-   return Spark;
+  // return the Spark Object
+  return Spark;
  };
 
 },{"../validator":14,"crypto":85,"when":328}],13:[function(require,module,exports){
 (function (process){
 'use strict';
 
-const EventEmitter = require('events').EventEmitter;
 const util = require('util');
 const when = require('when');
 const request = require('request');
@@ -1605,15 +1564,13 @@ const webhooks = require('./res/webhooks');
  * @throw {Error} Throws on Spark token missing in options object.
  */
 function Spark(options) {
-  EventEmitter.call(this);
-
-  this.options = options;
+  this.options = typeof options === 'object' ? options : {};
 
   // config defaults
-  this.token = process.env.TOKEN || this.options.token;
+  this.token = process.env.TOKEN || this.options.token || null;
 
   // if token is not defined
-  if(!this.token) {
+  if(!this.token || typeof this.token !== 'string') {
     throw new Error('missing token');
   }
 
@@ -1633,7 +1590,6 @@ function Spark(options) {
   teams(this);
   webhooks(this);
 }
-util.inherits(Spark, EventEmitter);
 
 /**
  * Format Spark API Call, make http request, and validate response.
@@ -1862,7 +1818,7 @@ Spark.prototype.request = function(method, resource, id, data, max) {
 module.exports = Spark;
 
 }).call(this,require('_process'))
-},{"./res/contents":2,"./res/licenses":3,"./res/memberships":4,"./res/messages":5,"./res/organizations":6,"./res/people":7,"./res/roles":8,"./res/rooms":9,"./res/team-memberships":10,"./res/teams":11,"./res/webhooks":12,"./validator":14,"_process":206,"events":117,"request":234,"util":301,"when":328}],14:[function(require,module,exports){
+},{"./res/contents":2,"./res/licenses":3,"./res/memberships":4,"./res/messages":5,"./res/organizations":6,"./res/people":7,"./res/roles":8,"./res/rooms":9,"./res/team-memberships":10,"./res/teams":11,"./res/webhooks":12,"./validator":14,"_process":206,"request":234,"util":301,"when":328}],14:[function(require,module,exports){
 'use strict';
 
 const _ = require('lodash');
