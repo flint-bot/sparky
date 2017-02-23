@@ -1,3 +1,9 @@
+# 4.0.1
+
+* The following functions have been added:
+
+  * `spark.webhookListen()`
+
 # 4.0.0
 
 * Added browser'fied version of node-sparky.
