@@ -81,8 +81,9 @@ module.exports = function(Spark) {
    */
   Spark.contentCreate = function(filePath, timeout) {
     timeout = (timeout && typeof timeout === 'number') ? timeout : 15000;
-    if(validator.isFilePath(filePath) && validator.fileExists(filePath)) {
-      return readFile(filePath).timeout(timeout)
+    if(validator.isFilePath(filePath)) {
+      return validator.isFile(filePath)
+        .then(() => readFile(filePath).timeout(timeout))
         .then(bin => {
           let file = {};
           file.name = filePath.replace(/^.*[\\\/]/, '');
@@ -1796,10 +1797,21 @@ const teams = require('./res/teams');
 const webhooks = require('./res/webhooks');
 
 /**
+ * Options Object
+ *
+ * @namespace Options
+ * @property {String} token - Spark Token
+ * @property {String} [webhookSecret] - Webhook Secret. If not specified, webhook.Listen() will not attempt to validate HMAC Hash in the incoming webhook requests.
+ * @property {String} [webhookReqNamespace=body] - Webhook namespace to find the JSON data in the request object. Defaults to "body". Depending on web server setup, this may be required to be set to "params".
+ */
+
+/**
  * Creates a Spark API instance that is then attached to a Spark Account.
  *
  * @constructor
- * @param {Object} options - Sparky options object
+ * @param {Object.<Options>} options - Sparky options object
+ * @property {Object.<Options>} options - Sparky options object
+ * @property {String} apiUrl=https://api.ciscospark.com/v1/ - Spark API Base URL
  */
 function Spark(options) {
   EventEmitter.call(this);
@@ -2064,7 +2076,12 @@ module.exports = Spark;
 },{"./res/contents":2,"./res/licenses":3,"./res/memberships":4,"./res/messages":5,"./res/organizations":6,"./res/people":7,"./res/roles":8,"./res/rooms":9,"./res/team-memberships":10,"./res/teams":11,"./res/webhooks":12,"./validator":14,"_process":206,"events":117,"request":234,"util":301,"when":328}],14:[function(require,module,exports){
 'use strict';
 
+const node = require('when/node');
+const when = require('when');
+const fs = require('fs');
 const _ = require('lodash');
+
+const fsStat = node.lift(fs.stat);
 
 /**
  * Spark Object Validation
@@ -2075,27 +2092,74 @@ const _ = require('lodash');
 const Validator = {};
 
 /**
- * Validate filePath resolves to existing file.
+ * Validate filePath resolves to existing file. Returns fulfilled Promise with
+ * filePath if valid, else returns rejected Promise if not valid.
  *
  * @function
  * @memberof Validator
  * @param {String} filePath
- * @returns {Boolean}
+ * @returns {Promise} filePath
  */
-Validator.fileExists = function(filePath) {
-  return true; //TODO
+Validator.isFile = function(filePath) {
+  return fsStat(filePath)
+    .then(stats => {
+      if(stats.isFile()) {
+        return when(filePath);
+      } else {
+        return when.reject(new Error('file not found or is a reference to a directory'));
+      }
+    });
 };
 
 /**
- * Validate dir Path resolves to existing file.
+ *Validate filePath resolves to existing file. Returns fulfilled Promise with
+ * dirPath if valid, else returns rejected Promise if not valid.
  *
  * @function
  * @memberof Validator
  * @param {String} dirPath
  * @returns {Boolean}
  */
-Validator.dirExists = function(dirPath) {
-  return true; //TODO
+Validator.isDir = function(dirPath) {
+  return fsStat(dirPath)
+    .then(stats => {
+      if(stats.isDir()) {
+        return when(dirPath);
+      } else {
+        return when.reject(new Error('file not found or is a reference to a directory'));
+      }
+    });
+};
+
+/**
+ * Validate Spark Token is valid by sending request to API to determine if
+ * authorized. Returns fulfilled Promise with token if valid, else returns rejected
+ * Promise if not valid.
+ *
+ * @function
+ * @memberof Validator
+ * @param {String} token
+ * @returns {Promise.String} Token
+ */
+Validator.isToken = function(token) {
+  if(!token) {
+    return when.reject(new Error('invalid token'));
+  } else {
+    let Spark = require('./spark.js');
+    let spark = new Spark({token: token});
+
+    return spark.personMe()
+      .then(person => {
+        if(Validator.isPerson) {
+          return when(token);
+        } else {
+          return when.reject(new Error('invalid token'));
+        }
+      })
+      .catch(err => {
+        return when.reject(new Error('invalid token'));
+      });
+  }
 };
 
 /**
@@ -2584,7 +2648,7 @@ Validator.isWebhooks = function(webhooks) {
 
 module.exports = Validator;
 
-},{"lodash":178}],15:[function(require,module,exports){
+},{"./spark.js":13,"fs":71,"lodash":178,"when":328,"when/node":327}],15:[function(require,module,exports){
 var asn1 = exports;
 
 asn1.bignum = require('bn.js');
