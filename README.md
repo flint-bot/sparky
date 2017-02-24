@@ -125,6 +125,9 @@ corresponding environmental variable.**_
 ## Objects
 
 <dl>
+<dt><a href="#Options">Options</a> : <code>object</code></dt>
+<dd><p>Options Object</p>
+</dd>
 <dt><a href="#File">File</a> : <code>object</code></dt>
 <dd><p>File Object</p>
 </dd>
@@ -199,6 +202,13 @@ corresponding environmental variable.**_
 
 ## Spark
 **Kind**: global class  
+**Properties**
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| options | <code>[Object.&lt;Options&gt;](#Options)</code> |  | Sparky options object |
+| apiUrl | <code>String</code> | <code>https://api.ciscospark.com/v1/</code> | Spark API Base URL |
+
 
 * [Spark](#Spark)
     * [new Spark(options)](#new_Spark_new)
@@ -257,7 +267,7 @@ Creates a Spark API instance that is then attached to a Spark Account.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | <code>Object</code> | Sparky options object |
+| options | <code>[Object.&lt;Options&gt;](#Options)</code> | Sparky options object |
 
 <a name="Spark.contentGet"></a>
 
@@ -1417,6 +1427,20 @@ Function returned by spark.webhookListen()
 | [res] | <code>Object</code> | response object |
 | [next] | <code>function</code> | next function |
 
+<a name="Options"></a>
+
+## Options : <code>object</code>
+Options Object
+
+**Kind**: global namespace  
+**Properties**
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| token | <code>String</code> |  | Spark Token |
+| webhookSecret | <code>String</code> |  | Webhook Secret. If not specified, webhook.Listen() will not attempt to validate HMAC Hash in the incoming webhook requests. |
+| webhookReqNamespace | <code>String</code> | <code>body</code> | Webhook namespace to find the JSON data in the request object. Defaults to "body". Depending on web server setup, this may be required to be set to "params". |
+
 <a name="File"></a>
 
 ## File : <code>object</code>
@@ -1685,8 +1709,9 @@ Spark Object Validation
 **Kind**: global namespace  
 
 * [Validator](#Validator) : <code>object</code>
-    * [.fileExists(filePath)](#Validator.fileExists) ⇒ <code>Boolean</code>
-    * [.dirExists(dirPath)](#Validator.dirExists) ⇒ <code>Boolean</code>
+    * [.isFile(filePath)](#Validator.isFile) ⇒ <code>Promise</code>
+    * [.isDir(dirPath)](#Validator.isDir) ⇒ <code>Boolean</code>
+    * [.isToken(token)](#Validator.isToken) ⇒ <code>Promise.String</code>
     * [.isEmail(email)](#Validator.isEmail) ⇒ <code>Boolean</code>
     * [.isEmails(emails)](#Validator.isEmails) ⇒ <code>Boolean</code>
     * [.isUrl(url)](#Validator.isUrl) ⇒ <code>Boolean</code>
@@ -1717,27 +1742,44 @@ Spark Object Validation
     * [.isWebhook(object)](#Validator.isWebhook) ⇒ <code>Boolean</code>
     * [.isWebhooks(webhooks)](#Validator.isWebhooks) ⇒ <code>Boolean</code>
 
-<a name="Validator.fileExists"></a>
+<a name="Validator.isFile"></a>
 
-### Validator.fileExists(filePath) ⇒ <code>Boolean</code>
-Validate filePath resolves to existing file.
+### Validator.isFile(filePath) ⇒ <code>Promise</code>
+Validate filePath resolves to existing file. Returns fulfilled Promise with
+filePath if valid, else returns rejected Promise if not valid.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Promise</code> - filePath  
 
 | Param | Type |
 | --- | --- |
 | filePath | <code>String</code> | 
 
-<a name="Validator.dirExists"></a>
+<a name="Validator.isDir"></a>
 
-### Validator.dirExists(dirPath) ⇒ <code>Boolean</code>
-Validate dir Path resolves to existing file.
+### Validator.isDir(dirPath) ⇒ <code>Boolean</code>
+Validate filePath resolves to existing file. Returns fulfilled Promise with
+dirPath if valid, else returns rejected Promise if not valid.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
 
 | Param | Type |
 | --- | --- |
 | dirPath | <code>String</code> | 
+
+<a name="Validator.isToken"></a>
+
+### Validator.isToken(token) ⇒ <code>Promise.String</code>
+Validate Spark Token is valid by sending request to API to determine if
+authorized. Returns fulfilled Promise with token if valid, else returns rejected
+Promise if not valid.
+
+**Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Promise.String</code> - Token  
+
+| Param | Type |
+| --- | --- |
+| token | <code>String</code> | 
 
 <a name="Validator.isEmail"></a>
 
