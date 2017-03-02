@@ -1,3 +1,17 @@
+# 4.0.3
+
+* The following functions have been added:
+
+  * `spark.setToken()`
+
+# 4.0.2
+
+* The following functions have been added:
+
+  * `validator.isFile()`
+  * `validator.isDir()`
+  * `validator.isToken()`
+
 # 4.0.1
 
 * The following functions have been added:

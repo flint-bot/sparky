@@ -196,22 +196,13 @@ const validator = require('../validator');
  * @property {Date} created - Date Membership created
  */
 
-/**
- * Membership Search Object
- *
- * @namespace MembershipSearch
- * @property {String} roomId - Room ID
- * @property {String} personId - Person ID
- * @property {String} personEmail - Person Email
- */
-
 module.exports = function(Spark) {
 
   /**
    * Returns all Spark Memberships that the authenticated account is in. If 'max' is not specifed, returns all.
    *
    * @function
-   * @param {Object.<MembershipSearch>} [membershipSearch] - Spark Membership Search Object (optional)
+   * @param {Object} [membershipSearch] - Spark Membership Search Object (optional)
    * @param {Integer} [max] - Number of records to return
    * @returns {Promise.Array.<Membership>} Memberships Collection
    *
@@ -383,33 +374,12 @@ const validator = require('../validator');
  * @property {Array.String} mentionedPeople - Person IDs of those mentioned in Message
  */
 
-/**
- * Message Search Object
- *
- * @namespace MessageSearch
- * @property {String} roomId - Room ID
- * @property {String} mentionedPeople - Person ID or "me"
- * @property {Date} before - Date
- * @property {String} beforeMessage - Message ID
- */
-
- /**
-  * Message Add Object
-  *
-  * @namespace MessageAdd
-  * @property {String} roomId - Room ID
-  * @property {String} toPersonId - Person ID
-  * @property {String} toPersonEmail - Person Email
-  * @property {String} text - Message as Text
-  * @property {String} markdown - Message as Markdown
-  */
-
 module.exports = function(Spark) {
   /**
    * Returns Spark Message Objects. If 'max' is not specifed, returns all.
    *
    * @function
-   * @param {Object.<MessageSearch>} messageSearch - Spark Message Search Object
+   * @param {Object} messageSearch - Spark Message Search Object
    * @param {Integer} [max] - Number of records to return (optional)
    * @returns {Promise.Array.<Message>} Message Collection
    *
@@ -634,22 +604,13 @@ const validator = require('../validator');
  * @property {Date} created - Date created
  */
 
-/**
- * Person Search Object
- *
- * @namespace PersonSearch
- * @property {String} id - Person ID
- * @property {String} email - Person email addresses
- * @property {String} displayName - Display name
- */
-
 module.exports = function(Spark) {
 
   /**
    * Returns Spark Person Objects. If no arguments are passed and if the authenticated account is part of an Organization and if authenticated account is assigned the Role of Organization Admin, returns all Spark Person objects from the Organizations that the user is in. Otherwise, the PersonSearch object should contain the key "id", "displayName", or "email" to query. If 'max' is not specifed, returns all matched Person Objects.
    *
    * @function
-   * @param {Object.<PersonSearch>} [personSearch] - Spark Person Search Object (optional)
+   * @param {Object} [personSearch] - Spark Person Search Object (optional)
    * @param {Integer} [max] - Number of records to return (optional)
    * @returns {Promise.Array.<Person>} People Collection
    *
@@ -905,14 +866,6 @@ const validator = require('../validator');
  * @property {Date} lastActivity - Last Activity in Room
  * @property {Date} creatorId - person ID of Room creator
  * @property {Date} created - Room Created
- */
-
-/**
- * Room Search Object
- *
- * @namespace RoomSearch
- * @property {String} teamId - Team ID
- * @property {String} type - Room type
  */
 
 module.exports = function(Spark) {
@@ -1599,7 +1552,11 @@ module.exports = function(Spark) {
    * const bodyParser = require('body-parser');
    * const path = require('path');
    *
-   * const spark = new Spark({ token: 'myToken'});
+   * const spark = new Spark({
+   *   token: '<my token>',
+   *   webhookSecret: 'somesecr3t',
+   *   webhookReqNamespace: 'body'
+   * });
    *
    * // add events
    * spark.on('messages', function(event, message, req) {
@@ -1797,21 +1754,32 @@ const teams = require('./res/teams');
 const webhooks = require('./res/webhooks');
 
 /**
- * Options Object
- *
- * @namespace Options
- * @property {String} token - Spark Token
- * @property {String} [webhookSecret] - Webhook Secret. If not specified, webhook.Listen() will not attempt to validate HMAC Hash in the incoming webhook requests.
- * @property {String} [webhookReqNamespace=body] - Webhook namespace to find the JSON data in the request object. Defaults to "body". Depending on web server setup, this may be required to be set to "params".
- */
-
-/**
  * Creates a Spark API instance that is then attached to a Spark Account.
  *
  * @constructor
  * @param {Object.<Options>} options - Sparky options object
  * @property {Object.<Options>} options - Sparky options object
- * @property {String} apiUrl=https://api.ciscospark.com/v1/ - Spark API Base URL
+ *
+ * @example
+ * var Spark = require('node-sparky');
+ *
+ * var spark = new Spark({
+ *   token: '<my token>',
+ *   webhookSecret: 'somesecr3t',
+ *   webhookReqNamespace: 'body'
+ * });
+ *
+ * spark.roomsGet(10)
+ *   .then(function(rooms) {
+ *     // process rooms as array
+ *     rooms.forEach(function(room) {
+ *       console.log(room.title);
+ *     });
+ *   })
+ *   .catch(function(err) {
+ *     // process error
+ *     console.log(err);
+ *   });
  */
 function Spark(options) {
   EventEmitter.call(this);
@@ -1840,6 +1808,31 @@ function Spark(options) {
   webhooks(this);
 }
 util.inherits(Spark, EventEmitter);
+
+/**
+ * Set/Reset API token used in a Sparky instance. Use this function when needing
+ * to change an expired Token. Returns a fullfiled promise if token is valid,
+ * else returns a rejected promise.
+ *
+ * @param {String} token
+ * @returns {Promise.String} token
+ *
+ * @example
+ * spark.setToken('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
+ *   .then(function(token) {
+ *     console.log(token);
+ *   })
+ *   .catch(function(err) {
+ *     console.log(err);
+ *   });
+ */
+Spark.prototype.setToken = function(token) {
+  return validator.isToken(token)
+    .then(token => {
+      this.token = token;
+      return when(token);
+    });
+};
 
 /**
  * Format Spark API Call, make http request, and validate response.
@@ -2098,7 +2091,7 @@ const Validator = {};
  * @function
  * @memberof Validator
  * @param {String} filePath
- * @returns {Promise} filePath
+ * @returns {Promise.String} filePath
  */
 Validator.isFile = function(filePath) {
   return fsStat(filePath)
@@ -2118,7 +2111,7 @@ Validator.isFile = function(filePath) {
  * @function
  * @memberof Validator
  * @param {String} dirPath
- * @returns {Boolean}
+ * @returns {Promise.String} dirPath
  */
 Validator.isDir = function(dirPath) {
   return fsStat(dirPath)
@@ -2126,7 +2119,7 @@ Validator.isDir = function(dirPath) {
       if(stats.isDir()) {
         return when(dirPath);
       } else {
-        return when.reject(new Error('file not found or is a reference to a directory'));
+        return when.reject(new Error('dir not found or is a reference to a file'));
       }
     });
 };

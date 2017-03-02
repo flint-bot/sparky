@@ -125,9 +125,6 @@ corresponding environmental variable.**_
 ## Objects
 
 <dl>
-<dt><a href="#Options">Options</a> : <code>object</code></dt>
-<dd><p>Options Object</p>
-</dd>
 <dt><a href="#File">File</a> : <code>object</code></dt>
 <dd><p>File Object</p>
 </dd>
@@ -137,17 +134,8 @@ corresponding environmental variable.**_
 <dt><a href="#Membership">Membership</a> : <code>object</code></dt>
 <dd><p>Membership Object</p>
 </dd>
-<dt><a href="#MembershipSearch">MembershipSearch</a> : <code>object</code></dt>
-<dd><p>Membership Search Object</p>
-</dd>
 <dt><a href="#Message">Message</a> : <code>object</code></dt>
 <dd><p>Message Object</p>
-</dd>
-<dt><a href="#MessageSearch">MessageSearch</a> : <code>object</code></dt>
-<dd><p>Message Search Object</p>
-</dd>
-<dt><a href="#MessageAdd">MessageAdd</a> : <code>object</code></dt>
-<dd><p>Message Add Object</p>
 </dd>
 <dt><a href="#Organization">Organization</a> : <code>object</code></dt>
 <dd><p>Organization Object</p>
@@ -155,17 +143,11 @@ corresponding environmental variable.**_
 <dt><a href="#Person">Person</a> : <code>object</code></dt>
 <dd><p>Person Object</p>
 </dd>
-<dt><a href="#PersonSearch">PersonSearch</a> : <code>object</code></dt>
-<dd><p>Person Search Object</p>
-</dd>
 <dt><a href="#Role">Role</a> : <code>object</code></dt>
 <dd><p>Role Object</p>
 </dd>
 <dt><a href="#Room">Room</a> : <code>object</code></dt>
 <dd><p>Room Object</p>
-</dd>
-<dt><a href="#RoomSearch">RoomSearch</a> : <code>object</code></dt>
-<dd><p>Room Search Object</p>
 </dd>
 <dt><a href="#Team">Team</a> : <code>object</code></dt>
 <dd><p>Team Object</p>
@@ -204,60 +186,62 @@ corresponding environmental variable.**_
 **Kind**: global class  
 **Properties**
 
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| options | <code>[Object.&lt;Options&gt;](#Options)</code> |  | Sparky options object |
-| apiUrl | <code>String</code> | <code>https://api.ciscospark.com/v1/</code> | Spark API Base URL |
+| Name | Type | Description |
+| --- | --- | --- |
+| options | <code>Object.&lt;Options&gt;</code> | Sparky options object |
 
 
 * [Spark](#Spark)
     * [new Spark(options)](#new_Spark_new)
-    * [.contentGet(contentId)](#Spark.contentGet) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
-    * [.contentCreate(filePath, [timeout])](#Spark.contentCreate) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
-    * [.licensesGet([orgId], [max])](#Spark.licensesGet) ⇒ <code>[Promise.Array.&lt;License&gt;](#License)</code>
-    * [.licenseGet(licenseId)](#Spark.licenseGet) ⇒ <code>[Promise.&lt;License&gt;](#License)</code>
-    * [.membershipsGet([membershipSearch], [max])](#Spark.membershipsGet) ⇒ <code>[Promise.Array.&lt;Membership&gt;](#Membership)</code>
-    * [.membershipGet(membershipId)](#Spark.membershipGet) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-    * [.membershipAdd(roomId, personEmail, [isModerator])](#Spark.membershipAdd) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-    * [.membershipUpdate(membership)](#Spark.membershipUpdate) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-    * [.membershipRemove(membershipId)](#Spark.membershipRemove) ⇒ <code>Promise</code>
-    * [.messagesGet(messageSearch, [max])](#Spark.messagesGet) ⇒ <code>[Promise.Array.&lt;Message&gt;](#Message)</code>
-    * [.messageGet(messageId)](#Spark.messageGet) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
-    * [.messageAdd(message, [file])](#Spark.messageAdd) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
-    * [.messageRemove(messageId)](#Spark.messageRemove) ⇒ <code>Promise</code>
-    * [.organizationsGet([max])](#Spark.organizationsGet) ⇒ <code>[Promise.Array.&lt;Organization&gt;](#Organization)</code>
-    * [.organizationGet(orgId)](#Spark.organizationGet) ⇒ <code>[Promise.&lt;Organization&gt;](#Organization)</code>
-    * [.peopleGet([personSearch], [max])](#Spark.peopleGet) ⇒ <code>[Promise.Array.&lt;Person&gt;](#Person)</code>
-    * [.personGet(personId)](#Spark.personGet) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
-    * [.personMe()](#Spark.personMe) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
-    * [.personAdd(person)](#Spark.personAdd) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
-    * [.personUpdate(person)](#Spark.personUpdate) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
-    * [.personRemove(personId)](#Spark.personRemove) ⇒ <code>Promise</code>
-    * [.rolesGet([max])](#Spark.rolesGet) ⇒ <code>[Promise.Array.&lt;Role&gt;](#Role)</code>
-    * [.roleGet(roleId)](#Spark.roleGet) ⇒ <code>[Promise.&lt;Role&gt;](#Role)</code>
-    * [.roomsGet([roomSearch], [max])](#Spark.roomsGet) ⇒ <code>[Promise.Array.&lt;Room&gt;](#Room)</code>
-    * [.roomGet(roomId)](#Spark.roomGet) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
-    * [.roomAdd(title, [teamId])](#Spark.roomAdd) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
-    * [.roomUpdate(room)](#Spark.roomUpdate) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
-    * [.roomRemove(roomId)](#Spark.roomRemove) ⇒ <code>Promise</code>
-    * [.teamsGet([max])](#Spark.teamsGet) ⇒ <code>[Promise.Array.&lt;Team&gt;](#Team)</code>
-    * [.teamGet(teamId)](#Spark.teamGet) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
-    * [.teamAdd(name)](#Spark.teamAdd) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
-    * [.teamUpdate(team)](#Spark.teamUpdate) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
-    * [.teamRemove(teamId)](#Spark.teamRemove) ⇒ <code>Promise</code>
-    * [.teamMembershipsGet(teamId, [max])](#Spark.teamMembershipsGet) ⇒ <code>[Promise.Array.&lt;TeamMembership&gt;](#TeamMembership)</code>
-    * [.teamMembershipGet(membershipId)](#Spark.teamMembershipGet) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
-    * [.teamMembershipAdd(teamId, personEmail, isModerator)](#Spark.teamMembershipAdd) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
-    * [.teamMembershipUpdate(teamMembership)](#Spark.teamMembershipUpdate) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
-    * [.teamMembershipRemove(membershipId)](#Spark.teamMembershipRemove) ⇒ <code>Promise</code>
-    * [.webhooksGet([max])](#Spark.webhooksGet) ⇒ <code>[Promise.Array.&lt;Webhook&gt;](#Webhook)</code>
-    * [.webhookGet(webhookId)](#Spark.webhookGet) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
-    * [.webhookAdd(webhook)](#Spark.webhookAdd) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
-    * [.webhookUpdate(webhook)](#Spark.webhookUpdate) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
-    * [.webhookRemove(webhookId)](#Spark.webhookRemove) ⇒ <code>Promise</code>
-    * [.webhookAuth(secret, signature, payload)](#Spark.webhookAuth) ⇒ <code>Promise.String</code> &#124; <code>Object</code>
-    * [.webhookListen()](#Spark.webhookListen) ⇒ <code>[webhookHandler](#Spark.webhookListen..webhookHandler)</code>
-        * [~webhookHandler(req, [res], [next])](#Spark.webhookListen..webhookHandler)
+    * _instance_
+        * [.setToken(token)](#Spark+setToken) ⇒ <code>Promise.String</code>
+    * _static_
+        * [.contentGet(contentId)](#Spark.contentGet) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
+        * [.contentCreate(filePath, [timeout])](#Spark.contentCreate) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
+        * [.licensesGet([orgId], [max])](#Spark.licensesGet) ⇒ <code>[Promise.Array.&lt;License&gt;](#License)</code>
+        * [.licenseGet(licenseId)](#Spark.licenseGet) ⇒ <code>[Promise.&lt;License&gt;](#License)</code>
+        * [.membershipsGet([membershipSearch], [max])](#Spark.membershipsGet) ⇒ <code>[Promise.Array.&lt;Membership&gt;](#Membership)</code>
+        * [.membershipGet(membershipId)](#Spark.membershipGet) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+        * [.membershipAdd(roomId, personEmail, [isModerator])](#Spark.membershipAdd) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+        * [.membershipUpdate(membership)](#Spark.membershipUpdate) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+        * [.membershipRemove(membershipId)](#Spark.membershipRemove) ⇒ <code>Promise</code>
+        * [.messagesGet(messageSearch, [max])](#Spark.messagesGet) ⇒ <code>[Promise.Array.&lt;Message&gt;](#Message)</code>
+        * [.messageGet(messageId)](#Spark.messageGet) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
+        * [.messageAdd(message, [file])](#Spark.messageAdd) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
+        * [.messageRemove(messageId)](#Spark.messageRemove) ⇒ <code>Promise</code>
+        * [.organizationsGet([max])](#Spark.organizationsGet) ⇒ <code>[Promise.Array.&lt;Organization&gt;](#Organization)</code>
+        * [.organizationGet(orgId)](#Spark.organizationGet) ⇒ <code>[Promise.&lt;Organization&gt;](#Organization)</code>
+        * [.peopleGet([personSearch], [max])](#Spark.peopleGet) ⇒ <code>[Promise.Array.&lt;Person&gt;](#Person)</code>
+        * [.personGet(personId)](#Spark.personGet) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+        * [.personMe()](#Spark.personMe) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+        * [.personAdd(person)](#Spark.personAdd) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+        * [.personUpdate(person)](#Spark.personUpdate) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+        * [.personRemove(personId)](#Spark.personRemove) ⇒ <code>Promise</code>
+        * [.rolesGet([max])](#Spark.rolesGet) ⇒ <code>[Promise.Array.&lt;Role&gt;](#Role)</code>
+        * [.roleGet(roleId)](#Spark.roleGet) ⇒ <code>[Promise.&lt;Role&gt;](#Role)</code>
+        * [.roomsGet([roomSearch], [max])](#Spark.roomsGet) ⇒ <code>[Promise.Array.&lt;Room&gt;](#Room)</code>
+        * [.roomGet(roomId)](#Spark.roomGet) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
+        * [.roomAdd(title, [teamId])](#Spark.roomAdd) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
+        * [.roomUpdate(room)](#Spark.roomUpdate) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
+        * [.roomRemove(roomId)](#Spark.roomRemove) ⇒ <code>Promise</code>
+        * [.teamsGet([max])](#Spark.teamsGet) ⇒ <code>[Promise.Array.&lt;Team&gt;](#Team)</code>
+        * [.teamGet(teamId)](#Spark.teamGet) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
+        * [.teamAdd(name)](#Spark.teamAdd) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
+        * [.teamUpdate(team)](#Spark.teamUpdate) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
+        * [.teamRemove(teamId)](#Spark.teamRemove) ⇒ <code>Promise</code>
+        * [.teamMembershipsGet(teamId, [max])](#Spark.teamMembershipsGet) ⇒ <code>[Promise.Array.&lt;TeamMembership&gt;](#TeamMembership)</code>
+        * [.teamMembershipGet(membershipId)](#Spark.teamMembershipGet) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
+        * [.teamMembershipAdd(teamId, personEmail, isModerator)](#Spark.teamMembershipAdd) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
+        * [.teamMembershipUpdate(teamMembership)](#Spark.teamMembershipUpdate) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
+        * [.teamMembershipRemove(membershipId)](#Spark.teamMembershipRemove) ⇒ <code>Promise</code>
+        * [.webhooksGet([max])](#Spark.webhooksGet) ⇒ <code>[Promise.Array.&lt;Webhook&gt;](#Webhook)</code>
+        * [.webhookGet(webhookId)](#Spark.webhookGet) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
+        * [.webhookAdd(webhook)](#Spark.webhookAdd) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
+        * [.webhookUpdate(webhook)](#Spark.webhookUpdate) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
+        * [.webhookRemove(webhookId)](#Spark.webhookRemove) ⇒ <code>Promise</code>
+        * [.webhookAuth(secret, signature, payload)](#Spark.webhookAuth) ⇒ <code>Promise.String</code> &#124; <code>Object</code>
+        * [.webhookListen()](#Spark.webhookListen) ⇒ <code>[webhookHandler](#Spark.webhookListen..webhookHandler)</code>
+            * [~webhookHandler(req, [res], [next])](#Spark.webhookListen..webhookHandler)
 
 <a name="new_Spark_new"></a>
 
@@ -267,8 +251,54 @@ Creates a Spark API instance that is then attached to a Spark Account.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | <code>[Object.&lt;Options&gt;](#Options)</code> | Sparky options object |
+| options | <code>Object.&lt;Options&gt;</code> | Sparky options object |
 
+**Example**  
+```js
+var Spark = require('node-sparky');
+
+var spark = new Spark({
+  token: '<my token>',
+  webhookSecret: 'somesecr3t',
+  webhookReqNamespace: 'body'
+});
+
+spark.roomsGet(10)
+  .then(function(rooms) {
+    // process rooms as array
+    rooms.forEach(function(room) {
+      console.log(room.title);
+    });
+  })
+  .catch(function(err) {
+    // process error
+    console.log(err);
+  });
+```
+<a name="Spark+setToken"></a>
+
+### spark.setToken(token) ⇒ <code>Promise.String</code>
+Set/Reset API token used in a Sparky instance. Use this function when needing
+to change an expired Token. Returns a fullfiled promise if token is valid,
+else returns a rejected promise.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+**Returns**: <code>Promise.String</code> - token  
+
+| Param | Type |
+| --- | --- |
+| token | <code>String</code> | 
+
+**Example**  
+```js
+spark.setToken('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
+  .then(function(token) {
+    console.log(token);
+  })
+  .catch(function(err) {
+    console.log(err);
+  });
+```
 <a name="Spark.contentGet"></a>
 
 ### Spark.contentGet(contentId) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
@@ -374,7 +404,7 @@ Returns all Spark Memberships that the authenticated account is in. If 'max' is 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [membershipSearch] | <code>[Object.&lt;MembershipSearch&gt;](#MembershipSearch)</code> | Spark Membership Search Object (optional) |
+| [membershipSearch] | <code>Object</code> | Spark Membership Search Object (optional) |
 | [max] | <code>Integer</code> | Number of records to return |
 
 **Example**  
@@ -495,7 +525,7 @@ Returns Spark Message Objects. If 'max' is not specifed, returns all.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| messageSearch | <code>[Object.&lt;MessageSearch&gt;](#MessageSearch)</code> | Spark Message Search Object |
+| messageSearch | <code>Object</code> | Spark Message Search Object |
 | [max] | <code>Integer</code> | Number of records to return (optional) |
 
 **Example**  
@@ -545,7 +575,7 @@ Add new Spark Message.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| message | <code>[Object.&lt;MessageAdd&gt;](#MessageAdd)</code> | Spark Message Add Object |
+| message | <code>Object.&lt;MessageAdd&gt;</code> | Spark Message Add Object |
 | [file] | <code>[Object.&lt;File&gt;](#File)</code> | File Object to add to message (optional) |
 
 **Example**  
@@ -647,7 +677,7 @@ Returns Spark Person Objects. If no arguments are passed and if the authenticate
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [personSearch] | <code>[Object.&lt;PersonSearch&gt;](#PersonSearch)</code> | Spark Person Search Object (optional) |
+| [personSearch] | <code>Object</code> | Spark Person Search Object (optional) |
 | [max] | <code>Integer</code> | Number of records to return (optional) |
 
 **Example**  
@@ -846,7 +876,7 @@ Returns Spark Room Objects. If roomSearch argument is not passed, returns all Sp
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [roomSearch] | <code>[Object.&lt;RoomSearch&gt;](#RoomSearch)</code> | Spark Person Search Object (optional) |
+| [roomSearch] | <code>Object.&lt;RoomSearch&gt;</code> | Spark Person Search Object (optional) |
 | [max] | <code>Integer</code> | Number of records to return (optional) |
 
 **Example**  
@@ -1377,7 +1407,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-const spark = new Spark({ token: 'myToken'});
+const spark = new Spark({
+  token: '<my token>',
+  webhookSecret: 'somesecr3t',
+  webhookReqNamespace: 'body'
+});
 
 // add events
 spark.on('messages', function(event, message, req) {
@@ -1426,20 +1460,6 @@ Function returned by spark.webhookListen()
 | req | <code>Object</code> | request object |
 | [res] | <code>Object</code> | response object |
 | [next] | <code>function</code> | next function |
-
-<a name="Options"></a>
-
-## Options : <code>object</code>
-Options Object
-
-**Kind**: global namespace  
-**Properties**
-
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| token | <code>String</code> |  | Spark Token |
-| webhookSecret | <code>String</code> |  | Webhook Secret. If not specified, webhook.Listen() will not attempt to validate HMAC Hash in the incoming webhook requests. |
-| webhookReqNamespace | <code>String</code> | <code>body</code> | Webhook namespace to find the JSON data in the request object. Defaults to "body". Depending on web server setup, this may be required to be set to "params". |
 
 <a name="File"></a>
 
@@ -1490,20 +1510,6 @@ Membership Object
 | isMonitor | <code>Boolean</code> | Membership is a monitor |
 | created | <code>Date</code> | Date Membership created |
 
-<a name="MembershipSearch"></a>
-
-## MembershipSearch : <code>object</code>
-Membership Search Object
-
-**Kind**: global namespace  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| roomId | <code>String</code> | Room ID |
-| personId | <code>String</code> | Person ID |
-| personEmail | <code>String</code> | Person Email |
-
 <a name="Message"></a>
 
 ## Message : <code>object</code>
@@ -1526,37 +1532,6 @@ Message Object
 | personEmail | <code>String</code> | Person Email |
 | created | <code>Date</code> | Date Message created |
 | mentionedPeople | <code>Array.String</code> | Person IDs of those mentioned in Message |
-
-<a name="MessageSearch"></a>
-
-## MessageSearch : <code>object</code>
-Message Search Object
-
-**Kind**: global namespace  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| roomId | <code>String</code> | Room ID |
-| mentionedPeople | <code>String</code> | Person ID or "me" |
-| before | <code>Date</code> | Date |
-| beforeMessage | <code>String</code> | Message ID |
-
-<a name="MessageAdd"></a>
-
-## MessageAdd : <code>object</code>
-Message Add Object
-
-**Kind**: global namespace  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| roomId | <code>String</code> | Room ID |
-| toPersonId | <code>String</code> | Person ID |
-| toPersonEmail | <code>String</code> | Person Email |
-| text | <code>String</code> | Message as Text |
-| markdown | <code>String</code> | Message as Markdown |
 
 <a name="Organization"></a>
 
@@ -1593,20 +1568,6 @@ Person Object
 | licenses | <code>Array.String</code> | Array of assigned License IDs |
 | created | <code>Date</code> | Date created |
 
-<a name="PersonSearch"></a>
-
-## PersonSearch : <code>object</code>
-Person Search Object
-
-**Kind**: global namespace  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| id | <code>String</code> | Person ID |
-| email | <code>String</code> | Person email addresses |
-| displayName | <code>String</code> | Display name |
-
 <a name="Role"></a>
 
 ## Role : <code>object</code>
@@ -1638,19 +1599,6 @@ Room Object
 | lastActivity | <code>Date</code> | Last Activity in Room |
 | creatorId | <code>Date</code> | person ID of Room creator |
 | created | <code>Date</code> | Room Created |
-
-<a name="RoomSearch"></a>
-
-## RoomSearch : <code>object</code>
-Room Search Object
-
-**Kind**: global namespace  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| teamId | <code>String</code> | Team ID |
-| type | <code>String</code> | Room type |
 
 <a name="Team"></a>
 
@@ -1709,8 +1657,8 @@ Spark Object Validation
 **Kind**: global namespace  
 
 * [Validator](#Validator) : <code>object</code>
-    * [.isFile(filePath)](#Validator.isFile) ⇒ <code>Promise</code>
-    * [.isDir(dirPath)](#Validator.isDir) ⇒ <code>Boolean</code>
+    * [.isFile(filePath)](#Validator.isFile) ⇒ <code>Promise.String</code>
+    * [.isDir(dirPath)](#Validator.isDir) ⇒ <code>Promise.String</code>
     * [.isToken(token)](#Validator.isToken) ⇒ <code>Promise.String</code>
     * [.isEmail(email)](#Validator.isEmail) ⇒ <code>Boolean</code>
     * [.isEmails(emails)](#Validator.isEmails) ⇒ <code>Boolean</code>
@@ -1744,12 +1692,12 @@ Spark Object Validation
 
 <a name="Validator.isFile"></a>
 
-### Validator.isFile(filePath) ⇒ <code>Promise</code>
+### Validator.isFile(filePath) ⇒ <code>Promise.String</code>
 Validate filePath resolves to existing file. Returns fulfilled Promise with
 filePath if valid, else returns rejected Promise if not valid.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
-**Returns**: <code>Promise</code> - filePath  
+**Returns**: <code>Promise.String</code> - filePath  
 
 | Param | Type |
 | --- | --- |
@@ -1757,11 +1705,12 @@ filePath if valid, else returns rejected Promise if not valid.
 
 <a name="Validator.isDir"></a>
 
-### Validator.isDir(dirPath) ⇒ <code>Boolean</code>
+### Validator.isDir(dirPath) ⇒ <code>Promise.String</code>
 Validate filePath resolves to existing file. Returns fulfilled Promise with
 dirPath if valid, else returns rejected Promise if not valid.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Promise.String</code> - dirPath  
 
 | Param | Type |
 | --- | --- |
@@ -1889,7 +1838,7 @@ Validate Spark Membership Search Object.
 
 | Param | Type |
 | --- | --- |
-| object | <code>[MembershipSearch](#MembershipSearch)</code> | 
+| object | <code>MembershipSearch</code> | 
 
 <a name="Validator.isMessage"></a>
 
@@ -1922,7 +1871,7 @@ Validate Spark Message Search Object.
 
 | Param | Type |
 | --- | --- |
-| object | <code>[MessageSearch](#MessageSearch)</code> | 
+| object | <code>MessageSearch</code> | 
 
 <a name="Validator.isOrganization"></a>
 
@@ -1977,7 +1926,7 @@ Validate Spark Person Search Object.
 
 | Param | Type |
 | --- | --- |
-| object | <code>[PersonSearch](#PersonSearch)</code> | 
+| object | <code>PersonSearch</code> | 
 
 <a name="Validator.isRole"></a>
 
@@ -2032,7 +1981,7 @@ Validate Spark Room Search Object.
 
 | Param | Type |
 | --- | --- |
-| object | <code>[RoomSearch](#RoomSearch)</code> | 
+| object | <code>RoomSearch</code> | 
 
 <a name="Validator.isTeam"></a>
 
