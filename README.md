@@ -193,55 +193,52 @@ corresponding environmental variable.**_
 
 * [Spark](#Spark)
     * [new Spark(options)](#new_Spark_new)
-    * _instance_
-        * [.setToken(token)](#Spark+setToken) ⇒ <code>Promise.String</code>
-    * _static_
-        * [.contentGet(contentId)](#Spark.contentGet) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
-        * [.contentCreate(filePath, [timeout])](#Spark.contentCreate) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
-        * [.licensesGet([orgId], [max])](#Spark.licensesGet) ⇒ <code>[Promise.Array.&lt;License&gt;](#License)</code>
-        * [.licenseGet(licenseId)](#Spark.licenseGet) ⇒ <code>[Promise.&lt;License&gt;](#License)</code>
-        * [.membershipsGet([membershipSearch], [max])](#Spark.membershipsGet) ⇒ <code>[Promise.Array.&lt;Membership&gt;](#Membership)</code>
-        * [.membershipGet(membershipId)](#Spark.membershipGet) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-        * [.membershipAdd(roomId, personEmail, [isModerator])](#Spark.membershipAdd) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-        * [.membershipUpdate(membership)](#Spark.membershipUpdate) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-        * [.membershipRemove(membershipId)](#Spark.membershipRemove) ⇒ <code>Promise</code>
-        * [.messagesGet(messageSearch, [max])](#Spark.messagesGet) ⇒ <code>[Promise.Array.&lt;Message&gt;](#Message)</code>
-        * [.messageGet(messageId)](#Spark.messageGet) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
-        * [.messageAdd(message, [file])](#Spark.messageAdd) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
-        * [.messageRemove(messageId)](#Spark.messageRemove) ⇒ <code>Promise</code>
-        * [.organizationsGet([max])](#Spark.organizationsGet) ⇒ <code>[Promise.Array.&lt;Organization&gt;](#Organization)</code>
-        * [.organizationGet(orgId)](#Spark.organizationGet) ⇒ <code>[Promise.&lt;Organization&gt;](#Organization)</code>
-        * [.peopleGet([personSearch], [max])](#Spark.peopleGet) ⇒ <code>[Promise.Array.&lt;Person&gt;](#Person)</code>
-        * [.personGet(personId)](#Spark.personGet) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
-        * [.personMe()](#Spark.personMe) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
-        * [.personAdd(person)](#Spark.personAdd) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
-        * [.personUpdate(person)](#Spark.personUpdate) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
-        * [.personRemove(personId)](#Spark.personRemove) ⇒ <code>Promise</code>
-        * [.rolesGet([max])](#Spark.rolesGet) ⇒ <code>[Promise.Array.&lt;Role&gt;](#Role)</code>
-        * [.roleGet(roleId)](#Spark.roleGet) ⇒ <code>[Promise.&lt;Role&gt;](#Role)</code>
-        * [.roomsGet([roomSearch], [max])](#Spark.roomsGet) ⇒ <code>[Promise.Array.&lt;Room&gt;](#Room)</code>
-        * [.roomGet(roomId)](#Spark.roomGet) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
-        * [.roomAdd(title, [teamId])](#Spark.roomAdd) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
-        * [.roomUpdate(room)](#Spark.roomUpdate) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
-        * [.roomRemove(roomId)](#Spark.roomRemove) ⇒ <code>Promise</code>
-        * [.teamsGet([max])](#Spark.teamsGet) ⇒ <code>[Promise.Array.&lt;Team&gt;](#Team)</code>
-        * [.teamGet(teamId)](#Spark.teamGet) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
-        * [.teamAdd(name)](#Spark.teamAdd) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
-        * [.teamUpdate(team)](#Spark.teamUpdate) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
-        * [.teamRemove(teamId)](#Spark.teamRemove) ⇒ <code>Promise</code>
-        * [.teamMembershipsGet(teamId, [max])](#Spark.teamMembershipsGet) ⇒ <code>[Promise.Array.&lt;TeamMembership&gt;](#TeamMembership)</code>
-        * [.teamMembershipGet(membershipId)](#Spark.teamMembershipGet) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
-        * [.teamMembershipAdd(teamId, personEmail, isModerator)](#Spark.teamMembershipAdd) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
-        * [.teamMembershipUpdate(teamMembership)](#Spark.teamMembershipUpdate) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
-        * [.teamMembershipRemove(membershipId)](#Spark.teamMembershipRemove) ⇒ <code>Promise</code>
-        * [.webhooksGet([max])](#Spark.webhooksGet) ⇒ <code>[Promise.Array.&lt;Webhook&gt;](#Webhook)</code>
-        * [.webhookGet(webhookId)](#Spark.webhookGet) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
-        * [.webhookAdd(webhook)](#Spark.webhookAdd) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
-        * [.webhookUpdate(webhook)](#Spark.webhookUpdate) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
-        * [.webhookRemove(webhookId)](#Spark.webhookRemove) ⇒ <code>Promise</code>
-        * [.webhookAuth(secret, signature, payload)](#Spark.webhookAuth) ⇒ <code>Promise.String</code> &#124; <code>Object</code>
-        * [.webhookListen()](#Spark.webhookListen) ⇒ <code>[webhookHandler](#Spark.webhookListen..webhookHandler)</code>
-            * [~webhookHandler(req, [res], [next])](#Spark.webhookListen..webhookHandler)
+    * [.contentGet(contentId)](#Spark.contentGet) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
+    * [.contentCreate(filePath, [timeout])](#Spark.contentCreate) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
+    * [.licensesGet([orgId], [max])](#Spark.licensesGet) ⇒ <code>[Promise.Array.&lt;License&gt;](#License)</code>
+    * [.licenseGet(licenseId)](#Spark.licenseGet) ⇒ <code>[Promise.&lt;License&gt;](#License)</code>
+    * [.membershipsGet([membershipSearch], [max])](#Spark.membershipsGet) ⇒ <code>[Promise.Array.&lt;Membership&gt;](#Membership)</code>
+    * [.membershipGet(membershipId)](#Spark.membershipGet) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+    * [.membershipAdd(roomId, personEmail, [isModerator])](#Spark.membershipAdd) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+    * [.membershipUpdate(membership)](#Spark.membershipUpdate) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+    * [.membershipRemove(membershipId)](#Spark.membershipRemove) ⇒ <code>Promise</code>
+    * [.messagesGet(messageSearch, [max])](#Spark.messagesGet) ⇒ <code>[Promise.Array.&lt;Message&gt;](#Message)</code>
+    * [.messageGet(messageId)](#Spark.messageGet) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
+    * [.messageAdd(message, [file])](#Spark.messageAdd) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
+    * [.messageRemove(messageId)](#Spark.messageRemove) ⇒ <code>Promise</code>
+    * [.organizationsGet([max])](#Spark.organizationsGet) ⇒ <code>[Promise.Array.&lt;Organization&gt;](#Organization)</code>
+    * [.organizationGet(orgId)](#Spark.organizationGet) ⇒ <code>[Promise.&lt;Organization&gt;](#Organization)</code>
+    * [.peopleGet([personSearch], [max])](#Spark.peopleGet) ⇒ <code>[Promise.Array.&lt;Person&gt;](#Person)</code>
+    * [.personGet(personId)](#Spark.personGet) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+    * [.personMe()](#Spark.personMe) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+    * [.personAdd(person)](#Spark.personAdd) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+    * [.personUpdate(person)](#Spark.personUpdate) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+    * [.personRemove(personId)](#Spark.personRemove) ⇒ <code>Promise</code>
+    * [.rolesGet([max])](#Spark.rolesGet) ⇒ <code>[Promise.Array.&lt;Role&gt;](#Role)</code>
+    * [.roleGet(roleId)](#Spark.roleGet) ⇒ <code>[Promise.&lt;Role&gt;](#Role)</code>
+    * [.roomsGet([roomSearch], [max])](#Spark.roomsGet) ⇒ <code>[Promise.Array.&lt;Room&gt;](#Room)</code>
+    * [.roomGet(roomId)](#Spark.roomGet) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
+    * [.roomAdd(title, [teamId])](#Spark.roomAdd) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
+    * [.roomUpdate(room)](#Spark.roomUpdate) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
+    * [.roomRemove(roomId)](#Spark.roomRemove) ⇒ <code>Promise</code>
+    * [.teamsGet([max])](#Spark.teamsGet) ⇒ <code>[Promise.Array.&lt;Team&gt;](#Team)</code>
+    * [.teamGet(teamId)](#Spark.teamGet) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
+    * [.teamAdd(name)](#Spark.teamAdd) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
+    * [.teamUpdate(team)](#Spark.teamUpdate) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
+    * [.teamRemove(teamId)](#Spark.teamRemove) ⇒ <code>Promise</code>
+    * [.teamMembershipsGet(teamId, [max])](#Spark.teamMembershipsGet) ⇒ <code>[Promise.Array.&lt;TeamMembership&gt;](#TeamMembership)</code>
+    * [.teamMembershipGet(membershipId)](#Spark.teamMembershipGet) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
+    * [.teamMembershipAdd(teamId, personEmail, isModerator)](#Spark.teamMembershipAdd) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
+    * [.teamMembershipUpdate(teamMembership)](#Spark.teamMembershipUpdate) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
+    * [.teamMembershipRemove(membershipId)](#Spark.teamMembershipRemove) ⇒ <code>Promise</code>
+    * [.webhooksGet([max])](#Spark.webhooksGet) ⇒ <code>[Promise.Array.&lt;Webhook&gt;](#Webhook)</code>
+    * [.webhookGet(webhookId)](#Spark.webhookGet) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
+    * [.webhookAdd(webhook)](#Spark.webhookAdd) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
+    * [.webhookUpdate(webhook)](#Spark.webhookUpdate) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
+    * [.webhookRemove(webhookId)](#Spark.webhookRemove) ⇒ <code>Promise</code>
+    * [.webhookAuth(secret, signature, payload)](#Spark.webhookAuth) ⇒ <code>Promise.String</code> &#124; <code>Object</code>
+    * [.webhookListen()](#Spark.webhookListen) ⇒ <code>[webhookHandler](#Spark.webhookListen..webhookHandler)</code>
+        * [~webhookHandler(req, [res], [next])](#Spark.webhookListen..webhookHandler)
 
 <a name="new_Spark_new"></a>
 
@@ -272,30 +269,6 @@ spark.roomsGet(10)
   })
   .catch(function(err) {
     // process error
-    console.log(err);
-  });
-```
-<a name="Spark+setToken"></a>
-
-### spark.setToken(token) ⇒ <code>Promise.String</code>
-Set/Reset API token used in a Sparky instance. Use this function when needing
-to change an expired Token. Returns a fullfiled promise if token is valid,
-else returns a rejected promise.
-
-**Kind**: instance method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.String</code> - token  
-
-| Param | Type |
-| --- | --- |
-| token | <code>String</code> | 
-
-**Example**  
-```js
-spark.setToken('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function(token) {
-    console.log(token);
-  })
-  .catch(function(err) {
     console.log(err);
   });
 ```
@@ -530,7 +503,7 @@ Returns Spark Message Objects. If 'max' is not specifed, returns all.
 
 **Example**  
 ```js
-spark.messagesGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 100)
+spark.messagesGet({roomId: 'Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u'}, 100)
   .then(function(messages) {
     // process messages as array
     messages.forEach(function(message) {
@@ -783,7 +756,7 @@ Update a Person.
 
 **Example**  
 ```js
-spark.personGet(Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u)
+spark.personGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
   .then(function(person) {
     // change value of retrieved person object
     person.displayName = 'Another Person';
@@ -1664,6 +1637,7 @@ Spark Object Validation
     * [.isEmails(emails)](#Validator.isEmails) ⇒ <code>Boolean</code>
     * [.isUrl(url)](#Validator.isUrl) ⇒ <code>Boolean</code>
     * [.isFilePath(path)](#Validator.isFilePath) ⇒ <code>Boolean</code>
+    * [.isOptions(options)](#Validator.isOptions) ⇒ <code>Boolean</code>
     * [.isFile(file)](#Validator.isFile) ⇒ <code>Boolean</code>
     * [.isLicense(object)](#Validator.isLicense) ⇒ <code>Boolean</code>
     * [.isLicenses(licenses)](#Validator.isLicenses) ⇒ <code>Boolean</code>
@@ -1736,6 +1710,7 @@ Promise if not valid.
 Validate String is Email.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1747,6 +1722,7 @@ Validate String is Email.
 Validate Emails in Array.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1758,6 +1734,7 @@ Validate Emails in Array.
 Validate String is URL.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1769,10 +1746,23 @@ Validate String is URL.
 Validate String is File path.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
 | path | <code>String</code> | 
+
+<a name="Validator.isOptions"></a>
+
+### Validator.isOptions(options) ⇒ <code>Boolean</code>
+Validate Options object
+
+**Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
+
+| Param | Type |
+| --- | --- |
+| options | <code>Object.&lt;Options&gt;</code> | 
 
 <a name="Validator.isFile"></a>
 
@@ -1780,6 +1770,7 @@ Validate String is File path.
 Validate File object
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1791,6 +1782,7 @@ Validate File object
 Validate Spark License Object.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1802,6 +1794,7 @@ Validate Spark License Object.
 Validate Spark License Objects in Array.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1813,6 +1806,7 @@ Validate Spark License Objects in Array.
 Validate Spark Membership Object.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1824,6 +1818,7 @@ Validate Spark Membership Object.
 Validate Spark Membership Objects in Array.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1835,6 +1830,7 @@ Validate Spark Membership Objects in Array.
 Validate Spark Membership Search Object.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1846,6 +1842,7 @@ Validate Spark Membership Search Object.
 Validate Spark Message Object.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1857,6 +1854,7 @@ Validate Spark Message Object.
 Validate Spark Message Objects in Array.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1868,6 +1866,7 @@ Validate Spark Message Objects in Array.
 Validate Spark Message Search Object.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1879,6 +1878,7 @@ Validate Spark Message Search Object.
 Validate Spark Organization Object.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1890,6 +1890,7 @@ Validate Spark Organization Object.
 Validate Spark Organizations Objects in Array.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1901,6 +1902,7 @@ Validate Spark Organizations Objects in Array.
 Validate Spark Person Object.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1912,6 +1914,7 @@ Validate Spark Person Object.
 Validate Spark Person Objects in Array.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1923,6 +1926,7 @@ Validate Spark Person Objects in Array.
 Validate Spark Person Search Object.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1934,6 +1938,7 @@ Validate Spark Person Search Object.
 Validate Spark Role Object.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1945,6 +1950,7 @@ Validate Spark Role Object.
 Validate Spark Role Objects in Array.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1956,6 +1962,7 @@ Validate Spark Role Objects in Array.
 Validate Spark Room Object.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1967,6 +1974,7 @@ Validate Spark Room Object.
 Validate Spark Room Objects in Array.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1978,6 +1986,7 @@ Validate Spark Room Objects in Array.
 Validate Spark Room Search Object.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -1989,6 +1998,7 @@ Validate Spark Room Search Object.
 Validate Spark Team Object.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -2000,6 +2010,7 @@ Validate Spark Team Object.
 Validate Spark Team Objects in Array.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -2011,6 +2022,7 @@ Validate Spark Team Objects in Array.
 Validate Spark Team Membership Object.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -2022,6 +2034,7 @@ Validate Spark Team Membership Object.
 Validate Spark Team Membership Objects in Array.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -2033,6 +2046,7 @@ Validate Spark Team Membership Objects in Array.
 Validate Spark Webhook Object.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |
@@ -2044,6 +2058,7 @@ Validate Spark Webhook Object.
 Validate Spark Webhook Objects in Array.
 
 **Kind**: static method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>Boolean</code> - result  
 
 | Param | Type |
 | --- | --- |

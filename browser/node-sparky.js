@@ -384,7 +384,7 @@ module.exports = function(Spark) {
    * @returns {Promise.Array.<Message>} Message Collection
    *
    * @example
-   * spark.messagesGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 100)
+   * spark.messagesGet({roomId: 'Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u'}, 100)
    *   .then(function(messages) {
    *     // process messages as array
    *     messages.forEach(function(message) {
@@ -732,7 +732,7 @@ module.exports = function(Spark) {
    * @returns {Promise.<Person>} Person
    *
    * @example
-   * spark.personGet(Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u)
+   * spark.personGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
    *   .then(function(person) {
    *     // change value of retrieved person object
    *     person.displayName = 'Another Person';
@@ -1784,7 +1784,7 @@ const webhooks = require('./res/webhooks');
 function Spark(options) {
   EventEmitter.call(this);
 
-  this.options = typeof options === 'object' ? options : {};
+  this.options = validator.isOptions(options) ? options : {};
 
   // config defaults
   this.token = process.env.TOKEN || this.options.token || null;
@@ -1814,6 +1814,7 @@ util.inherits(Spark, EventEmitter);
  * to change an expired Token. Returns a fullfiled promise if token is valid,
  * else returns a rejected promise.
  *
+ * @private
  * @param {String} token
  * @returns {Promise.String} token
  *
@@ -2161,7 +2162,7 @@ Validator.isToken = function(token) {
  * @function
  * @memberof Validator
  * @param {String} email
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isEmail = function(email) {
   if(typeof email !== 'string') {
@@ -2181,14 +2182,14 @@ Validator.isEmail = function(email) {
  * @function
  * @memberof Validator
  * @param {Array} emails
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isEmails = function(emails) {
- if(emails instanceof Array) {
-   return _.every(emails, Validator.isEmail);
- } else {
-   return false;
- }
+  if(emails instanceof Array) {
+    return _.every(emails, Validator.isEmail);
+  } else {
+    return false;
+  }
 };
 
 /**
@@ -2197,7 +2198,7 @@ Validator.isEmails = function(emails) {
  * @function
  * @memberof Validator
  * @param {String} url
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isUrl = function(url) {
   if(typeof url !== 'string') {
@@ -2214,7 +2215,7 @@ Validator.isUrl = function(url) {
  * @function
  * @memberof Validator
  * @param {String} path
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isFilePath = function(path) {
   if(typeof path !== 'string') {
@@ -2226,12 +2227,24 @@ Validator.isFilePath = function(path) {
 };
 
 /**
+ * Validate Options object
+ *
+ * @function
+ * @memberof Validator
+ * @param {Object.<Options>} options
+ * @returns {Boolean} result
+ */
+Validator.isOptions = function(options) {
+  return (typeof options === 'object'); // TODO
+};
+
+/**
  * Validate File object
  *
  * @function
  * @memberof Validator
  * @param {Object.<File>} file
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isFile = function(file) {
   let result = (typeof file === 'object'
@@ -2250,7 +2263,7 @@ Validator.isFile = function(file) {
  * @function
  * @memberof Validator
  * @param {License} object
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isLicense = function(license) {
   let result = (typeof license === 'object'
@@ -2266,7 +2279,7 @@ Validator.isLicense = function(license) {
  * @function
  * @memberof Validator
  * @param {Array} licenses
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isLicenses = function(licenses) {
   if(licenses instanceof Array) {
@@ -2282,7 +2295,7 @@ Validator.isLicenses = function(licenses) {
  * @function
  * @memberof Validator
  * @param {Membership} object
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isMembership = function(membership) {
   let result = (typeof membership === 'object'
@@ -2299,7 +2312,7 @@ Validator.isMembership = function(membership) {
  * @function
  * @memberof Validator
  * @param {Array} memberships
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isMemberships = function(memberships) {
   if(memberships instanceof Array) {
@@ -2315,7 +2328,7 @@ Validator.isMemberships = function(memberships) {
  * @function
  * @memberof Validator
  * @param {MembershipSearch} object
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isMembershipSearch = function(membershipSearch) {
   membershipSearch = (typeof membershipSearch === 'object') ? membershipSearch : {};
@@ -2334,7 +2347,7 @@ Validator.isMembershipSearch = function(membershipSearch) {
  * @function
  * @memberof Validator
  * @param {Message} object
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isMessage = function(message) {
   message = (typeof message === 'object') ? message : {};
@@ -2353,7 +2366,7 @@ Validator.isMessage = function(message) {
  * @function
  * @memberof Validator
  * @param {Array} messages
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isMessages = function(messages) {
   if(messages instanceof Array) {
@@ -2369,7 +2382,7 @@ Validator.isMessages = function(messages) {
  * @function
  * @memberof Validator
  * @param {MessageSearch} object
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isMessageSearch = function(messageSearch) {
   let result = (typeof messageSearch === 'object'
@@ -2384,7 +2397,7 @@ Validator.isMessageSearch = function(messageSearch) {
  * @function
  * @memberof Validator
  * @param {Organization} object
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isOrganization = function(organization) {
   let result = (typeof organization === 'object'
@@ -2400,7 +2413,7 @@ Validator.isOrganization = function(organization) {
  * @function
  * @memberof Validator
  * @param {Array} organizations
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isOrganizations = function(organizations) {
   if(organizations instanceof Array) {
@@ -2416,7 +2429,7 @@ Validator.isOrganizations = function(organizations) {
  * @function
  * @memberof Validator
  * @param {Room} object
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isPerson = function(person) {
   let result = (typeof person === 'object'
@@ -2434,7 +2447,7 @@ Validator.isPerson = function(person) {
  * @function
  * @memberof Validator
  * @param {Array} persons
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isPeople = function(people) {
   if(people instanceof Array) {
@@ -2450,7 +2463,7 @@ Validator.isPeople = function(people) {
  * @function
  * @memberof Validator
  * @param {PersonSearch} object
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isPersonSearch = function(personSearch) {
   let result = (typeof personSearch === 'object'
@@ -2465,7 +2478,7 @@ Validator.isPersonSearch = function(personSearch) {
  * @function
  * @memberof Validator
  * @param {Role} object
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isRole = function(role) {
   let result = (typeof role === 'object'
@@ -2481,7 +2494,7 @@ Validator.isRole = function(role) {
  * @function
  * @memberof Validator
  * @param {Array} roles
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isRoles = function(roles) {
   if(roles instanceof Array) {
@@ -2497,7 +2510,7 @@ Validator.isRoles = function(roles) {
  * @function
  * @memberof Validator
  * @param {Room} object
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isRoom = function(room) {
   let result = (typeof room === 'object'
@@ -2514,7 +2527,7 @@ Validator.isRoom = function(room) {
  * @function
  * @memberof Validator
  * @param {Array} rooms
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isRooms = function(rooms) {
   if(rooms instanceof Array) {
@@ -2530,7 +2543,7 @@ Validator.isRooms = function(rooms) {
  * @function
  * @memberof Validator
  * @param {RoomSearch} object
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isRoomSearch = function(roomSearch) {
   let result = (typeof roomSearch === 'object'
@@ -2545,7 +2558,7 @@ Validator.isRoomSearch = function(roomSearch) {
  * @function
  * @memberof Validator
  * @param {Team} object
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isTeam = function(team) {
   if(team instanceof Array) team = team[0];
@@ -2562,7 +2575,7 @@ Validator.isTeam = function(team) {
  * @function
  * @memberof Validator
  * @param {Array} teams
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isTeams = function(teams) {
   if(teams instanceof Array) {
@@ -2578,7 +2591,7 @@ Validator.isTeams = function(teams) {
  * @function
  * @memberof Validator
  * @param {TeamMembership} object
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isTeamMembership = function(teamMembership) {
   let result = (typeof teamMembership === 'object'
@@ -2595,7 +2608,7 @@ Validator.isTeamMembership = function(teamMembership) {
  * @function
  * @memberof Validator
  * @param {Array} teamMemberships
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isTeamMemberships = function(teamMemberships) {
   if(teamMemberships instanceof Array) {
@@ -2611,7 +2624,7 @@ Validator.isTeamMemberships = function(teamMemberships) {
  * @function
  * @memberof Validator
  * @param {Webhook} object
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isWebhook = function(webhook) {
   let result = (typeof webhook === 'object'
@@ -2629,7 +2642,7 @@ Validator.isWebhook = function(webhook) {
  * @function
  * @memberof Validator
  * @param {Array} webhooks
- * @returns {Boolean}
+ * @returns {Boolean} result
  */
 Validator.isWebhooks = function(webhooks) {
   if(webhooks instanceof Array && webhooks.length > 0) {
