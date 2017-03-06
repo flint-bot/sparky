@@ -193,7 +193,7 @@ const validator = require('../validator');
  * @property {String} personEmail - Person Email
  * @property {Boolean} isModerator - Membership is a moderator
  * @property {Boolean} isMonitor - Membership is a monitor
- * @property {Date} created - Date Membership created
+ * @property {String} created - Date Membership created (ISO 8601)
  */
 
 module.exports = function(Spark) {
@@ -370,7 +370,7 @@ const validator = require('../validator');
  * @property {Array.<String>} files - Array of File URLs
  * @property {String} personId - Person ID
  * @property {String} personEmail - Person Email
- * @property {Date} created - Date Message created
+ * @property {String} created - Date Message created (ISO 8601)
  * @property {Array.String} mentionedPeople - Person IDs of those mentioned in Message
  */
 
@@ -433,7 +433,7 @@ module.exports = function(Spark) {
   };
 
   /**
-   * Add new Spark Message.
+   * Send Spark Message.
    *
    * @function
    * @param {Object.<MessageAdd>} message - Spark Message Add Object
@@ -448,7 +448,7 @@ module.exports = function(Spark) {
    *
    * spark.contentCreate('/some/file/with.ext')
    *   .then(function(file) {
-   *     return spark.messageAdd(newMessage, file);
+   *     return spark.messageSend(newMessage, file);
    *   })
    *   .then(function(message) {
    *     console.log(message.id);
@@ -458,7 +458,7 @@ module.exports = function(Spark) {
    *     console.log(err);
    *   });
    */
-  Spark.messageAdd = function(message, file) {
+  Spark.messageSend = function(message, file) {
     let isMessage = (message && typeof message === 'object' && validator.isMessage(message));
     let isFile = (file && typeof file === 'object' && validator.isFile(file));
 
@@ -495,6 +495,11 @@ module.exports = function(Spark) {
     }
   };
 
+  // alias for messageSend()
+  Spark.messageAdd = function(message, file) {
+    return Spark.messageSend(message, file);
+  };
+
   /**
    * Remove Spark Message by ID.
    *
@@ -515,6 +520,9 @@ module.exports = function(Spark) {
     return Spark.request('delete', 'messages', messageId)
       .then(res => when(true));
   };
+
+  // return the Spark Object
+  return Spark;
 };
 
 },{"../validator":14,"lodash":178,"when":328}],6:[function(require,module,exports){
@@ -526,7 +534,7 @@ module.exports = function(Spark) {
  * @namespace Organization
  * @property {String} id - Organization ID
  * @property {String} displayName - Organization name
- * @property {Date} created - Date Organization created
+ * @property {String} created - Date Organization created (ISO 8601)
  */
 
 module.exports = function(Spark) {
@@ -601,7 +609,7 @@ const validator = require('../validator');
  * @property {String} orgId - Organization ID
  * @property {Array.String} roles - Array of assigned Role IDs
  * @property {Array.String} licenses - Array of assigned License IDs
- * @property {Date} created - Date created
+ * @property {String} created - Date created (ISO 8601)
  */
 
 module.exports = function(Spark) {
@@ -863,9 +871,9 @@ const validator = require('../validator');
  * @property {String} type - Room Type
  * @property {Boolean} isLocked - Room Moderated/Locked
  * @property {String} teamId - Team ID
- * @property {Date} lastActivity - Last Activity in Room
- * @property {Date} creatorId - person ID of Room creator
- * @property {Date} created - Room Created
+ * @property {String} lastActivity - Last Activity in Room (ISO 8601)
+ * @property {String} creatorId - person ID of Room creator (ISO 8601)
+ * @property {String} created - Room Created (ISO 8601)
  */
 
 module.exports = function(Spark) {
@@ -1028,8 +1036,8 @@ const validator = require('../validator');
  * @property {String} teamId - Team ID
  * @property {String} personId - Person ID
  * @property {String} personEmail - Person Email
- * @property {boolean} isModerator - Membership is a moderator
- * @property {date} created - Date Membership created
+ * @property {Boolean} isModerator - Membership is a moderator
+ * @property {String} created - Date Membership created (ISO 8601)
  */
 
 module.exports = function(Spark) {
@@ -1188,7 +1196,7 @@ const validator = require('../validator');
  * @namespace Team
  * @property {String} id - Message ID
  * @property {String} name - Team name
- * @property {Date} created - Date Team created
+ * @property {String} created - Date Team created (ISO 8601)
  */
 
 module.exports = function(Spark) {
@@ -1343,7 +1351,7 @@ const xor = function(a,b) {
  * @property {String} resource - Webhook resource
  * @property {String} event - Webhook event
  * @property {String} filter - Webhook filter
- * @property {Date} created - Date Webhook created
+ * @property {String} created - Date Webhook created (ISO 8601)
  */
 
 module.exports = function(Spark) {
@@ -1513,11 +1521,17 @@ module.exports = function(Spark) {
     let jsonStringify = when.lift(JSON.stringify);
 
     let strPayload;
-    // if json object...
+    // if object...
     if(typeof payload === 'object') {
       strPayload = jsonStringify(payload);
-    } else if(typeof payload === 'string') {
+    }
+    // else if string
+    else if(typeof payload === 'string') {
       strPayload = when(payload);
+    }
+    // else if other
+    else {
+      strPayload = when.reject(new Error('invalid payload'));
     }
 
     //validate
@@ -1603,10 +1617,19 @@ module.exports = function(Spark) {
      * @param {Function} [next] - next function
      */
     let webhookHandler = function(req, res, next) {
-      // promisfy JSON.parse()
-      let jsonParse = when.lift(JSON.stringify);
+      // always respond OK if res is defined
+      if(typeof res !== 'undefined') {
+        res.status(200);
+        res.send('OK');
+      }
 
-      // process webhook body
+      // promisfy JSON.stringify()
+      let jsonStringify = when.lift(JSON.stringify);
+
+      // promisfy JSON.parse()
+      let jsonParse = when.lift(JSON.parse);
+
+      // process webhook body object
       let processBody = function(bodyObj) {
         let _resource = bodyObj.hasOwnProperty('resource') ? bodyObj.resource.toLowerCase() : null;
         let _event = bodyObj.hasOwnProperty('event') ? bodyObj.event.toLowerCase() : null;
@@ -1659,14 +1682,6 @@ module.exports = function(Spark) {
         }
       };
 
-      // send response
-      let sendResponse = function(status, text) {
-        if(typeof res !== 'undefined') {
-          res.status(status);
-          res.send(text);
-        }
-      };
-
       // validate "req"
       if(req && req.hasOwnProperty('headers') && req.hasOwnProperty(Spark.webhookReqNamespace)) {
         // headers
@@ -1674,9 +1689,12 @@ module.exports = function(Spark) {
 
         // body
         let body = {};
+        // if body data type is object
         if(typeof req[Spark.webhookReqNamespace] === 'object') {
           body = when(req[Spark.webhookReqNamespace]);
-        } else if(typeof req[Spark.webhookReqNamespace] === 'string') {
+        }
+        // else if body data type is string
+        else if(typeof req[Spark.webhookReqNamespace] === 'string') {
           body = jsonParse(req[Spark.webhookReqNamespace]);
         }
 
@@ -1688,29 +1706,24 @@ module.exports = function(Spark) {
             .then(bodyObj => Spark.webhookAuth(Spark.webhookSecret, sig, bodyObj))
             .then(bodyObj => {
               processBody(bodyObj);
-              sendResponse(200, 'OK');
             })
             .catch(err => {
               console.log('node-sparky/webhooks %s', err.message);
-              sendResponse(401, 'Unauthorized');
             });
         }
 
         else if(xor(sig, Spark.webhookSecret)) {
           if(sig) console.log('node-sparky/webhooks received "x-spark-signature" header but no secret defined');
           if(Spark.webhookSecret) console.log('node-sparky/webhooks secret defined but "x-spark-signature" header field not found');
-          sendResponse(401, 'Unauthorized');
         }
 
         else {
           when(body)
             .then(bodyObj => {
               processBody(bodyObj);
-              sendResponse(200, 'OK');
             })
             .catch(err => {
               console.log('node-sparky/webhooks %s', err.message);
-              sendResponse(401, 'Unauthorized');
             });
         }
       }
@@ -1718,7 +1731,6 @@ module.exports = function(Spark) {
       // else, invalid request
       else {
         console.log('node-sparky/webhooks received invalid request');
-        sendResponse(400, 'Invalid');
       }
     };
 
@@ -1814,7 +1826,6 @@ util.inherits(Spark, EventEmitter);
  * to change an expired Token. Returns a fullfiled promise if token is valid,
  * else returns a rejected promise.
  *
- * @private
  * @param {String} token
  * @returns {Promise.String} token
  *

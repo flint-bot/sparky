@@ -1,3 +1,24 @@
+# 4.0.5
+
+* Updated docs to reflect correct object date type properties as ISO 8601 String
+  and not Date object.
+
+* Tweaked webhook handler response logic to send 200/OK for all requests.
+
+* Updated inline docs.
+
+* Added unit test for `spark.webhookAuth()`
+
+* The following functions have been renamed in docs and aliased in code (both work):
+
+  * `spark.messageAdd()` → `spark.messageSend()`
+
+# 4.0.4
+
+* Updated docs/examples
+
+* Tweaked Validator for constructor options
+
 # 4.0.3
 
 * The following functions have been added:

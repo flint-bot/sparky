@@ -193,52 +193,55 @@ corresponding environmental variable.**_
 
 * [Spark](#Spark)
     * [new Spark(options)](#new_Spark_new)
-    * [.contentGet(contentId)](#Spark.contentGet) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
-    * [.contentCreate(filePath, [timeout])](#Spark.contentCreate) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
-    * [.licensesGet([orgId], [max])](#Spark.licensesGet) ⇒ <code>[Promise.Array.&lt;License&gt;](#License)</code>
-    * [.licenseGet(licenseId)](#Spark.licenseGet) ⇒ <code>[Promise.&lt;License&gt;](#License)</code>
-    * [.membershipsGet([membershipSearch], [max])](#Spark.membershipsGet) ⇒ <code>[Promise.Array.&lt;Membership&gt;](#Membership)</code>
-    * [.membershipGet(membershipId)](#Spark.membershipGet) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-    * [.membershipAdd(roomId, personEmail, [isModerator])](#Spark.membershipAdd) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-    * [.membershipUpdate(membership)](#Spark.membershipUpdate) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
-    * [.membershipRemove(membershipId)](#Spark.membershipRemove) ⇒ <code>Promise</code>
-    * [.messagesGet(messageSearch, [max])](#Spark.messagesGet) ⇒ <code>[Promise.Array.&lt;Message&gt;](#Message)</code>
-    * [.messageGet(messageId)](#Spark.messageGet) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
-    * [.messageAdd(message, [file])](#Spark.messageAdd) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
-    * [.messageRemove(messageId)](#Spark.messageRemove) ⇒ <code>Promise</code>
-    * [.organizationsGet([max])](#Spark.organizationsGet) ⇒ <code>[Promise.Array.&lt;Organization&gt;](#Organization)</code>
-    * [.organizationGet(orgId)](#Spark.organizationGet) ⇒ <code>[Promise.&lt;Organization&gt;](#Organization)</code>
-    * [.peopleGet([personSearch], [max])](#Spark.peopleGet) ⇒ <code>[Promise.Array.&lt;Person&gt;](#Person)</code>
-    * [.personGet(personId)](#Spark.personGet) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
-    * [.personMe()](#Spark.personMe) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
-    * [.personAdd(person)](#Spark.personAdd) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
-    * [.personUpdate(person)](#Spark.personUpdate) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
-    * [.personRemove(personId)](#Spark.personRemove) ⇒ <code>Promise</code>
-    * [.rolesGet([max])](#Spark.rolesGet) ⇒ <code>[Promise.Array.&lt;Role&gt;](#Role)</code>
-    * [.roleGet(roleId)](#Spark.roleGet) ⇒ <code>[Promise.&lt;Role&gt;](#Role)</code>
-    * [.roomsGet([roomSearch], [max])](#Spark.roomsGet) ⇒ <code>[Promise.Array.&lt;Room&gt;](#Room)</code>
-    * [.roomGet(roomId)](#Spark.roomGet) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
-    * [.roomAdd(title, [teamId])](#Spark.roomAdd) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
-    * [.roomUpdate(room)](#Spark.roomUpdate) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
-    * [.roomRemove(roomId)](#Spark.roomRemove) ⇒ <code>Promise</code>
-    * [.teamsGet([max])](#Spark.teamsGet) ⇒ <code>[Promise.Array.&lt;Team&gt;](#Team)</code>
-    * [.teamGet(teamId)](#Spark.teamGet) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
-    * [.teamAdd(name)](#Spark.teamAdd) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
-    * [.teamUpdate(team)](#Spark.teamUpdate) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
-    * [.teamRemove(teamId)](#Spark.teamRemove) ⇒ <code>Promise</code>
-    * [.teamMembershipsGet(teamId, [max])](#Spark.teamMembershipsGet) ⇒ <code>[Promise.Array.&lt;TeamMembership&gt;](#TeamMembership)</code>
-    * [.teamMembershipGet(membershipId)](#Spark.teamMembershipGet) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
-    * [.teamMembershipAdd(teamId, personEmail, isModerator)](#Spark.teamMembershipAdd) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
-    * [.teamMembershipUpdate(teamMembership)](#Spark.teamMembershipUpdate) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
-    * [.teamMembershipRemove(membershipId)](#Spark.teamMembershipRemove) ⇒ <code>Promise</code>
-    * [.webhooksGet([max])](#Spark.webhooksGet) ⇒ <code>[Promise.Array.&lt;Webhook&gt;](#Webhook)</code>
-    * [.webhookGet(webhookId)](#Spark.webhookGet) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
-    * [.webhookAdd(webhook)](#Spark.webhookAdd) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
-    * [.webhookUpdate(webhook)](#Spark.webhookUpdate) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
-    * [.webhookRemove(webhookId)](#Spark.webhookRemove) ⇒ <code>Promise</code>
-    * [.webhookAuth(secret, signature, payload)](#Spark.webhookAuth) ⇒ <code>Promise.String</code> &#124; <code>Object</code>
-    * [.webhookListen()](#Spark.webhookListen) ⇒ <code>[webhookHandler](#Spark.webhookListen..webhookHandler)</code>
-        * [~webhookHandler(req, [res], [next])](#Spark.webhookListen..webhookHandler)
+    * _instance_
+        * [.setToken(token)](#Spark+setToken) ⇒ <code>Promise.String</code>
+    * _static_
+        * [.contentGet(contentId)](#Spark.contentGet) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
+        * [.contentCreate(filePath, [timeout])](#Spark.contentCreate) ⇒ <code>[Promise.&lt;File&gt;](#File)</code>
+        * [.licensesGet([orgId], [max])](#Spark.licensesGet) ⇒ <code>[Promise.Array.&lt;License&gt;](#License)</code>
+        * [.licenseGet(licenseId)](#Spark.licenseGet) ⇒ <code>[Promise.&lt;License&gt;](#License)</code>
+        * [.membershipsGet([membershipSearch], [max])](#Spark.membershipsGet) ⇒ <code>[Promise.Array.&lt;Membership&gt;](#Membership)</code>
+        * [.membershipGet(membershipId)](#Spark.membershipGet) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+        * [.membershipAdd(roomId, personEmail, [isModerator])](#Spark.membershipAdd) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+        * [.membershipUpdate(membership)](#Spark.membershipUpdate) ⇒ <code>[Promise.&lt;Membership&gt;](#Membership)</code>
+        * [.membershipRemove(membershipId)](#Spark.membershipRemove) ⇒ <code>Promise</code>
+        * [.messagesGet(messageSearch, [max])](#Spark.messagesGet) ⇒ <code>[Promise.Array.&lt;Message&gt;](#Message)</code>
+        * [.messageGet(messageId)](#Spark.messageGet) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
+        * [.messageSend(message, [file])](#Spark.messageSend) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
+        * [.messageRemove(messageId)](#Spark.messageRemove) ⇒ <code>Promise</code>
+        * [.organizationsGet([max])](#Spark.organizationsGet) ⇒ <code>[Promise.Array.&lt;Organization&gt;](#Organization)</code>
+        * [.organizationGet(orgId)](#Spark.organizationGet) ⇒ <code>[Promise.&lt;Organization&gt;](#Organization)</code>
+        * [.peopleGet([personSearch], [max])](#Spark.peopleGet) ⇒ <code>[Promise.Array.&lt;Person&gt;](#Person)</code>
+        * [.personGet(personId)](#Spark.personGet) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+        * [.personMe()](#Spark.personMe) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+        * [.personAdd(person)](#Spark.personAdd) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+        * [.personUpdate(person)](#Spark.personUpdate) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+        * [.personRemove(personId)](#Spark.personRemove) ⇒ <code>Promise</code>
+        * [.rolesGet([max])](#Spark.rolesGet) ⇒ <code>[Promise.Array.&lt;Role&gt;](#Role)</code>
+        * [.roleGet(roleId)](#Spark.roleGet) ⇒ <code>[Promise.&lt;Role&gt;](#Role)</code>
+        * [.roomsGet([roomSearch], [max])](#Spark.roomsGet) ⇒ <code>[Promise.Array.&lt;Room&gt;](#Room)</code>
+        * [.roomGet(roomId)](#Spark.roomGet) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
+        * [.roomAdd(title, [teamId])](#Spark.roomAdd) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
+        * [.roomUpdate(room)](#Spark.roomUpdate) ⇒ <code>[Promise.&lt;Room&gt;](#Room)</code>
+        * [.roomRemove(roomId)](#Spark.roomRemove) ⇒ <code>Promise</code>
+        * [.teamsGet([max])](#Spark.teamsGet) ⇒ <code>[Promise.Array.&lt;Team&gt;](#Team)</code>
+        * [.teamGet(teamId)](#Spark.teamGet) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
+        * [.teamAdd(name)](#Spark.teamAdd) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
+        * [.teamUpdate(team)](#Spark.teamUpdate) ⇒ <code>[Promise.&lt;Team&gt;](#Team)</code>
+        * [.teamRemove(teamId)](#Spark.teamRemove) ⇒ <code>Promise</code>
+        * [.teamMembershipsGet(teamId, [max])](#Spark.teamMembershipsGet) ⇒ <code>[Promise.Array.&lt;TeamMembership&gt;](#TeamMembership)</code>
+        * [.teamMembershipGet(membershipId)](#Spark.teamMembershipGet) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
+        * [.teamMembershipAdd(teamId, personEmail, isModerator)](#Spark.teamMembershipAdd) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
+        * [.teamMembershipUpdate(teamMembership)](#Spark.teamMembershipUpdate) ⇒ <code>[Promise.&lt;TeamMembership&gt;](#TeamMembership)</code>
+        * [.teamMembershipRemove(membershipId)](#Spark.teamMembershipRemove) ⇒ <code>Promise</code>
+        * [.webhooksGet([max])](#Spark.webhooksGet) ⇒ <code>[Promise.Array.&lt;Webhook&gt;](#Webhook)</code>
+        * [.webhookGet(webhookId)](#Spark.webhookGet) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
+        * [.webhookAdd(webhook)](#Spark.webhookAdd) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
+        * [.webhookUpdate(webhook)](#Spark.webhookUpdate) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
+        * [.webhookRemove(webhookId)](#Spark.webhookRemove) ⇒ <code>Promise</code>
+        * [.webhookAuth(secret, signature, payload)](#Spark.webhookAuth) ⇒ <code>Promise.String</code> &#124; <code>Object</code>
+        * [.webhookListen()](#Spark.webhookListen) ⇒ <code>[webhookHandler](#Spark.webhookListen..webhookHandler)</code>
+            * [~webhookHandler(req, [res], [next])](#Spark.webhookListen..webhookHandler)
 
 <a name="new_Spark_new"></a>
 
@@ -269,6 +272,30 @@ spark.roomsGet(10)
   })
   .catch(function(err) {
     // process error
+    console.log(err);
+  });
+```
+<a name="Spark+setToken"></a>
+
+### spark.setToken(token) ⇒ <code>Promise.String</code>
+Set/Reset API token used in a Sparky instance. Use this function when needing
+to change an expired Token. Returns a fullfiled promise if token is valid,
+else returns a rejected promise.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+**Returns**: <code>Promise.String</code> - token  
+
+| Param | Type |
+| --- | --- |
+| token | <code>String</code> | 
+
+**Example**  
+```js
+spark.setToken('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
+  .then(function(token) {
+    console.log(token);
+  })
+  .catch(function(err) {
     console.log(err);
   });
 ```
@@ -538,10 +565,10 @@ spark.messageGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 100)
     console.log(err);
   });
 ```
-<a name="Spark.messageAdd"></a>
+<a name="Spark.messageSend"></a>
 
-### Spark.messageAdd(message, [file]) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
-Add new Spark Message.
+### Spark.messageSend(message, [file]) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
+Send Spark Message.
 
 **Kind**: static method of <code>[Spark](#Spark)</code>  
 **Returns**: <code>[Promise.&lt;Message&gt;](#Message)</code> - Message  
@@ -560,7 +587,7 @@ let newMessage = {
 
 spark.contentCreate('/some/file/with.ext')
   .then(function(file) {
-    return spark.messageAdd(newMessage, file);
+    return spark.messageSend(newMessage, file);
   })
   .then(function(message) {
     console.log(message.id);
@@ -1481,7 +1508,7 @@ Membership Object
 | personEmail | <code>String</code> | Person Email |
 | isModerator | <code>Boolean</code> | Membership is a moderator |
 | isMonitor | <code>Boolean</code> | Membership is a monitor |
-| created | <code>Date</code> | Date Membership created |
+| created | <code>String</code> | Date Membership created (ISO 8601) |
 
 <a name="Message"></a>
 
@@ -1503,7 +1530,7 @@ Message Object
 | files | <code>Array.&lt;String&gt;</code> | Array of File URLs |
 | personId | <code>String</code> | Person ID |
 | personEmail | <code>String</code> | Person Email |
-| created | <code>Date</code> | Date Message created |
+| created | <code>String</code> | Date Message created (ISO 8601) |
 | mentionedPeople | <code>Array.String</code> | Person IDs of those mentioned in Message |
 
 <a name="Organization"></a>
@@ -1518,7 +1545,7 @@ Organization Object
 | --- | --- | --- |
 | id | <code>String</code> | Organization ID |
 | displayName | <code>String</code> | Organization name |
-| created | <code>Date</code> | Date Organization created |
+| created | <code>String</code> | Date Organization created (ISO 8601) |
 
 <a name="Person"></a>
 
@@ -1539,7 +1566,7 @@ Person Object
 | orgId | <code>String</code> | Organization ID |
 | roles | <code>Array.String</code> | Array of assigned Role IDs |
 | licenses | <code>Array.String</code> | Array of assigned License IDs |
-| created | <code>Date</code> | Date created |
+| created | <code>String</code> | Date created (ISO 8601) |
 
 <a name="Role"></a>
 
@@ -1569,9 +1596,9 @@ Room Object
 | type | <code>String</code> | Room Type |
 | isLocked | <code>Boolean</code> | Room Moderated/Locked |
 | teamId | <code>String</code> | Team ID |
-| lastActivity | <code>Date</code> | Last Activity in Room |
-| creatorId | <code>Date</code> | person ID of Room creator |
-| created | <code>Date</code> | Room Created |
+| lastActivity | <code>String</code> | Last Activity in Room (ISO 8601) |
+| creatorId | <code>String</code> | person ID of Room creator (ISO 8601) |
+| created | <code>String</code> | Room Created (ISO 8601) |
 
 <a name="Team"></a>
 
@@ -1585,7 +1612,7 @@ Team Object
 | --- | --- | --- |
 | id | <code>String</code> | Message ID |
 | name | <code>String</code> | Team name |
-| created | <code>Date</code> | Date Team created |
+| created | <code>String</code> | Date Team created (ISO 8601) |
 
 <a name="TeamMembership"></a>
 
@@ -1601,8 +1628,8 @@ Team Membership Object
 | teamId | <code>String</code> | Team ID |
 | personId | <code>String</code> | Person ID |
 | personEmail | <code>String</code> | Person Email |
-| isModerator | <code>boolean</code> | Membership is a moderator |
-| created | <code>date</code> | Date Membership created |
+| isModerator | <code>Boolean</code> | Membership is a moderator |
+| created | <code>String</code> | Date Membership created (ISO 8601) |
 
 <a name="Webhook"></a>
 
@@ -1620,7 +1647,7 @@ Webhook Object
 | resource | <code>String</code> | Webhook resource |
 | event | <code>String</code> | Webhook event |
 | filter | <code>String</code> | Webhook filter |
-| created | <code>Date</code> | Date Webhook created |
+| created | <code>String</code> | Date Webhook created (ISO 8601) |
 
 <a name="Validator"></a>
 
