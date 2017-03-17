@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node_modules/.bin/mocha",
-    "browserify": "node_modules/.bin/browserify index.js --standalone Sparky > ./browser/node-sparky.js"
+    "build": "node_modules/.bin/browserify index.js --standalone Sparky > ./browser/node-sparky.js && cd docs && ./build.sh && cd .."
   },
   "repository": {
     "type": "git",

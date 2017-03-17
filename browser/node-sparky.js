@@ -407,7 +407,7 @@ module.exports = function(Spark) {
 
     else {
       messageSearch.max = Spark.maxPageItems;
-      return Spark.request('get', 'rooms', messageSearch, maxResults);
+      return Spark.request('get', 'messages', messageSearch, maxResults);
     }
   };
 
@@ -1592,7 +1592,7 @@ module.exports = function(Spark) {
    * const app = express();
    * app.use(bodyParser.json());
    *
-   * // add route for path that which is listening for web hooks
+   * // add route for path that is listening for web hooks
    * app.post('/webhook', spark.webhookListen());
    *
    * // start express server

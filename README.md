@@ -114,6 +114,15 @@ Additional tests will run if the following environment variables are defined:
 _**Note: Tests that are marked "pending" are those that are missing their
 corresponding environmental variable.**_
 
+## Build
+
+The `README.md` and `browser/node-sparky.js` files are auto-generated from the
+files in /lib. To regenerate these run:
+
+```bash
+npm build
+```
+
 # Reference
 ## Classes
 
