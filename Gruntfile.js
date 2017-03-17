@@ -17,14 +17,14 @@ module.exports = function(grunt) {
       },
       sparky: {
         files: {
-          'browser/node-sparky.es5.js': 'browser/node-sparky.js'
+          'browser/node-sparky.js': 'browser/node-sparky.js'
         }
       }
     },
     uglify: {
       sparky: {
         files: {
-          'browser/node-sparky.min.js': ['browser/node-sparky.es5.js']
+          'browser/node-sparky.min.js': ['browser/node-sparky.js']
         }
       }
     }
