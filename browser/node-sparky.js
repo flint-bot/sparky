@@ -407,7 +407,7 @@ module.exports = function(Spark) {
 
     else {
       messageSearch.max = Spark.maxPageItems;
-      return Spark.request('get', 'rooms', messageSearch, maxResults);
+      return Spark.request('get', 'messages', messageSearch, maxResults);
     }
   };
 
