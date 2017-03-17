@@ -2,12 +2,12 @@
 
 [![NPM](https://nodei.co/npm/node-sparky.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/node-sparky/)
 
-#### Cisco Spark SDK for Node JS (Version 4)
+#### Cisco Spark API for Node JS (Version 4)
 
 ```js
 var Spark = require('node-sparky');
 
-var spark = new Spark({token: '<my token>'});
+var spark = new Spark({token: '<token>'});
 
 spark.roomsGet(10)
   .then(function(rooms) {
@@ -1433,7 +1433,7 @@ spark.on('request', function(req) {
 const app = express();
 app.use(bodyParser.json());
 
-// add route for path that which is listening for web hooks
+// add route for path that is listening for web hooks
 app.post('/webhook', spark.webhookListen());
 
 // start express server

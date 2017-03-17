@@ -1,7 +1,7 @@
 {
   "name": "node-sparky",
   "version": "4.0.5",
-  "description": "Spark SDK for NodeJS",
+  "description": "Spark API for NodeJS",
   "main": "index.js",
   "scripts": {
     "test": "node_modules/.bin/mocha",
