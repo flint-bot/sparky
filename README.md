@@ -117,10 +117,10 @@ corresponding environmental variable.**_
 ## Build
 
 The `README.md` and `browser/node-sparky.js` files are auto-generated from the
-files in /lib. To regenerate these run:
+files in /lib and /docs. To regenerate these run:
 
 ```bash
-npm build
+npm run build
 ```
 
 # Reference
