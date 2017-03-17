@@ -1,3 +1,17 @@
+# 4.0.7
+
+* Adjusted `npm run build` to use grunt
+
+* Using Babel to convert es6 code to es5 for `browser/node-sparky.js`
+
+* Build now also generates a minified version of `browser/node-sparky.js` at `browser/node-sparky.min.js`
+
+# 4.0.6
+
+* Fixed bug for `messagesGet()`
+
+* Updated Docs to reflect build process for `README.md` and `browser/node-sparky.js`
+
 # 4.0.5
 
 * Updated docs to reflect correct object date type properties as ISO 8601 String
