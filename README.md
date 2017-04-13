@@ -248,7 +248,7 @@ npm run build
         * [.webhookAdd(webhook)](#Spark.webhookAdd) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
         * [.webhookUpdate(webhook)](#Spark.webhookUpdate) ⇒ <code>[Promise.&lt;Webhook&gt;](#Webhook)</code>
         * [.webhookRemove(webhookId)](#Spark.webhookRemove) ⇒ <code>Promise</code>
-        * [.webhookAuth(secret, signature, payload)](#Spark.webhookAuth) ⇒ <code>Promise.String</code> &#124; <code>Object</code>
+        * [.webhookAuth(secret, signature, payload)](#Spark.webhookAuth) ⇒ <code>Promise.String</code> \| <code>Object</code>
         * [.webhookListen()](#Spark.webhookListen) ⇒ <code>[webhookHandler](#Spark.webhookListen..webhookHandler)</code>
             * [~webhookHandler(req, [res], [next])](#Spark.webhookListen..webhookHandler)
 
@@ -1374,17 +1374,17 @@ spark.webhookRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 ```
 <a name="Spark.webhookAuth"></a>
 
-### Spark.webhookAuth(secret, signature, payload) ⇒ <code>Promise.String</code> &#124; <code>Object</code>
+### Spark.webhookAuth(secret, signature, payload) ⇒ <code>Promise.String</code> \| <code>Object</code>
 Authenticate X-Spark-Signature HMAC-SHA1 Hash.
 
 **Kind**: static method of <code>[Spark](#Spark)</code>  
-**Returns**: <code>Promise.String</code> &#124; <code>Object</code> - payload  
+**Returns**: <code>Promise.String</code> \| <code>Object</code> - payload  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | secret | <code>String</code> | Value of secret used when creating webhook |
 | signature | <code>String</code> | Value of "X-Spark-Signature" from header |
-| payload | <code>String</code> &#124; <code>Object</code> | This can either be the json object or a string representation of the webhook's body json payload |
+| payload | <code>String</code> \| <code>Object</code> | This can either be the json object or a string representation of the webhook's body json payload |
 
 **Example**  
 ```js
