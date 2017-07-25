@@ -1,3 +1,7 @@
+# 4.0.8
+
+* Fixed bug for `contentCreate()` and `contentGet()`
+
 # 4.0.7
 
 * Adjusted `npm run build` to use grunt
