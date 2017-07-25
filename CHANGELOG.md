@@ -1,6 +1,14 @@
-# 4.0.8
+# 4.0.10
+
+* regnenerated browser modules for fixes in 4.0.9
+
+# 4.0.9
 
 * Fixed bug for `contentCreate()` and `contentGet()`
+
+# 4.0.8
+
+* Fixed vulnerability in #7
 
 # 4.0.7
 
