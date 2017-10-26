@@ -1675,29 +1675,29 @@ Spark Object Validation
     * [.isFilePath(path)](#Validator.isFilePath) ⇒ <code>Boolean</code>
     * [.isOptions(options)](#Validator.isOptions) ⇒ <code>Boolean</code>
     * [.isFile(file)](#Validator.isFile) ⇒ <code>Boolean</code>
-    * [.isLicense(object)](#Validator.isLicense) ⇒ <code>Boolean</code>
+    * [.isLicense(license)](#Validator.isLicense) ⇒ <code>Boolean</code>
     * [.isLicenses(licenses)](#Validator.isLicenses) ⇒ <code>Boolean</code>
-    * [.isMembership(object)](#Validator.isMembership) ⇒ <code>Boolean</code>
+    * [.isMembership(membership)](#Validator.isMembership) ⇒ <code>Boolean</code>
     * [.isMemberships(memberships)](#Validator.isMemberships) ⇒ <code>Boolean</code>
-    * [.isMembershipSearch(object)](#Validator.isMembershipSearch) ⇒ <code>Boolean</code>
-    * [.isMessage(object)](#Validator.isMessage) ⇒ <code>Boolean</code>
+    * [.isMembershipSearch(searchObj)](#Validator.isMembershipSearch) ⇒ <code>Boolean</code>
+    * [.isMessage(message)](#Validator.isMessage) ⇒ <code>Boolean</code>
     * [.isMessages(messages)](#Validator.isMessages) ⇒ <code>Boolean</code>
-    * [.isMessageSearch(object)](#Validator.isMessageSearch) ⇒ <code>Boolean</code>
-    * [.isOrganization(object)](#Validator.isOrganization) ⇒ <code>Boolean</code>
+    * [.isMessageSearch(searchObj)](#Validator.isMessageSearch) ⇒ <code>Boolean</code>
+    * [.isOrganization(organization)](#Validator.isOrganization) ⇒ <code>Boolean</code>
     * [.isOrganizations(organizations)](#Validator.isOrganizations) ⇒ <code>Boolean</code>
-    * [.isPerson(object)](#Validator.isPerson) ⇒ <code>Boolean</code>
-    * [.isPeople(persons)](#Validator.isPeople) ⇒ <code>Boolean</code>
-    * [.isPersonSearch(object)](#Validator.isPersonSearch) ⇒ <code>Boolean</code>
-    * [.isRole(object)](#Validator.isRole) ⇒ <code>Boolean</code>
+    * [.isPerson(person)](#Validator.isPerson) ⇒ <code>Boolean</code>
+    * [.isPeople(people)](#Validator.isPeople) ⇒ <code>Boolean</code>
+    * [.isPersonSearch(searchObj)](#Validator.isPersonSearch) ⇒ <code>Boolean</code>
+    * [.isRole(role)](#Validator.isRole) ⇒ <code>Boolean</code>
     * [.isRoles(roles)](#Validator.isRoles) ⇒ <code>Boolean</code>
-    * [.isRoom(object)](#Validator.isRoom) ⇒ <code>Boolean</code>
+    * [.isRoom(room)](#Validator.isRoom) ⇒ <code>Boolean</code>
     * [.isRooms(rooms)](#Validator.isRooms) ⇒ <code>Boolean</code>
-    * [.isRoomSearch(object)](#Validator.isRoomSearch) ⇒ <code>Boolean</code>
-    * [.isTeam(object)](#Validator.isTeam) ⇒ <code>Boolean</code>
+    * [.isRoomSearch(searchObj)](#Validator.isRoomSearch) ⇒ <code>Boolean</code>
+    * [.isTeam(team)](#Validator.isTeam) ⇒ <code>Boolean</code>
     * [.isTeams(teams)](#Validator.isTeams) ⇒ <code>Boolean</code>
-    * [.isTeamMembership(object)](#Validator.isTeamMembership) ⇒ <code>Boolean</code>
+    * [.isTeamMembership(teamMembership)](#Validator.isTeamMembership) ⇒ <code>Boolean</code>
     * [.isTeamMemberships(teamMemberships)](#Validator.isTeamMemberships) ⇒ <code>Boolean</code>
-    * [.isWebhook(object)](#Validator.isWebhook) ⇒ <code>Boolean</code>
+    * [.isWebhook(webhook)](#Validator.isWebhook) ⇒ <code>Boolean</code>
     * [.isWebhooks(webhooks)](#Validator.isWebhooks) ⇒ <code>Boolean</code>
 
 <a name="Validator.isFile"></a>
@@ -1709,22 +1709,22 @@ filePath if valid, else returns rejected Promise if not valid.
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Promise.String</code> - filePath  
 
-| Param | Type |
-| --- | --- |
-| filePath | <code>String</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| filePath | <code>String</code> | Absolute path to file |
 
 <a name="Validator.isDir"></a>
 
 ### Validator.isDir(dirPath) ⇒ <code>Promise.String</code>
-Validate filePath resolves to existing file. Returns fulfilled Promise with
+Validate filePath resolves to existing dir. Returns fulfilled Promise with
 dirPath if valid, else returns rejected Promise if not valid.
 
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Promise.String</code> - dirPath  
 
-| Param | Type |
-| --- | --- |
-| dirPath | <code>String</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| dirPath | <code>String</code> | Absolute path to a directory |
 
 <a name="Validator.isToken"></a>
 
@@ -1736,9 +1736,9 @@ Promise if not valid.
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Promise.String</code> - Token  
 
-| Param | Type |
-| --- | --- |
-| token | <code>String</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| token | <code>String</code> | Cisco Spark Token |
 
 <a name="Validator.isEmail"></a>
 
@@ -1748,9 +1748,9 @@ Validate String is Email.
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| email | <code>String</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| email | <code>String</code> | Email address string |
 
 <a name="Validator.isEmails"></a>
 
@@ -1760,9 +1760,9 @@ Validate Emails in Array.
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| emails | <code>Array</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| emails | <code>Array</code> | Array of Email address string |
 
 <a name="Validator.isUrl"></a>
 
@@ -1772,21 +1772,21 @@ Validate String is URL.
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| url | <code>String</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| url | <code>String</code> | URL String |
 
 <a name="Validator.isFilePath"></a>
 
 ### Validator.isFilePath(path) ⇒ <code>Boolean</code>
-Validate String is File path.
+Validate String is File path and not a URL/URI.
 
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| path | <code>String</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| path | <code>String</code> | String to test |
 
 <a name="Validator.isOptions"></a>
 
@@ -1796,9 +1796,9 @@ Validate Options object
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| options | <code>Object.&lt;Options&gt;</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>Object.&lt;Options&gt;</code> | Validate that object passed includes all valid options for sparky constructor |
 
 <a name="Validator.isFile"></a>
 
@@ -1808,21 +1808,21 @@ Validate File object
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| file | [<code>Object.&lt;File&gt;</code>](#File) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| file | [<code>Object.&lt;File&gt;</code>](#File) | Validate that object passed includes all valid options required in a file object |
 
 <a name="Validator.isLicense"></a>
 
-### Validator.isLicense(object) ⇒ <code>Boolean</code>
+### Validator.isLicense(license) ⇒ <code>Boolean</code>
 Validate Spark License Object.
 
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| object | [<code>License</code>](#License) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| license | [<code>License</code>](#License) | License object |
 
 <a name="Validator.isLicenses"></a>
 
@@ -1832,21 +1832,21 @@ Validate Spark License Objects in Array.
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| licenses | <code>Array</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| licenses | <code>Array</code> | Array of License objects |
 
 <a name="Validator.isMembership"></a>
 
-### Validator.isMembership(object) ⇒ <code>Boolean</code>
+### Validator.isMembership(membership) ⇒ <code>Boolean</code>
 Validate Spark Membership Object.
 
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| object | [<code>Membership</code>](#Membership) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| membership | [<code>Membership</code>](#Membership) | Membership object |
 
 <a name="Validator.isMemberships"></a>
 
@@ -1856,33 +1856,33 @@ Validate Spark Membership Objects in Array.
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| memberships | <code>Array</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| memberships | <code>Array</code> | Array of Membership objects |
 
 <a name="Validator.isMembershipSearch"></a>
 
-### Validator.isMembershipSearch(object) ⇒ <code>Boolean</code>
+### Validator.isMembershipSearch(searchObj) ⇒ <code>Boolean</code>
 Validate Spark Membership Search Object.
 
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| object | <code>MembershipSearch</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| searchObj | <code>MembershipSearch</code> | MembershipSearch object |
 
 <a name="Validator.isMessage"></a>
 
-### Validator.isMessage(object) ⇒ <code>Boolean</code>
+### Validator.isMessage(message) ⇒ <code>Boolean</code>
 Validate Spark Message Object.
 
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| object | [<code>Message</code>](#Message) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| message | [<code>Message</code>](#Message) | Message object |
 
 <a name="Validator.isMessages"></a>
 
@@ -1892,33 +1892,33 @@ Validate Spark Message Objects in Array.
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| messages | <code>Array</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| messages | <code>Array</code> | Array of Message objects |
 
 <a name="Validator.isMessageSearch"></a>
 
-### Validator.isMessageSearch(object) ⇒ <code>Boolean</code>
+### Validator.isMessageSearch(searchObj) ⇒ <code>Boolean</code>
 Validate Spark Message Search Object.
 
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| object | <code>MessageSearch</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| searchObj | <code>MessageSearch</code> | MessageSearch object |
 
 <a name="Validator.isOrganization"></a>
 
-### Validator.isOrganization(object) ⇒ <code>Boolean</code>
+### Validator.isOrganization(organization) ⇒ <code>Boolean</code>
 Validate Spark Organization Object.
 
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| object | [<code>Organization</code>](#Organization) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| organization | [<code>Organization</code>](#Organization) | Organization object |
 
 <a name="Validator.isOrganizations"></a>
 
@@ -1928,57 +1928,57 @@ Validate Spark Organizations Objects in Array.
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| organizations | <code>Array</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| organizations | <code>Array</code> | Array of Organization objects |
 
 <a name="Validator.isPerson"></a>
 
-### Validator.isPerson(object) ⇒ <code>Boolean</code>
+### Validator.isPerson(person) ⇒ <code>Boolean</code>
 Validate Spark Person Object.
 
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| object | [<code>Room</code>](#Room) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| person | [<code>Person</code>](#Person) | Person object |
 
 <a name="Validator.isPeople"></a>
 
-### Validator.isPeople(persons) ⇒ <code>Boolean</code>
+### Validator.isPeople(people) ⇒ <code>Boolean</code>
 Validate Spark Person Objects in Array.
 
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| persons | <code>Array</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| people | <code>Array</code> | Array of Person objects |
 
 <a name="Validator.isPersonSearch"></a>
 
-### Validator.isPersonSearch(object) ⇒ <code>Boolean</code>
+### Validator.isPersonSearch(searchObj) ⇒ <code>Boolean</code>
 Validate Spark Person Search Object.
 
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| object | <code>PersonSearch</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| searchObj | <code>PersonSearch</code> | Person Search object |
 
 <a name="Validator.isRole"></a>
 
-### Validator.isRole(object) ⇒ <code>Boolean</code>
+### Validator.isRole(role) ⇒ <code>Boolean</code>
 Validate Spark Role Object.
 
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| object | [<code>Role</code>](#Role) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| role | [<code>Role</code>](#Role) | Role object |
 
 <a name="Validator.isRoles"></a>
 
@@ -1988,21 +1988,21 @@ Validate Spark Role Objects in Array.
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| roles | <code>Array</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| roles | <code>Array</code> | Array of Role objects |
 
 <a name="Validator.isRoom"></a>
 
-### Validator.isRoom(object) ⇒ <code>Boolean</code>
+### Validator.isRoom(room) ⇒ <code>Boolean</code>
 Validate Spark Room Object.
 
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| object | [<code>Room</code>](#Room) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| room | [<code>Room</code>](#Room) | Room Object |
 
 <a name="Validator.isRooms"></a>
 
@@ -2012,33 +2012,33 @@ Validate Spark Room Objects in Array.
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| rooms | <code>Array</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| rooms | <code>Array</code> | Array of Room objects |
 
 <a name="Validator.isRoomSearch"></a>
 
-### Validator.isRoomSearch(object) ⇒ <code>Boolean</code>
+### Validator.isRoomSearch(searchObj) ⇒ <code>Boolean</code>
 Validate Spark Room Search Object.
 
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| object | <code>RoomSearch</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| searchObj | <code>RoomSearch</code> | RoomSearch object |
 
 <a name="Validator.isTeam"></a>
 
-### Validator.isTeam(object) ⇒ <code>Boolean</code>
+### Validator.isTeam(team) ⇒ <code>Boolean</code>
 Validate Spark Team Object.
 
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| object | [<code>Team</code>](#Team) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| team | [<code>Team</code>](#Team) | Team object |
 
 <a name="Validator.isTeams"></a>
 
@@ -2048,21 +2048,21 @@ Validate Spark Team Objects in Array.
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| teams | <code>Array</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| teams | <code>Array</code> | Array of Team objects |
 
 <a name="Validator.isTeamMembership"></a>
 
-### Validator.isTeamMembership(object) ⇒ <code>Boolean</code>
+### Validator.isTeamMembership(teamMembership) ⇒ <code>Boolean</code>
 Validate Spark Team Membership Object.
 
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| object | [<code>TeamMembership</code>](#TeamMembership) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| teamMembership | [<code>TeamMembership</code>](#TeamMembership) | TeamMembership object |
 
 <a name="Validator.isTeamMemberships"></a>
 
@@ -2072,21 +2072,21 @@ Validate Spark Team Membership Objects in Array.
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| teamMemberships | <code>Array</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| teamMemberships | <code>Array</code> | Array of TeamMembership objects |
 
 <a name="Validator.isWebhook"></a>
 
-### Validator.isWebhook(object) ⇒ <code>Boolean</code>
+### Validator.isWebhook(webhook) ⇒ <code>Boolean</code>
 Validate Spark Webhook Object.
 
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| object | [<code>Webhook</code>](#Webhook) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| webhook | [<code>Webhook</code>](#Webhook) | Webhook object |
 
 <a name="Validator.isWebhooks"></a>
 
@@ -2096,9 +2096,9 @@ Validate Spark Webhook Objects in Array.
 **Kind**: static method of [<code>Validator</code>](#Validator)  
 **Returns**: <code>Boolean</code> - result  
 
-| Param | Type |
-| --- | --- |
-| webhooks | <code>Array</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| webhooks | <code>Array</code> | Array of Webhook objects |
 
 <a name="event_memberships"></a>
 
