@@ -22,16 +22,13 @@ if(typeof process.env.TOKEN === 'string') {
 
   describe('#Spark.licensesGet(orgId)', function() {
     it('returns an array of spark license objects', function() {
-      // skip licensesGet if ORG_ID is not defined
-      if(typeof process.env.ORG_ID !== 'string') {
-        this.skip();
-      } else {
-        return spark.licensesGet(process.env.ORG_ID)
-          .then(function(licenses) {
-            orgLicenses = licenses;
-            return when(assert(validator.isLicenses(licenses), 'invalid response'));
-          });
-      }
+      return spark.personMe()
+        .then(me => when(me.orgId))
+        .then(orgId => spark.licensesGet(orgId))
+        .then((licenses) => {
+          orgLicenses = licenses;
+          return when(assert(validator.isLicenses(licenses), 'invalid response'));
+        });
     });
   });
 

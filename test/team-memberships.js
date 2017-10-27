@@ -12,15 +12,18 @@ if(typeof process.env.TOKEN === 'string') {
 
   describe('#Spark.teamMembershipsGet(teamId)', function() {
     it('returns an array of spark membership objects', function() {
-      // skip teamMembershipsGet if TEAM_ID is not defined
-      if(typeof process.env.TEAM_ID !== 'string') {
-        this.skip();
-      } else {
-        return spark.teamMembershipsGet(process.env.TEAM_ID)
-          .then(function(teamMemberships) {
-            return when(assert(validator.isTeamMemberships(teamMemberships), 'invalid response'));
-          });
-      }
+      return spark.teamsGet(5)
+        .then((teams) => {
+          if (teams && teams instanceof Array && teams.length > 0) {
+            return when(teams[0].id);
+          } else {
+            return when.reject(new Error('No teams found for user token'));
+          }
+        })
+        .then(teamId => spark.teamMembershipsGet(teamId))
+        .then((teamMemberships) => {
+          return when(assert(validator.isTeamMemberships(teamMemberships), 'invalid response'));
+        });
     });
   });
 }

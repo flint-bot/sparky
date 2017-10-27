@@ -97,22 +97,16 @@ browser side JS.**_
 
 ## Tests
 
-Tests can be run via:
+Tests require a user token and will not fully run using a bot token. It is
+assumed that the user token has Org Admin permissions. If not, certain tests
+WILL fail. The tests can be run via:
 
 ```bash
 git clone https://github.com/flint-bot/sparky
 cd sparky
 npm install
-TOKEN=someTokenHere npm test
+TOKEN=someUserTokenHere npm test
 ```
-
-Additional tests will run if the following environment variables are defined:
-
-* `TEAM_ID`
-* `ORG_ID`
-
-_**Note: Tests that are marked "pending" are those that are missing their
-corresponding environmental variable.**_
 
 ## Build
 

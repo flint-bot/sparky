@@ -1160,7 +1160,7 @@ return makeRequest(pOpts);}// else, link header does not exist, return current a
 else{return when(items);}}//  else, no pagination link
 else{if(opts.hasOwnProperty('_items')){body.items=opts._items.concat(body.items);}if(maxResults>0&&body.items.length>maxResults){return when(body.items.slice(0,maxResults));}else{return when(body.items);}}}// else response is single object
 else{return when(body);}}// else other response status
-else{var errMessage=util.format('recieved error %s for a %s request to %s',status,opts.method.toUpperCase(),opts.url);console.log(errMessage);return when.reject(new Error(errMessage));}};return makeRequest(requestOptions);}else{var errMessage='missing required arguemnts';console.log(errMessage);return when.reject(new Error(errMessage));}};module.exports=Spark;}).call(this,require('_process'));},{"./res/contents":2,"./res/licenses":3,"./res/memberships":4,"./res/messages":5,"./res/organizations":6,"./res/people":7,"./res/roles":8,"./res/rooms":9,"./res/team-memberships":10,"./res/teams":11,"./res/webhooks":12,"./validator":14,"_process":256,"events":160,"request":286,"util":353,"when":380}],14:[function(require,module,exports){var Spark=require('./spark.js');var node=require('when/node');var when=require('when');var fs=require('fs');var _=require('lodash');var fsp=node.liftAll(fs);/**
+else{var errMessage=util.format('recieved error %s for a %s request to %s',status,opts.method.toUpperCase(),opts.url);console.log(errMessage);return when.reject(new Error(errMessage));}};return makeRequest(requestOptions);}else{var errMessage='missing required arguemnts';console.log(errMessage);return when.reject(new Error(errMessage));}};module.exports=Spark;}).call(this,require('_process'));},{"./res/contents":2,"./res/licenses":3,"./res/memberships":4,"./res/messages":5,"./res/organizations":6,"./res/people":7,"./res/roles":8,"./res/rooms":9,"./res/team-memberships":10,"./res/teams":11,"./res/webhooks":12,"./validator":14,"_process":256,"events":160,"request":286,"util":353,"when":380}],14:[function(require,module,exports){var node=require('when/node');var when=require('when');var fs=require('fs');var _=require('lodash');var fsp=node.liftAll(fs);/**
  * @description Spark Object Validation
  *
  * @name Validator
@@ -1190,7 +1190,7 @@ else{var errMessage=util.format('recieved error %s for a %s request to %s',statu
  * @memberof Validator
  * @param {String} token Cisco Spark Token
  * @returns {Promise.String} Token
- */Validator.isToken=function(token){if(!token){return when.reject(new Error('invalid token'));}var spark=new Spark({token:token});return spark.personMe().then(function(person){if(Validator.isPerson){return when(token);}return when.reject(new Error('invalid token'));}).catch(function(err){return when.reject(new Error('invalid token'));});};/**
+ */Validator.isToken=function(token){if(!token){return when.reject(new Error('invalid token'));}var Spark=require('./spark.js');var spark=new Spark({token:token});return spark.personMe().then(function(person){if(Validator.isPerson){return when(token);}return when.reject(new Error('invalid token'));}).catch(function(err){return when.reject(new Error('invalid token'));});};/**
  * @description Validate String is Email.
  *
  * @function
