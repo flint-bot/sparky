@@ -1,6 +1,6 @@
 # 4.0.10
 
-* regnenerated browser modules for fixes in 4.0.9
+* Regenerated browser modules for fixes in 4.0.9
 
 # 4.0.9
 

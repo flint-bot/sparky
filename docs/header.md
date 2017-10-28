@@ -5,26 +5,20 @@
 #### Cisco Spark API for Node JS (Version 4)
 
 ```js
-var Spark = require('node-sparky');
+const Spark = require('node-sparky');
 
-var spark = new Spark({token: '<token>'});
+const spark = new Spark({ token: '<token>' });
 
 spark.roomsGet(10)
-  .then(function(rooms) {
-    // process rooms as array
-    rooms.forEach(function(room) {
-      console.log(room.title);
-    });
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+  .then((rooms) => rooms.forEach((room) => console.log(room.title)))
+  .catch(err => console.error(err));
 ```
 
 ## Features
 
-* [Rate limiting headers](https://developer.ciscospark.com/blog/blog-details-8193.html) inspected to adjust request rates based on Cisco Spark API. These are automatically re-queued and sent after the `retry-after` timer expires.
+* [Rate limiting headers](https://developer.ciscospark.com/blog/blog-details-8193.html)
+  inspected to adjust request rates based on Cisco Spark API. These are
+  automatically re-queued and sent after the `retry-after` timer expires.
 * File processor for retrieving attachments from room.
 * Returns promises that comply with [A+ standards.](https://promisesaplus.com/).
 * Handles pagination transparently. (Receive unlimited records)
@@ -56,7 +50,7 @@ node-sparky just as you can with with node-js.
 ```html
 <head>
     <title>test</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="browser/node-sparky.js"></script>
 </head>
 
@@ -110,7 +104,7 @@ TOKEN=someUserTokenHere npm test
 
 ## Build
 
-The `README.md` and `browser/node-sparky.js` files are auto-generated from the
+The `README.md` and `browser/node-sparky.*` files are auto-generated from the
 files in /lib and /docs. To regenerate these run:
 
 ```bash

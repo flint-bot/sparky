@@ -5,26 +5,20 @@
 #### Cisco Spark API for Node JS (Version 4)
 
 ```js
-var Spark = require('node-sparky');
+const Spark = require('node-sparky');
 
-var spark = new Spark({token: '<token>'});
+const spark = new Spark({ token: '<token>' });
 
 spark.roomsGet(10)
-  .then(function(rooms) {
-    // process rooms as array
-    rooms.forEach(function(room) {
-      console.log(room.title);
-    });
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+  .then((rooms) => rooms.forEach((room) => console.log(room.title)))
+  .catch(err => console.error(err));
 ```
 
 ## Features
 
-* [Rate limiting headers](https://developer.ciscospark.com/blog/blog-details-8193.html) inspected to adjust request rates based on Cisco Spark API. These are automatically re-queued and sent after the `retry-after` timer expires.
+* [Rate limiting headers](https://developer.ciscospark.com/blog/blog-details-8193.html)
+  inspected to adjust request rates based on Cisco Spark API. These are
+  automatically re-queued and sent after the `retry-after` timer expires.
 * File processor for retrieving attachments from room.
 * Returns promises that comply with [A+ standards.](https://promisesaplus.com/).
 * Handles pagination transparently. (Receive unlimited records)
@@ -56,7 +50,7 @@ node-sparky just as you can with with node-js.
 ```html
 <head>
     <title>test</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="browser/node-sparky.js"></script>
 </head>
 
@@ -110,7 +104,7 @@ TOKEN=someUserTokenHere npm test
 
 ## Build
 
-The `README.md` and `browser/node-sparky.js` files are auto-generated from the
+The `README.md` and `browser/node-sparky.*` files are auto-generated from the
 files in /lib and /docs. To regenerate these run:
 
 ```bash
@@ -239,12 +233,12 @@ npm run build
         * [.teamMembershipRemove(membershipId)](#Spark.teamMembershipRemove) ⇒ <code>Promise</code>
         * [.webhooksGet([max])](#Spark.webhooksGet) ⇒ [<code>Promise.Array.&lt;Webhook&gt;</code>](#Webhook)
         * [.webhookGet(webhookId)](#Spark.webhookGet) ⇒ [<code>Promise.&lt;Webhook&gt;</code>](#Webhook)
-        * [.webhookAdd(webhook)](#Spark.webhookAdd) ⇒ [<code>Promise.&lt;Webhook&gt;</code>](#Webhook)
-        * [.webhookUpdate(webhook)](#Spark.webhookUpdate) ⇒ [<code>Promise.&lt;Webhook&gt;</code>](#Webhook)
+        * [.webhookAdd(webhookObj)](#Spark.webhookAdd) ⇒ [<code>Promise.&lt;Webhook&gt;</code>](#Webhook)
+        * [.webhookUpdate(webhookObj)](#Spark.webhookUpdate) ⇒ [<code>Promise.&lt;Webhook&gt;</code>](#Webhook)
         * [.webhookRemove(webhookId)](#Spark.webhookRemove) ⇒ <code>Promise</code>
         * [.webhookAuth(secret, signature, payload)](#Spark.webhookAuth) ⇒ <code>Promise.String</code> \| <code>Object</code>
         * [.webhookListen()](#Spark.webhookListen) ⇒ [<code>webhookHandler</code>](#Spark.webhookListen..webhookHandler)
-            * [~webhookHandler(req, [res], [next])](#Spark.webhookListen..webhookHandler)
+            * [~webhookHandler(req, [res], [next])](#Spark.webhookListen..webhookHandler) ⇒ <code>Null</code>
 
 <a name="new_Spark_new"></a>
 
@@ -258,25 +252,16 @@ Creates a Spark API instance that is then attached to a Spark Account.
 
 **Example**  
 ```js
-var Spark = require('node-sparky');
+const Spark = require('node-sparky');
 
-var spark = new Spark({
+const spark = new Spark({
   token: '<my token>',
   webhookSecret: 'somesecr3t',
-  webhookReqNamespace: 'body'
 });
 
 spark.roomsGet(10)
-  .then(function(rooms) {
-    // process rooms as array
-    rooms.forEach(function(room) {
-      console.log(room.title);
-    });
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+  .then(rooms => rooms.forEach(room => console.log(room.title)))
+  .catch(err => console.log(err);
 ```
 <a name="Spark+setToken"></a>
 
@@ -286,19 +271,19 @@ to change an expired Token. Returns a fullfiled promise if token is valid,
 else returns a rejected promise.
 
 **Kind**: instance method of [<code>Spark</code>](#Spark)  
-**Returns**: <code>Promise.String</code> - token  
+**Returns**: <code>Promise.String</code> - Token promise  
 
-| Param | Type |
-| --- | --- |
-| token | <code>String</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| token | <code>String</code> | Spark API token |
 
 **Example**  
 ```js
 spark.setToken('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function(token) {
+  .then((token) => {
     console.log(token);
   })
-  .catch(function(err) {
+  .catch((err) => {
     console.log(err);
   });
 ```
@@ -308,7 +293,7 @@ spark.setToken('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 Returns a File Object specified by Content ID or Content URL.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.&lt;File&gt;</code>](#File) - File  
+**Returns**: [<code>Promise.&lt;File&gt;</code>](#File) - File object  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -316,13 +301,9 @@ Returns a File Object specified by Content ID or Content URL.
 
 **Example**  
 ```js
-spark.contentGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function(file) {
-    console.log('File name: %s', file.name);
-  })
-  .catch(function(err){
-    console.log(err);
-  });
+spark.contentGet('Tm90aGluZyB0byBzZWUgaGVy')
+  .then(file => console.log('File name: %s', file.name))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.contentCreate"></a>
 
@@ -340,17 +321,17 @@ Create File Object from local file path.
 **Example**  
 ```js
 spark.contentCreate('/some/local/file.png')
-  .then(function(file) {
-    console.log(file.name);
-  })
-  .catch(function(err) {
-    console.log(err);
-  });
+  .then(file => console.log(file.name))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.licensesGet"></a>
 
 ### Spark.licensesGet([orgId], [max]) ⇒ [<code>Promise.Array.&lt;License&gt;</code>](#License)
-Returns all Spark Licenses for a given Organization ID. If no organization ID argument is passed, licenses are returned for the Organization that the authenticated account is in. If 'max' is not specifed, returns all.
+Returns all Spark Licenses for a given Organization ID. If
+no organization ID argument is passed, licenses are returned for the
+Organization that the authenticated account is in. If 'max' is not
+specifed, returns all. Alternativly, you can pass a licenses object
+instead of the orgId string.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
 **Returns**: [<code>Promise.Array.&lt;License&gt;</code>](#License) - Licenses Collection  
@@ -362,17 +343,18 @@ Returns all Spark Licenses for a given Organization ID. If no organization ID ar
 
 **Example**  
 ```js
-spark.licensesGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 10)
-  .then(function(licenses) {
-    // process licenses as array
-    licenses.forEach(function(license) {
-      console.log(license.name);
-    });
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+spark.licensesGet('Tm90aGluZyB0byBzZWUgaGVy', 10)
+  .then(licenses => licenses.forEach(license => console.log(license.name)))
+  .catch(err => console.error(err));
+```
+**Example**  
+```js
+const licenseSearchObj = {
+  orgId: 'Tm90aGluZyB0byBzZWUgaGVy',
+};
+spark.licensesGet(licenseSearchObj, 10)
+  .then(licenses => licenses.forEach(license => console.log(license.name)))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.licenseGet"></a>
 
@@ -388,22 +370,18 @@ Returns a Spark License specified by License ID.
 
 **Example**  
 ```js
-spark.licenseGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function(license) {
-    console.log(license.name);
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+spark.licenseGet('Tm90aGluZyB0byBzZWUgaGVy')
+  .then(license => console.log(license.name))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.membershipsGet"></a>
 
 ### Spark.membershipsGet([membershipSearch], [max]) ⇒ [<code>Promise.Array.&lt;Membership&gt;</code>](#Membership)
-Returns all Spark Memberships that the authenticated account is in. If 'max' is not specifed, returns all.
+Returns all Spark Memberships that the authenticated account
+is in. If 'max' is not specifed, returns all.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.Array.&lt;Membership&gt;</code>](#Membership) - Memberships Collection  
+**Returns**: [<code>Promise.Array.&lt;Membership&gt;</code>](#Membership) - Array of Spark Membership objects  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -412,17 +390,9 @@ Returns all Spark Memberships that the authenticated account is in. If 'max' is 
 
 **Example**  
 ```js
-spark.membershipsGet({ roomId: 'Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u' }, 10)
-  .then(function(memberships) {
-    // process memberships as array
-    memberships.forEach(function(membership) {
-      console.log(membership.personEmail);
-    });
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+spark.membershipsGet({ roomId: 'Tm90aGluZyB0byBzZWUgaGVy' }, 10)
+  .then(memberships => memberships.forEach(membership => console.log(membership.id)))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.membershipGet"></a>
 
@@ -430,7 +400,7 @@ spark.membershipsGet({ roomId: 'Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u
 Returns Spark Membership by ID.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.&lt;Membership&gt;</code>](#Membership) - Membership  
+**Returns**: [<code>Promise.&lt;Membership&gt;</code>](#Membership) - Spark Membership object  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -438,21 +408,19 @@ Returns Spark Membership by ID.
 
 **Example**  
 ```js
-spark.membershipGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function(membership) {
-    console.log(membership.personEmail);
-  })
-  .catch(function(err){
-    console.log(err);
-  });
+spark.membershipGet('Tm90aGluZyB0byBzZWUgaGVy')
+  .then(membership => console.log(membership.id))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.membershipAdd"></a>
 
 ### Spark.membershipAdd(roomId, personEmail, [isModerator]) ⇒ [<code>Promise.&lt;Membership&gt;</code>](#Membership)
-Add new Spark Membership given Room ID, email address, and moderator status.
+Add new Spark Membership given Room ID, email address, and
+moderator status. Alternativly, you can pass a membership object as the
+only argument.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.&lt;Membership&gt;</code>](#Membership) - Membership  
+**Returns**: [<code>Promise.&lt;Membership&gt;</code>](#Membership) - Spark Membership object  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -462,13 +430,20 @@ Add new Spark Membership given Room ID, email address, and moderator status.
 
 **Example**  
 ```js
-spark.membershipAdd('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 'aperson@company.com')
-  .then(function(membership) {
-    console.log(membership.id);
-  })
-  .catch(function(err){
-    console.log(err);
-  });
+spark.membershipAdd('Tm90aGluZyB0byBzZWUgaGVy', 'aperson@company.com')
+  .then(membership => console.log(membership.id))
+  .catch(err => console.error(err));
+```
+**Example**  
+```js
+const membershipObj = {
+  personEmail: 'test@test.com',
+  roomId: 'Tm90aGluZyB0byBzZWUgaGVy',
+  isModerator: true,
+};
+spark.membershipAdd(membershipObj)
+  .then(membership => console.log(membership.id))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.membershipUpdate"></a>
 
@@ -476,26 +451,21 @@ spark.membershipAdd('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 'aperson
 Update a Membership.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
+**Returns**: [<code>Promise.&lt;Membership&gt;</code>](#Membership) - Spark Membership object  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| membership | [<code>Object.&lt;Membership&gt;</code>](#Membership) | Spark Membership Object |
+| membership | [<code>Object.&lt;Membership&gt;</code>](#Membership) | Spark Membership object |
 
 **Example**  
 ```js
-spark.membershipGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function(membership) {
-    // change value of retrieved membership object
+spark.membershipGet('Tm90aGluZyB0byBzZWUgaGVy')
+  .then((membership) => {
     membership.isModerator = true;
     return spark.membershipUpdate(membership);
   )
-  .then(function(membership) {
-    console.log(membership.isModerator);
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+  .then(membership => console.log(membership.isModerator))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.membershipRemove"></a>
 
@@ -503,6 +473,7 @@ spark.membershipGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 Remove Spark Membership by ID.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
+**Returns**: <code>Promise</code> - Fulfilled promise  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -510,13 +481,9 @@ Remove Spark Membership by ID.
 
 **Example**  
 ```js
-spark.membershipRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function() {
-    console.log('Membership removed');
-  })
-  .catch(function(err){
-    console.log(err);
-  });
+spark.membershipRemove('Tm90aGluZyB0byBzZWUgaGVy')
+  .then(() => console.log('Membership removed.'))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.messagesGet"></a>
 
@@ -524,7 +491,7 @@ spark.membershipRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 Returns Spark Message Objects. If 'max' is not specifed, returns all.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.Array.&lt;Message&gt;</code>](#Message) - Message Collection  
+**Returns**: [<code>Promise.Array.&lt;Message&gt;</code>](#Message) - Array of Spark Message objects  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -533,17 +500,9 @@ Returns Spark Message Objects. If 'max' is not specifed, returns all.
 
 **Example**  
 ```js
-spark.messagesGet({roomId: 'Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u'}, 100)
-  .then(function(messages) {
-    // process messages as array
-    messages.forEach(function(message) {
-      console.log(message.text);
-    });
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+spark.messagesGet({roomId: 'Tm90aGluZyB0byBzZWUgaGVy'}, 100)
+  .then(messages => messages.forEach(message => console.log(message.text)))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.messageGet"></a>
 
@@ -551,7 +510,7 @@ spark.messagesGet({roomId: 'Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u'}, 
 Return details of Spark Message by ID.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.&lt;Message&gt;</code>](#Message) - Message  
+**Returns**: [<code>Promise.&lt;Message&gt;</code>](#Message) - Spark Message object  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -559,14 +518,9 @@ Return details of Spark Message by ID.
 
 **Example**  
 ```js
-spark.messageGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 100)
-  .then(function(message) {
-    console.log(message.text);
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+spark.messageGet('Tm90aGluZyB0byBzZWUgaGVy', 100)
+  .then(message => console.log(message.text))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.messageSend"></a>
 
@@ -574,7 +528,7 @@ spark.messageGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 100)
 Send Spark Message.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.&lt;Message&gt;</code>](#Message) - Message  
+**Returns**: [<code>Promise.&lt;Message&gt;</code>](#Message) - Spark Message object  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -583,22 +537,15 @@ Send Spark Message.
 
 **Example**  
 ```js
-let newMessage = {
-  roomId: 'Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u',
+const newMessage = {
+  roomId: 'Tm90aGluZyB0byBzZWUgaGVy',
   text: 'Hello World'
 };
 
 spark.contentCreate('/some/file/with.ext')
-  .then(function(file) {
-    return spark.messageSend(newMessage, file);
-  })
-  .then(function(message) {
-    console.log(message.id);
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+  .then(file => spark.messageSend(newMessage, file))
+  .then(message => console.log(message.id))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.messageRemove"></a>
 
@@ -606,7 +553,7 @@ spark.contentCreate('/some/file/with.ext')
 Remove Spark Message by ID.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: <code>Promise</code> - message  
+**Returns**: <code>Promise</code> - Fulfilled promise  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -614,21 +561,18 @@ Remove Spark Message by ID.
 
 **Example**  
 ```js
-spark.messageRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function() {
-    console.log('Message removed.');
-  })
-  .catch(function(err){
-    console.log(err);
-  });
+spark.messageRemove('Tm90aGluZyB0byBzZWUgaGVy')
+  .then(() => console.log('Message removed.'))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.organizationsGet"></a>
 
 ### Spark.organizationsGet([max]) ⇒ [<code>Promise.Array.&lt;Organization&gt;</code>](#Organization)
-Return all Spark Organizations that the authenticated account is in. If 'max' is not specifed, returns all.
+Return all Spark Organizations that the authenticated
+account is in. If 'max' is not specifed, returns all.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.Array.&lt;Organization&gt;</code>](#Organization) - Organizations Collection  
+**Returns**: [<code>Promise.Array.&lt;Organization&gt;</code>](#Organization) - Array of Spark Organization objects  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -636,17 +580,9 @@ Return all Spark Organizations that the authenticated account is in. If 'max' is
 
 **Example**  
 ```js
-spark.organizationsGet(100)
-  .then(function(organizations) {
-    // process organizations as array
-    organizations.forEach(function(organization) {
-      console.log(organization.displayName);
-    });
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+spark.organizationsGet(10)
+  .then(organizations => organizations.forEach(organization => console.log(organization.id)))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.organizationGet"></a>
 
@@ -654,6 +590,7 @@ spark.organizationsGet(100)
 Return Spark Organization specified by License ID.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
+**Returns**: [<code>Promise.&lt;Organization&gt;</code>](#Organization) - Spark Organization object  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -661,22 +598,23 @@ Return Spark Organization specified by License ID.
 
 **Example**  
 ```js
-spark.organizationGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function(organization) {
-    console.log(organization.displayName);
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+spark.organizationGet('Tm90aGluZyB0byBzZWUgaGVy')
+  .then(organization => console.log(organization.id))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.peopleGet"></a>
 
 ### Spark.peopleGet([personSearch], [max]) ⇒ [<code>Promise.Array.&lt;Person&gt;</code>](#Person)
-Returns Spark Person Objects. If no arguments are passed and if the authenticated account is part of an Organization and if authenticated account is assigned the Role of Organization Admin, returns all Spark Person objects from the Organizations that the user is in. Otherwise, the PersonSearch object should contain the key "id", "displayName", or "email" to query. If 'max' is not specifed, returns all matched Person Objects.
+Returns Spark Person Objects. If no arguments are passed and
+if the authenticated account is part of an Organization and if
+authenticated account is assigned the Role of Organization Admin, returns
+all Spark Person objects from the Organizations that the user is in.
+Otherwise, the PersonSearch object should contain the key "id",
+"displayName", or "email" to query. If 'max' is not specifed, returns all
+matched Person Objects.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.Array.&lt;Person&gt;</code>](#Person) - People Collection  
+**Returns**: [<code>Promise.Array.&lt;Person&gt;</code>](#Person) - Array of Spark Person objects  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -686,16 +624,8 @@ Returns Spark Person Objects. If no arguments are passed and if the authenticate
 **Example**  
 ```js
 spark.peopleGet({ displayName: 'John' }, 10)
-  .then(function(people) {
-    // process people as array
-    people.forEach(function(person) {
-      console.log(person.displayName);
-    });
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+  .then(people => people.forEach(person => console.log(person.displayName)))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.personGet"></a>
 
@@ -703,7 +633,7 @@ spark.peopleGet({ displayName: 'John' }, 10)
 Returns a Spark Person Object specified by Person ID.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.&lt;Person&gt;</code>](#Person) - Person  
+**Returns**: [<code>Promise.&lt;Person&gt;</code>](#Person) - Spark Person object  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -711,14 +641,9 @@ Returns a Spark Person Object specified by Person ID.
 
 **Example**  
 ```js
-spark.personGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function(person) {
-    console.log(person.displayName);
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+spark.personGet('Tm90aGluZyB0byBzZWUgaGVy')
+  .then(person => console.log(person.displayName))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.personMe"></a>
 
@@ -726,17 +651,12 @@ spark.personGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 Return the Spark Person Object of the authenticated account.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.&lt;Person&gt;</code>](#Person) - Person  
+**Returns**: [<code>Promise.&lt;Person&gt;</code>](#Person) - Spark Person object  
 **Example**  
 ```js
 spark.personMe()
-  .then(function(person) {
-    console.log(person.displayName);
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+  .then(person => console.log(person.displayName))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.personAdd"></a>
 
@@ -744,11 +664,11 @@ spark.personMe()
 Add new Person.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.&lt;Person&gt;</code>](#Person) - Person  
+**Returns**: [<code>Promise.&lt;Person&gt;</code>](#Person) - Spark Person object  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| person | [<code>Object.&lt;Person&gt;</code>](#Person) | Spark Person Object |
+| person | [<code>Object.&lt;Person&gt;</code>](#Person) | Spark Person object |
 
 **Example**  
 ```js
@@ -758,19 +678,14 @@ let newPerson = {
   firstName: 'Any',
   lastName: 'Person',
   avatar: 'http://lorempixel.com/400/400/',
-  orgId: 'Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u',
-  roles: ['Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u'],
-  licenses: ['Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u']
+  orgId: 'Tm90aGluZyB0byBzZWUgaGVy',
+  roles: ['Tm90aGluZyB0byBzZWUgaGVy'],
+  licenses: ['Tm90aGluZyB0byBzZWUgaGVy']
 };
 
 spark.personAdd(newPerson)
-  .then(function(person) {
-    console.log(person.displayName);
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+  .then(person => console.log(person.displayName))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.personUpdate"></a>
 
@@ -778,27 +693,21 @@ spark.personAdd(newPerson)
 Update a Person.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.&lt;Person&gt;</code>](#Person) - Person  
+**Returns**: [<code>Promise.&lt;Person&gt;</code>](#Person) - Spark Person object  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| person | [<code>Object.&lt;Person&gt;</code>](#Person) | Spark Person Object |
+| person | [<code>Object.&lt;Person&gt;</code>](#Person) | Spark Person object |
 
 **Example**  
 ```js
-spark.personGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function(person) {
-    // change value of retrieved person object
+spark.personGet('Tm90aGluZyB0byBzZWUgaGVy')
+  .then((person) => {
     person.displayName = 'Another Person';
     return spark.personUpdate(person);
-  )
-  .then(function(person) {
-    console.log(person.displayName);
   })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+  .then(person => console.log(person.displayName))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.personRemove"></a>
 
@@ -806,6 +715,7 @@ spark.personGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 Remove Spark Person by ID.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
+**Returns**: <code>Promise</code> - Fulfilled promise  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -813,21 +723,18 @@ Remove Spark Person by ID.
 
 **Example**  
 ```js
-spark.personRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function() {
-    console.log('Person removed.');
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+spark.personRemove('Tm90aGluZyB0byBzZWUgaGVy')
+  .then(() => console.log('Person removed.'))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.rolesGet"></a>
 
 ### Spark.rolesGet([max]) ⇒ [<code>Promise.Array.&lt;Role&gt;</code>](#Role)
-Returns all Spark Roles that the authenticated account is in. If 'max' is not specifed, returns all.
+Returns all Spark Roles that the authenticated account is
+in. If 'max' is not specifed, returns all.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
+**Returns**: [<code>Promise.Array.&lt;Role&gt;</code>](#Role) - Array of Spark Role object  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -835,17 +742,9 @@ Returns all Spark Roles that the authenticated account is in. If 'max' is not sp
 
 **Example**  
 ```js
-spark.rolesGet(100)
-  .then(function(roles) {
-    // process roles as array
-    roles.forEach(function(role) {
-      console.log(role.name);
-    });
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+spark.rolesGet(10)
+  .then(roles => roles.forEach(role => console.log(role.name)))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.roleGet"></a>
 
@@ -853,6 +752,7 @@ spark.rolesGet(100)
 Returns details for a Spark Role pecified by Role ID.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
+**Returns**: [<code>Promise.&lt;Role&gt;</code>](#Role) - Spark Role object  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -860,22 +760,19 @@ Returns details for a Spark Role pecified by Role ID.
 
 **Example**  
 ```js
-spark.roleGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function(role) {
-    console.log(role.name);
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+spark.roleGet('Tm90aGluZyB0byBzZWUgaGVy')
+  .then(role => console.log(role.name))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.roomsGet"></a>
 
 ### Spark.roomsGet([roomSearch], [max]) ⇒ [<code>Promise.Array.&lt;Room&gt;</code>](#Room)
-Returns Spark Room Objects. If roomSearch argument is not passed, returns all Spark Rooms that the authenticated account is in. If 'max' is not specifed, returns all.
+Returns Spark Room Objects. If roomSearch argument is not
+passed, returns all Spark Rooms that the authenticated account is in.
+If 'max' is not specifed, returns all.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.Array.&lt;Room&gt;</code>](#Room) - Rooms Collection  
+**Returns**: [<code>Promise.Array.&lt;Room&gt;</code>](#Room) - Array of Spark Room objects  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -885,16 +782,8 @@ Returns Spark Room Objects. If roomSearch argument is not passed, returns all Sp
 **Example**  
 ```js
 spark.roomsGet({ type: 'group' }, 10)
-  .then(function(rooms) {
-    // process rooms as array
-    rooms.forEach(function(room) {
-      console.log(room.title);
-    });
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+  .then(rooms => rooms.forEach(room => console.log(room.title)))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.roomGet"></a>
 
@@ -902,7 +791,7 @@ spark.roomsGet({ type: 'group' }, 10)
 Returns a Spark Room Object specified by Room ID.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.&lt;Room&gt;</code>](#Room) - Room  
+**Returns**: [<code>Promise.&lt;Room&gt;</code>](#Room) - Spark Room object  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -910,14 +799,9 @@ Returns a Spark Room Object specified by Room ID.
 
 **Example**  
 ```js
-spark.roomGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function(room) {
-    console.log(room.title);
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+spark.roomGet('Tm90aGluZyB0byBzZWUgaGVy')
+  .then(room => console.log(room.title))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.roomAdd"></a>
 
@@ -925,7 +809,7 @@ spark.roomGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 Add new Spark Room.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.&lt;Room&gt;</code>](#Room) - Room  
+**Returns**: [<code>Promise.&lt;Room&gt;</code>](#Room) - Spark Room object  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -935,13 +819,8 @@ Add new Spark Room.
 **Example**  
 ```js
 spark.roomAdd('myroom')
-  .then(function(room) {
-    console.log(room.title);
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+  .then(room => console.log(room.title))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.roomUpdate"></a>
 
@@ -949,27 +828,21 @@ spark.roomAdd('myroom')
 Update a Spark Room.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.&lt;Room&gt;</code>](#Room) - Room  
+**Returns**: [<code>Promise.&lt;Room&gt;</code>](#Room) - Spark Room object  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| room | [<code>Object.&lt;Room&gt;</code>](#Room) | Spark Room Object |
+| room | [<code>Object.&lt;Room&gt;</code>](#Room) | Spark Room object |
 
 **Example**  
 ```js
-spark.roomGet(Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u)
-  .then(function(room) {
-    // change value of retrieved room object
+spark.roomGet(Tm90aGluZyB0byBzZWUgaGVy)
+  .then((room) => {
     room.title = 'Another Title';
     return spark.roomUpdate(room);
   )
-  .then(function(room) {
-    console.log(room.title);
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+  .then(room => console.log(room.title))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.roomRemove"></a>
 
@@ -977,6 +850,7 @@ spark.roomGet(Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u)
 Remove Spark Room by ID.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
+**Returns**: <code>Promise</code> - Fulfilled promise  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -984,19 +858,15 @@ Remove Spark Room by ID.
 
 **Example**  
 ```js
-spark.roomRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function() {
-    console.log('Room removed.');
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+spark.roomRemove('Tm90aGluZyB0byBzZWUgaGVy')
+  .then(() => console.log('Room removed.'))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.teamsGet"></a>
 
 ### Spark.teamsGet([max]) ⇒ [<code>Promise.Array.&lt;Team&gt;</code>](#Team)
-Return all Spark Teams that the authenticated account is in. If 'max' is not specifed, returns all.
+Return all Spark Teams that the authenticated account is in.
+If 'max' is not specifed, returns all.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
 **Returns**: [<code>Promise.Array.&lt;Team&gt;</code>](#Team) - Teams Collection  
@@ -1008,16 +878,8 @@ Return all Spark Teams that the authenticated account is in. If 'max' is not spe
 **Example**  
 ```js
 spark.teamsGet(10)
-  .then(function(teams) {
-    // process teams as array
-    teams.forEach(function(team) {
-      console.log(team.name);
-    });
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+  .then(teams => teams.forEach(team => console.log(team.name)))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.teamGet"></a>
 
@@ -1033,14 +895,9 @@ Returns a Spark Team Object specified by Team ID.
 
 **Example**  
 ```js
-spark.teamGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function(team) {
-    console.log(team.name);
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+spark.teamGet('Tm90aGluZyB0byBzZWUgaGVy')
+  .then(team => console.log(team.name))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.teamAdd"></a>
 
@@ -1057,13 +914,8 @@ Add new Spark Team.
 **Example**  
 ```js
 spark.teamAdd('myteam')
-  .then(function(team) {
-    console.log(team.name);
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+  .then(team => console.log(team.name))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.teamUpdate"></a>
 
@@ -1079,19 +931,13 @@ Update a Team.
 
 **Example**  
 ```js
-spark.teamGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function(team) {
-    // change value of retrieved team object
+spark.teamGet('Tm90aGluZyB0byBzZWUgaGVy')
+  .then((team) => {
     team.name = 'Another Team';
     return spark.teamUpdate(team);
-  )
-  .then(function(team) {
-    console.log(team.name);
   })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+  .then(team => console.log(team.name))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.teamRemove"></a>
 
@@ -1099,6 +945,7 @@ spark.teamGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 Remove Spark Team by ID.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
+**Returns**: <code>Promise</code> - Fulfilled promise  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1106,41 +953,29 @@ Remove Spark Team by ID.
 
 **Example**  
 ```js
-spark.teamRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function() {
-    console.log('Team removed.');
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+spark.teamRemove('Tm90aGluZyB0byBzZWUgaGVy')
+  .then(() => console.log('Team removed.'))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.teamMembershipsGet"></a>
 
 ### Spark.teamMembershipsGet(teamId, [max]) ⇒ [<code>Promise.Array.&lt;TeamMembership&gt;</code>](#TeamMembership)
-Return all Spark Team Memberships for a specific Team that the authenticated account is in. If 'max' is not specifed, returns all.
+Return all Spark Team Memberships for a specific Team that
+the authenticated account is in. If 'max' is not specifed, returns all.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.Array.&lt;TeamMembership&gt;</code>](#TeamMembership) - TeamMemberships Collection  
+**Returns**: [<code>Promise.Array.&lt;TeamMembership&gt;</code>](#TeamMembership) - Array of Spark TeamMembership objects  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| teamId | <code>String</code> | Spark Team ID |
+| teamId | <code>String</code> | Spark Team Memebership ID |
 | [max] | <code>Integer</code> | Number of records to return |
 
 **Example**  
 ```js
-spark.teamMembershipsGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 100)
-  .then(function(memberships) {
-    // process memberships as array
-    memberships.forEach(function(membership) {
-      console.log(membership.personEmail);
-    });
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+spark.teamMembershipsGet('Tm90aGluZyB0byBzZWUgaGVy', 100)
+  .then(tms => tms.forEach(tm => console.log(tm.personEmail)))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.teamMembershipGet"></a>
 
@@ -1148,7 +983,7 @@ spark.teamMembershipsGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 100
 Return Spark Team Membership specified by Membership ID.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.&lt;TeamMembership&gt;</code>](#TeamMembership) - TeamMembership  
+**Returns**: [<code>Promise.&lt;TeamMembership&gt;</code>](#TeamMembership) - Spark TeamMembership object  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1156,13 +991,9 @@ Return Spark Team Membership specified by Membership ID.
 
 **Example**  
 ```js
-spark.membershipGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function(membership) {
-    console.log(membership.personEmail);
-  })
-  .catch(function(err){
-    console.log(err);
-  });
+spark.membershipGet('Tm90aGluZyB0byBzZWUgaGVy')
+  .then(tm => console.log(tm.personEmail))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.teamMembershipAdd"></a>
 
@@ -1170,23 +1001,30 @@ spark.membershipGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
 Add new Spark Team Membership.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.&lt;TeamMembership&gt;</code>](#TeamMembership) - TeamMembership  
+**Returns**: [<code>Promise.&lt;TeamMembership&gt;</code>](#TeamMembership) - Spark TeamMembership object  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| teamId | <code>String</code> | Spark Team ID |
+| teamId | <code>String</code> | Spark Team Memebership ID |
 | personEmail | <code>String</code> | Email address of person to add |
 | isModerator | <code>Boolean</code> | Boolean value to add as moderator |
 
 **Example**  
 ```js
-spark.teamMembershipAdd('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 'aperson@company.com')
-  .then(function(membership) {
-    console.log(membership.id);
-  })
-  .catch(function(err){
-    console.log(err);
-  });
+spark.teamMembershipAdd('Tm90aGluZyB0byBzZWUgaGVy', 'aperson@company.com')
+  .then(tm => console.log(tm.personEmail))
+  .catch(err => console.error(err));
+```
+**Example**  
+```js
+const teamMembershipObj = {
+  personEmail: 'test@test.com',
+  teamId: 'Tm90aGluZyB0byBzZWUgaGVy',
+  isModerator: true,
+};
+spark.teamMembershipAdd(teamMembershipObj)
+  .then(tm => console.log(tm.personEmail))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.teamMembershipUpdate"></a>
 
@@ -1194,27 +1032,21 @@ spark.teamMembershipAdd('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u', 'ape
 Update a Team Membership.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.&lt;TeamMembership&gt;</code>](#TeamMembership) - TeamMembership  
+**Returns**: [<code>Promise.&lt;TeamMembership&gt;</code>](#TeamMembership) - Spark TeamMembership object  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| teamMembership | [<code>Object.&lt;TeamMembership&gt;</code>](#TeamMembership) | Spark TeamMembership Object |
+| teamMembership | [<code>object.&lt;TeamMembership&gt;</code>](#TeamMembership) | Spark TeamMembership object |
 
 **Example**  
 ```js
-spark.teamMembershipGet(Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u)
-  .then(function(teamMembership) {
-    // change value of retrieved teamMembership object
-    teamMembership.isModerator = true;
-    return spark.teamMembershipUpdate(teamMembership);
+spark.teamMembershipGet('Tm90aGluZyB0byBzZWUgaGVy')
+  .then((tm) => {
+    tm.isModerator = true;
+    return spark.teamMembershipUpdate(tm);
   )
-  .then(function(teamMembership) {
-    console.log(teamMembership.isModerator);
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+  .then(tm => console.log(tm.isModerator))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.teamMembershipRemove"></a>
 
@@ -1222,28 +1054,26 @@ spark.teamMembershipGet(Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u)
 Remove Spark Team Membership by ID..
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
+**Returns**: <code>Promise</code> - Fulfilled promise  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| membershipId | <code>String</code> | Spark Membership ID |
+| membershipId | <code>String</code> | Spark Team Membership ID |
 
 **Example**  
 ```js
-spark.teamMembershipRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function() {
-    console.log('Membership removed');
-  })
-  .catch(function(err){
-    console.log(err);
-  });
+spark.teamMembershipRemove('Tm90aGluZyB0byBzZWUgaGVy')
+  .then(() => console.log('Team Membership removed.'))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.webhooksGet"></a>
 
 ### Spark.webhooksGet([max]) ⇒ [<code>Promise.Array.&lt;Webhook&gt;</code>](#Webhook)
-Return all Spark Webhooks that the authenticated account is in. If 'max' is not specifed, returns all.
+Return all Spark Webhooks that the authenticated account is
+in. If 'max' is not specifed, returns all.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.Array.&lt;Webhook&gt;</code>](#Webhook) - Webhooks Collection  
+**Returns**: [<code>Promise.Array.&lt;Webhook&gt;</code>](#Webhook) - Array of Spark Webhook objects  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1251,17 +1081,9 @@ Return all Spark Webhooks that the authenticated account is in. If 'max' is not 
 
 **Example**  
 ```js
-spark.webhooksGet(100)
-  .then(function(webhooks) {
-    // process webhooks as array
-    webhooks.forEach(function(webhook) {
-      console.log(webhook.name);
-    });
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+spark.webhooksGet(10)
+  .then(webhooks => webhooks.forEach(webhook => console.log(webhook.name)))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.webhookGet"></a>
 
@@ -1269,7 +1091,7 @@ spark.webhooksGet(100)
 Returns details of Spark Webhook Object specified by Webhook ID.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.&lt;Webhook&gt;</code>](#Webhook) - Webhook  
+**Returns**: [<code>Promise.&lt;Webhook&gt;</code>](#Webhook) - Spark Webhook object  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1277,73 +1099,57 @@ Returns details of Spark Webhook Object specified by Webhook ID.
 
 **Example**  
 ```js
-spark.webhookGet('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function(webhook) {
-    console.log(webhook.name);
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+spark.webhookGet('Tm90aGluZyB0byBzZWUgaGVy')
+  .then(webhook => console.log(webhook.name))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.webhookAdd"></a>
 
-### Spark.webhookAdd(webhook) ⇒ [<code>Promise.&lt;Webhook&gt;</code>](#Webhook)
+### Spark.webhookAdd(webhookObj) ⇒ [<code>Promise.&lt;Webhook&gt;</code>](#Webhook)
 Add new Webhook.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.&lt;Webhook&gt;</code>](#Webhook) - Webhook  
+**Returns**: [<code>Promise.&lt;Webhook&gt;</code>](#Webhook) - Spark Webhook object  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| webhook | [<code>Object.&lt;Webhook&gt;</code>](#Webhook) | Spark Webhook Object |
+| webhookObj | [<code>Object.&lt;Webhook&gt;</code>](#Webhook) | Spark Webhook object |
 
 **Example**  
 ```js
-let newWebhook = {
+const newWebhook = {
   name: 'my webhook',
   targetUrl: 'https://example.com/webhook',
   resource: 'memberships',
   event: 'created',
-  filter: 'roomId=Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u'
+  filter: 'roomId=Tm90aGluZyB0byBzZWUgaGVy'
 };
 
 spark.webhookAdd(newWebhook)
-  .then(function(webhook) {
-    console.log(webhook.name);
-  })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+  .then(webhook => console.log(webhook.name))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.webhookUpdate"></a>
 
-### Spark.webhookUpdate(webhook) ⇒ [<code>Promise.&lt;Webhook&gt;</code>](#Webhook)
+### Spark.webhookUpdate(webhookObj) ⇒ [<code>Promise.&lt;Webhook&gt;</code>](#Webhook)
 Update a Webhook.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.&lt;Webhook&gt;</code>](#Webhook) - Webhook  
+**Returns**: [<code>Promise.&lt;Webhook&gt;</code>](#Webhook) - Spark Webhook Object  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| webhook | [<code>Object.&lt;Webhook&gt;</code>](#Webhook) | Spark Webhook Object |
+| webhookObj | [<code>Object.&lt;Webhook&gt;</code>](#Webhook) | Spark Webhook Object |
 
 **Example**  
 ```js
-spark.webhookGet(Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u)
-  .then(function(webhook) {
-    // change value of retrieved webhook object
+spark.webhookGet(Tm90aGluZyB0byBzZWUgaGVy)
+  .then((webhook) => {
     webhook.name = 'Another Webhook';
     return spark.webhookUpdate(webhook);
-  )
-  .then(function(webhook) {
-    console.log(webhook.name);
   })
-  .catch(function(err) {
-    // process error
-    console.log(err);
-  });
+  .then(webhook => console.log(webhook.name))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.webhookRemove"></a>
 
@@ -1351,6 +1157,7 @@ spark.webhookGet(Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u)
 Remove Spark Webhook by ID.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
+**Returns**: <code>Promise</code> - Fulfilled promise  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1358,13 +1165,9 @@ Remove Spark Webhook by ID.
 
 **Example**  
 ```js
-spark.webhookRemove('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then(function() {
-    console.log('Webhook removed');
-  })
-  .catch(function(err){
-    console.log(err);
-  });
+spark.webhookRemove('Tm90aGluZyB0byBzZWUgaGVy')
+  .then(() => console.log('Webhook removed.'))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.webhookAuth"></a>
 
@@ -1382,29 +1185,23 @@ Authenticate X-Spark-Signature HMAC-SHA1 Hash.
 
 **Example**  
 ```js
-let sig = req.headers['x-spark-signature'];
-let secret = 'mySecret';
+const sig = req.headers['x-spark-signature'];
+const secret = 'mySecret';
 
 spark.webhookAuth(secret, sig, req.body)
-  .then(function() {
-    // webhook is valid
-  })
-  .catch(function(err) {
-    // webhook is invalid
-  });
+  .then(() => console.log('Webhook is valid');
+  .catch(err => console.error(err));
 ```
 <a name="Spark.webhookListen"></a>
 
 ### Spark.webhookListen() ⇒ [<code>webhookHandler</code>](#Spark.webhookListen..webhookHandler)
-Process request from connect, express, or resitify routes. Return function
-that accepts req, res, and next arguments.
+Process request from connect, express, or resitify routes.
+Returns function that accepts req, res, and next arguments.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
 **Returns**: [<code>webhookHandler</code>](#Spark.webhookListen..webhookHandler) - function  
 **Example**  
 ```js
-"use strict";
-
 const Spark = require('node-sparky');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -1413,24 +1210,15 @@ const path = require('path');
 const spark = new Spark({
   token: '<my token>',
   webhookSecret: 'somesecr3t',
-  webhookReqNamespace: 'body'
 });
 
 // add events
 spark.on('messages', function(event, message, req) {
-  if(event === 'created') {
+  if (event === 'created') {
     spark.messageGet(message.id)
-      .then(function(message) {
-        console.log('%s said %s', message.personEmail, message.text);
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
+      .then(message => console.log(`${message.personEmail} said: ${message.text}`))
+      .catch(err => console.error(err));
   }
-});
-
-spark.on('request', function(req) {
-  console.log('%s.%s web hook received', hook.resource, hook.event);
 });
 
 const app = express();
@@ -1445,18 +1233,19 @@ const server = app.listen('3000', function() {
   spark.webhookAdd({
     name: 'my webhook',
     targetUrl: 'https://example.com/webhook',
-    resource: 'messages',
-    event: 'created'
+    resource: 'all',
+    event: 'all'
   });
   console.log('Listening on port %s', '3000');
 });
 ```
 <a name="Spark.webhookListen..webhookHandler"></a>
 
-#### webhookListen~webhookHandler(req, [res], [next])
+#### webhookListen~webhookHandler(req, [res], [next]) ⇒ <code>Null</code>
 Function returned by spark.webhookListen()
 
 **Kind**: inner method of [<code>webhookListen</code>](#Spark.webhookListen)  
+**Returns**: <code>Null</code> - null value  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1671,6 +1460,7 @@ Spark Object Validation
     * [.isFile(file)](#Validator.isFile) ⇒ <code>Boolean</code>
     * [.isLicense(license)](#Validator.isLicense) ⇒ <code>Boolean</code>
     * [.isLicenses(licenses)](#Validator.isLicenses) ⇒ <code>Boolean</code>
+    * [.isLicenseSearch(searchObj)](#Validator.isLicenseSearch) ⇒ <code>Boolean</code>
     * [.isMembership(membership)](#Validator.isMembership) ⇒ <code>Boolean</code>
     * [.isMemberships(memberships)](#Validator.isMemberships) ⇒ <code>Boolean</code>
     * [.isMembershipSearch(searchObj)](#Validator.isMembershipSearch) ⇒ <code>Boolean</code>
@@ -1691,6 +1481,7 @@ Spark Object Validation
     * [.isTeams(teams)](#Validator.isTeams) ⇒ <code>Boolean</code>
     * [.isTeamMembership(teamMembership)](#Validator.isTeamMembership) ⇒ <code>Boolean</code>
     * [.isTeamMemberships(teamMemberships)](#Validator.isTeamMemberships) ⇒ <code>Boolean</code>
+    * [.isTeamMembershipSearch(searchObj)](#Validator.isTeamMembershipSearch) ⇒ <code>Boolean</code>
     * [.isWebhook(webhook)](#Validator.isWebhook) ⇒ <code>Boolean</code>
     * [.isWebhooks(webhooks)](#Validator.isWebhooks) ⇒ <code>Boolean</code>
 
@@ -1701,7 +1492,7 @@ Validate filePath resolves to existing file. Returns fulfilled Promise with
 filePath if valid, else returns rejected Promise if not valid.
 
 **Kind**: static method of [<code>Validator</code>](#Validator)  
-**Returns**: <code>Promise.String</code> - filePath  
+**Returns**: <code>Promise.String</code> - Absolute path to file  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1714,7 +1505,7 @@ Validate filePath resolves to existing dir. Returns fulfilled Promise with
 dirPath if valid, else returns rejected Promise if not valid.
 
 **Kind**: static method of [<code>Validator</code>](#Validator)  
-**Returns**: <code>Promise.String</code> - dirPath  
+**Returns**: <code>Promise.String</code> - Absolute path to a directory  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1728,7 +1519,7 @@ authorized. Returns fulfilled Promise with token if valid, else returns rejected
 Promise if not valid.
 
 **Kind**: static method of [<code>Validator</code>](#Validator)  
-**Returns**: <code>Promise.String</code> - Token  
+**Returns**: <code>Promise.String</code> - Cisco Spark Token  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1829,6 +1620,18 @@ Validate Spark License Objects in Array.
 | Param | Type | Description |
 | --- | --- | --- |
 | licenses | <code>Array</code> | Array of License objects |
+
+<a name="Validator.isLicenseSearch"></a>
+
+### Validator.isLicenseSearch(searchObj) ⇒ <code>Boolean</code>
+Validate Spark License Search Object.
+
+**Kind**: static method of [<code>Validator</code>](#Validator)  
+**Returns**: <code>Boolean</code> - result  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| searchObj | <code>LicenseSearch</code> | LicenseSearch object |
 
 <a name="Validator.isMembership"></a>
 
@@ -2070,6 +1873,18 @@ Validate Spark Team Membership Objects in Array.
 | --- | --- | --- |
 | teamMemberships | <code>Array</code> | Array of TeamMembership objects |
 
+<a name="Validator.isTeamMembershipSearch"></a>
+
+### Validator.isTeamMembershipSearch(searchObj) ⇒ <code>Boolean</code>
+Validate Spark Team Memebership Search Object.
+
+**Kind**: static method of [<code>Validator</code>](#Validator)  
+**Returns**: <code>Boolean</code> - result  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| searchObj | <code>TeamMembershipSearch</code> | TeamMembership object |
+
 <a name="Validator.isWebhook"></a>
 
 ### Validator.isWebhook(webhook) ⇒ <code>Boolean</code>
@@ -2152,7 +1967,7 @@ Webhook request event
 
 The MIT License (MIT)
 
-Copyright (c) 2016-2017
+Copyright (c) 2016-2018
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
