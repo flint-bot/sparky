@@ -10,7 +10,7 @@ const Spark = require('node-sparky');
 const spark = new Spark({ token: '<token>' });
 
 spark.roomsGet(10)
-  .then((rooms) => rooms.forEach((room) => console.log(room.title)))
+  .then(rooms => rooms.forEach(room => console.log(room.title)))
   .catch(err => console.error(err));
 ```
 
