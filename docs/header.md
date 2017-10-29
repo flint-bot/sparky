@@ -24,15 +24,6 @@ spark.roomsGet(10)
 * Handles pagination transparently. (Receive unlimited records)
 * Support for [authenticated HMAC-SHA1 webhooks](https://developer.ciscospark.com/webhooks-explained.html#sensitive-data)
 
-_**Note: If you are coming from using node-sparky version 3.x or earlier, note
-that the architecture, commands, and some variable names have changed. While this
-release is similar to previous versions, there are some major differences.
-Please read the API docs below and review the [CHANGELOG.md](CHANGELOG.md)
-before migrating your code to this release. If you are looking for the old
-release version, node-sparky@2.0.27 and node-sparky@3.1.19 is still available to
-be installed through NPM.**_
-
-
 ## Using `node-sparky` as a Node JS Package
 
 This module can be installed via NPM:

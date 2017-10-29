@@ -24,15 +24,6 @@ spark.roomsGet(10)
 * Handles pagination transparently. (Receive unlimited records)
 * Support for [authenticated HMAC-SHA1 webhooks](https://developer.ciscospark.com/webhooks-explained.html#sensitive-data)
 
-_**Note: If you are coming from using node-sparky version 3.x or earlier, note
-that the architecture, commands, and some variable names have changed. While this
-release is similar to previous versions, there are some major differences.
-Please read the API docs below and review the [CHANGELOG.md](CHANGELOG.md)
-before migrating your code to this release. If you are looking for the old
-release version, node-sparky@2.0.27 and node-sparky@3.1.19 is still available to
-be installed through NPM.**_
-
-
 ## Using `node-sparky` as a Node JS Package
 
 This module can be installed via NPM:
@@ -172,6 +163,27 @@ npm run build
 <dt><a href="#event_rooms">"rooms"</a></dt>
 <dd><p>Webhook rooms event</p>
 </dd>
+<dt><a href="#event_memberships-created">"memberships-created"</a></dt>
+<dd><p>Webhook Memberships Created event</p>
+</dd>
+<dt><a href="#event_memberships-updated">"memberships-updated"</a></dt>
+<dd><p>Webhook Memberships Updated event</p>
+</dd>
+<dt><a href="#event_memberships-deleted">"memberships-deleted"</a></dt>
+<dd><p>Webhook Memberships Deleted event</p>
+</dd>
+<dt><a href="#event_messages-created">"messages-created"</a></dt>
+<dd><p>Webhook Messages Created event</p>
+</dd>
+<dt><a href="#event_messages-deleted">"messages-deleted"</a></dt>
+<dd><p>Webhook Messages Deleted event</p>
+</dd>
+<dt><a href="#event_rooms-created">"rooms-created"</a></dt>
+<dd><p>Webhook Rooms Created event</p>
+</dd>
+<dt><a href="#event_rooms-updated">"rooms-updated"</a></dt>
+<dd><p>Webhook Rooms Updated event</p>
+</dd>
 <dt><a href="#event_request">"request"</a></dt>
 <dd><p>Webhook request event</p>
 </dd>
@@ -232,6 +244,7 @@ npm run build
         * [.teamMembershipUpdate(teamMembership)](#Spark.teamMembershipUpdate) ⇒ [<code>Promise.&lt;TeamMembership&gt;</code>](#TeamMembership)
         * [.teamMembershipRemove(membershipId)](#Spark.teamMembershipRemove) ⇒ <code>Promise</code>
         * [.webhooksGet([max])](#Spark.webhooksGet) ⇒ [<code>Promise.Array.&lt;Webhook&gt;</code>](#Webhook)
+        * [.webhooksSearch(webhookSearch, [max])](#Spark.webhooksSearch) ⇒ [<code>Promise.Array.&lt;Webhook&gt;</code>](#Webhook)
         * [.webhookGet(webhookId)](#Spark.webhookGet) ⇒ [<code>Promise.&lt;Webhook&gt;</code>](#Webhook)
         * [.webhookAdd(webhookObj)](#Spark.webhookAdd) ⇒ [<code>Promise.&lt;Webhook&gt;</code>](#Webhook)
         * [.webhookUpdate(webhookObj)](#Spark.webhookUpdate) ⇒ [<code>Promise.&lt;Webhook&gt;</code>](#Webhook)
@@ -1081,6 +1094,25 @@ spark.webhooksGet(10)
   .then(webhooks => webhooks.forEach(webhook => console.log(webhook.name)))
   .catch(err => console.error(err));
 ```
+<a name="Spark.webhooksSearch"></a>
+
+### Spark.webhooksSearch(webhookSearch, [max]) ⇒ [<code>Promise.Array.&lt;Webhook&gt;</code>](#Webhook)
+Returns all webhooks that match the search criteria
+
+**Kind**: static method of [<code>Spark</code>](#Spark)  
+**Returns**: [<code>Promise.Array.&lt;Webhook&gt;</code>](#Webhook) - Array of Spark Webhook objects  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| webhookSearch | <code>Object</code> |  | Webhook Search object |
+| [max] | <code>Integer</code> | <code>10</code> | Number of records to return |
+
+**Example**  
+```js
+spark.webhooksSearch({ name: 'My Awesome Webhook' })
+  .then(webhooks => webhooks.forEach(webhook => console.log(webhook.name)))
+  .catch(err => console.error(err));
+```
 <a name="Spark.webhookGet"></a>
 
 ### Spark.webhookGet(webhookId) ⇒ [<code>Promise.&lt;Webhook&gt;</code>](#Webhook)
@@ -1201,7 +1233,6 @@ Returns function that accepts req, res, and next arguments.
 const Spark = require('node-sparky');
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require('path');
 
 const spark = new Spark({
   token: '<my token>',
@@ -1209,13 +1240,7 @@ const spark = new Spark({
 });
 
 // add events
-spark.on('messages', function(event, message, req) {
-  if (event === 'created') {
-    spark.messageGet(message.id)
-      .then(message => console.log(`${message.personEmail} said: ${message.text}`))
-      .catch(err => console.error(err));
-  }
-});
+spark.on('messages-created', msg => console.log(`${msg.personEmail} said: ${msg.text}`));
 
 const app = express();
 app.use(bodyParser.json());
@@ -1917,7 +1942,7 @@ Webhook membership event
 | --- | --- | --- |
 | event | <code>String</code> | Triggered event (created, updated, deleted) |
 | membership | [<code>Object.&lt;Membership&gt;</code>](#Membership) | Membership Object found in Webhook |
-| req | <code>Object.&lt;Request&gt;</code> | Full Request Object |
+| reqBody | <code>Object.&lt;RequestBody&gt;</code> | Full Webhook Body Object |
 
 <a name="event_messages"></a>
 
@@ -1931,7 +1956,7 @@ Webhook messages event
 | --- | --- | --- |
 | event | <code>String</code> | Triggered event (created, deleted) |
 | message | [<code>Object.&lt;Message&gt;</code>](#Message) | Message Object found in Webhook |
-| req | <code>Object.&lt;Request&gt;</code> | Full Request Object |
+| reqBody | <code>Object.&lt;RequestBody&gt;</code> | Full Webhook Body Object |
 
 <a name="event_rooms"></a>
 
@@ -1945,7 +1970,98 @@ Webhook rooms event
 | --- | --- | --- |
 | event | <code>String</code> | Triggered event (created, updated) |
 | room | [<code>Object.&lt;Room&gt;</code>](#Room) | Room Object found in Webhook |
-| req | <code>Object.&lt;Request&gt;</code> | Full Request Object |
+| reqBody | <code>Object.&lt;RequestBody&gt;</code> | Full Webhook Body Object |
+
+<a name="event_memberships-created"></a>
+
+## "memberships-created"
+Webhook Memberships Created event
+
+**Kind**: event emitted  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| membership | [<code>Object.&lt;Membership&gt;</code>](#Membership) | Membership Object found in Webhook |
+| reqBody | <code>Object.&lt;RequestBody&gt;</code> | Full Webhook Body Object |
+
+<a name="event_memberships-updated"></a>
+
+## "memberships-updated"
+Webhook Memberships Updated event
+
+**Kind**: event emitted  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| membership | [<code>Object.&lt;Membership&gt;</code>](#Membership) | Membership Object found in Webhook |
+| reqBody | <code>Object.&lt;RequestBody&gt;</code> | Full Webhook Body Object |
+
+<a name="event_memberships-deleted"></a>
+
+## "memberships-deleted"
+Webhook Memberships Deleted event
+
+**Kind**: event emitted  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| membership | [<code>Object.&lt;Membership&gt;</code>](#Membership) | Membership Object found in Webhook |
+| reqBody | <code>Object.&lt;RequestBody&gt;</code> | Full Webhook Body Object |
+
+<a name="event_messages-created"></a>
+
+## "messages-created"
+Webhook Messages Created event
+
+**Kind**: event emitted  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| message | [<code>Object.&lt;Message&gt;</code>](#Message) | Message Object found in Webhook |
+| reqBody | <code>Object.&lt;RequestBody&gt;</code> | Full Webhook Body Object |
+
+<a name="event_messages-deleted"></a>
+
+## "messages-deleted"
+Webhook Messages Deleted event
+
+**Kind**: event emitted  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| message | [<code>Object.&lt;Message&gt;</code>](#Message) | Message Object found in Webhook |
+| reqBody | <code>Object.&lt;RequestBody&gt;</code> | Full Webhook Body Object |
+
+<a name="event_rooms-created"></a>
+
+## "rooms-created"
+Webhook Rooms Created event
+
+**Kind**: event emitted  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| message | [<code>Object.&lt;Room&gt;</code>](#Room) | Room Object found in Webhook |
+| reqBody | <code>Object.&lt;RequestBody&gt;</code> | Full Webhook Body Object |
+
+<a name="event_rooms-updated"></a>
+
+## "rooms-updated"
+Webhook Rooms Updated event
+
+**Kind**: event emitted  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| message | [<code>Object.&lt;Room&gt;</code>](#Room) | Room Object found in Webhook |
+| reqBody | <code>Object.&lt;RequestBody&gt;</code> | Full Webhook Body Object |
 
 <a name="event_request"></a>
 
@@ -1957,7 +2073,7 @@ Webhook request event
 
 | Name | Type | Description |
 | --- | --- | --- |
-| req | <code>Object.&lt;Request&gt;</code> | Full Request Object |
+| reqBody | <code>Object.&lt;RequestBody&gt;</code> | Full Webhook Body Object |
 
 ## License
 

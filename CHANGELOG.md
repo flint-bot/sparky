@@ -1,3 +1,14 @@
+# 4.1.x
+
+* Code cleanup
+* Code standardization
+* Code examples updated
+* Webhook logic refined
+* New events added
+* Messages/Created events now automatically adds message content as part of emitter
+* Events now return message body instead of full message request as secondary parameter
+* Updated Tests to determine OrgId and TeamId automatically
+
 # 4.0.10
 
 * Regenerated browser modules for fixes in 4.0.9

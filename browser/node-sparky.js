@@ -693,6 +693,19 @@ var cryptoTimingSafeEqualStr=function cryptoTimingSafeEqualStr(a,b){if(typeof a=
      *   .then(webhooks => webhooks.forEach(webhook => console.log(webhook.name)))
      *   .catch(err => console.error(err));
      */webhooksGet:function webhooksGet(){for(var _len12=arguments.length,args=Array(_len12),_key13=0;_key13<_len12;_key13++){args[_key13]=arguments[_key13];}var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;return Spark.request('get','webhooks',{max:Spark.maxPageItems},maxResults);},/**
+     * @description Returns all webhooks that match the search criteria
+     *
+     * @memberof Spark
+     * @function
+     * @param {Object} webhookSearch Webhook Search object
+     * @param {Integer} [max=10] Number of records to return
+     * @returns {Promise.Array.<Webhook>} Array of Spark Webhook objects
+     *
+     * @example
+     * spark.webhooksSearch({ name: 'My Awesome Webhook' })
+     *   .then(webhooks => webhooks.forEach(webhook => console.log(webhook.name)))
+     *   .catch(err => console.error(err));
+     */webhooksSearch:function webhooksSearch(){for(var _len13=arguments.length,args=Array(_len13),_key14=0;_key14<_len13;_key14++){args[_key14]=arguments[_key14];}var webhookSearch=args.length>0&&_typeof2(args[0])==='object'?args.shift():{};var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():10;return Spark.request('get','webhooks',{max:Spark.maxPageItems},0).then(function(webhooksAll){return when(_.filter(webhooksAll,webhookSearch).slice(0,maxResults));});},/**
      * @description Returns details of Spark Webhook Object specified by Webhook ID.
      *
      * @memberof Spark
@@ -783,7 +796,6 @@ return Spark.request('put','webhooks',webhookObj.id,webhookObj);}return when.rej
      * const Spark = require('node-sparky');
      * const express = require('express');
      * const bodyParser = require('body-parser');
-     * const path = require('path');
      *
      * const spark = new Spark({
      *   token: '<my token>',
@@ -791,13 +803,7 @@ return Spark.request('put','webhooks',webhookObj.id,webhookObj);}return when.rej
      * });
      *
      * // add events
-     * spark.on('messages', function(event, message, req) {
-     *   if (event === 'created') {
-     *     spark.messageGet(message.id)
-     *       .then(message => console.log(`${message.personEmail} said: ${message.text}`))
-     *       .catch(err => console.error(err));
-     *   }
-     * });
+     * spark.on('messages-created', msg => console.log(`${msg.personEmail} said: ${msg.text}`));
      *
      * const app = express();
      * app.use(bodyParser.json());
@@ -830,32 +836,81 @@ var processBody=function processBody(bodyObj){var resource=_.has(bodyObj,'resour
              *
              * @event memberships
              * @type object
-             * @property {String} event - Triggered event (created, updated, deleted)
-             * @property {Object.<Membership>} membership - Membership Object found in Webhook
-             * @property {Object.<Request>} req - Full Request Object
+             * @property {String} event Triggered event (created, updated, deleted)
+             * @property {Object.<Membership>} membership Membership Object found in Webhook
+             * @property {Object.<RequestBody>} reqBody Full Webhook Body Object
              *//**
              * @description Webhook messages event
              *
              * @event messages
              * @type object
-             * @property {String} event - Triggered event (created, deleted)
-             * @property {Object.<Message>} message - Message Object found in Webhook
-             * @property {Object.<Request>} req - Full Request Object
+             * @property {String} event Triggered event (created, deleted)
+             * @property {Object.<Message>} message Message Object found in Webhook
+             * @property {Object.<RequestBody>} reqBody Full Webhook Body Object
              *//**
              * @description Webhook rooms event
              *
              * @event rooms
              * @type object
-             * @property {String} event - Triggered event (created, updated)
-             * @property {Object.<Room>} room - Room Object found in Webhook
-             * @property {Object.<Request>} req - Full Request Object
-             */Spark.emit(resource,event,data,req);Spark.emit(resource+"-"+event,data,req);/**
+             * @property {String} event Triggered event (created, updated)
+             * @property {Object.<Room>} room Room Object found in Webhook
+             * @property {Object.<RequestBody>} reqBody Full Webhook Body Object
+             *//**
+             * @description Webhook Memberships Created event
+             *
+             * @event memberships-created
+             * @type object
+             * @property {Object.<Membership>} membership Membership Object found in Webhook
+             * @property {Object.<RequestBody>} reqBody Full Webhook Body Object
+             *//**
+             * @description Webhook Memberships Updated event
+             *
+             * @event memberships-updated
+             * @type object
+             * @property {Object.<Membership>} membership Membership Object found in Webhook
+             * @property {Object.<RequestBody>} reqBody Full Webhook Body Object
+             *//**
+             * @description Webhook Memberships Deleted event
+             *
+             * @event memberships-deleted
+             * @type object
+             * @property {Object.<Membership>} membership Membership Object found in Webhook
+             * @property {Object.<RequestBody>} reqBody Full Webhook Body Object
+             *//**
+             * @description Webhook Messages Created event
+             *
+             * @event messages-created
+             * @type object
+             * @property {Object.<Message>} message Message Object found in Webhook
+             * @property {Object.<RequestBody>} reqBody Full Webhook Body Object
+             *//**
+             * @description Webhook Messages Deleted event
+             *
+             * @event messages-deleted
+             * @type object
+             * @property {Object.<Message>} message Message Object found in Webhook
+             * @property {Object.<RequestBody>} reqBody Full Webhook Body Object
+             *//**
+             * @description Webhook Rooms Created event
+             *
+             * @event rooms-created
+             * @type object
+             * @property {Object.<Room>} message Room Object found in Webhook
+             * @property {Object.<RequestBody>} reqBody Full Webhook Body Object
+             *//**
+             * @description Webhook Rooms Updated event
+             *
+             * @event rooms-updated
+             * @type object
+             * @property {Object.<Room>} message Room Object found in Webhook
+             * @property {Object.<RequestBody>} reqBody Full Webhook Body Object
+             */if(resource==='messages'&&event==='created'){Spark.messageGet(data.id).then(function(messageFull){Spark.emit(resource,event,messageFull,bodyObj);Spark.emit(resource+"-"+event,messageFull,bodyObj);}).catch(function(err){return console.error(err);});}else{Spark.emit(resource,event,data,bodyObj);Spark.emit(resource+"-"+event,data,bodyObj);}/**
              * @description Webhook request event
              *
              * @event request
              * @type object
-             * @property {Object.<Request>} req - Full Request Object
-             */Spark.emit('request',req);}};// validate "req"
+             * @property {Object.<RequestBody>} reqBody Full Webhook Body Object
+             */Spark.emit('request',bodyObj);}};// validate "req"
 if(req&&(typeof req==="undefined"?"undefined":_typeof2(req))==='object'&&_.has(req,'headers')&&_.has(req,Spark.webhookReqNamespace)){// headers
 var headers=req.headers;// body
 var body={};// if body data type is object
@@ -906,7 +961,7 @@ _.merge(_this3,contents(_this3));_.merge(_this3,events(_this3));_.merge(_this3,l
    * @returns {Promise.<Response>} Response promise
    */},{key:"request",value:function request(){// if token is not defined
 if(!this.token||typeof this.token!=='string'){return when.reject(new Error('token not defined'));}var reMethod=/^(get|put|post|delete|form)$/i;var reResource=/^(contents|licenses|memberships|messages|organizations|people|roles|rooms|team\/memberships|teams|webhooks)$/i;// validate method
-for(var _len13=arguments.length,args=Array(_len13),_key14=0;_key14<_len13;_key14++){args[_key14]=arguments[_key14];}var method=args.length>0&&typeof args[0]==='string'&&args[0].match(reMethod)?args.shift():undefined;// validate resource
+for(var _len14=arguments.length,args=Array(_len14),_key15=0;_key15<_len14;_key15++){args[_key15]=arguments[_key15];}var method=args.length>0&&typeof args[0]==='string'&&args[0].match(reMethod)?args.shift():undefined;// validate resource
 var resource=args.length>0&&typeof args[0]==='string'&&args[0].match(reResource)?args.shift():undefined;// validate id
 var id=args.length>0&&typeof args[0]==='string'?args.shift():undefined;// validate data
 var data=args.length>0&&_typeof2(args[0])==='object'?args.shift():{};// validate max
