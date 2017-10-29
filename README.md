@@ -280,12 +280,8 @@ else returns a rejected promise.
 **Example**  
 ```js
 spark.setToken('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then((token) => {
-    console.log(token);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+  .then(token => console.log(token))
+  .catch(err => console.error(err));
 ```
 <a name="Spark.contentGet"></a>
 

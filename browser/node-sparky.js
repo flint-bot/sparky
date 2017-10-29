@@ -849,7 +849,7 @@ var processBody=function processBody(bodyObj){var resource=_.has(bodyObj,'resour
              * @property {String} event - Triggered event (created, updated)
              * @property {Object.<Room>} room - Room Object found in Webhook
              * @property {Object.<Request>} req - Full Request Object
-             */Spark.emit(resource,event,data,req);/**
+             */Spark.emit(resource,event,data,req);Spark.emit(resource+"-"+event,data,req);/**
              * @description Webhook request event
              *
              * @event request
@@ -892,12 +892,8 @@ _.merge(_this3,contents(_this3));_.merge(_this3,events(_this3));_.merge(_this3,l
    *
    * @example
    * spark.setToken('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-   *   .then((token) => {
-   *     console.log(token);
-   *   })
-   *   .catch((err) => {
-   *     console.log(err);
-   *   });
+   *   .then(token => console.log(token))
+   *   .catch(err => console.error(err));
    */_createClass(Spark,[{key:"setToken",value:function setToken(token){var _this4=this;return validator.isToken(token).then(function(vaildToken){_this4.token=vaildToken;return when(vaildToken);});}/**
    * @description Format Spark API Call, make http request, and validate response.
    *
