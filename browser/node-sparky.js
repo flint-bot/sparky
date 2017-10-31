@@ -737,7 +737,8 @@ var cryptoTimingSafeEqualStr=function cryptoTimingSafeEqualStr(a,b){if(typeof a=
      * spark.webhookAdd(newWebhook)
      *   .then(webhook => console.log(webhook.name))
      *   .catch(err => console.error(err));
-     */webhookAdd:function webhookAdd(webhookObj){if(webhookObj&&(typeof webhookObj==="undefined"?"undefined":_typeof2(webhookObj))==='object'&&validator.isWebhook(webhookObj)){return Spark.request('post','webhooks',webhookObj);}return when.reject(new Error('invalid or missing webhook object'));},/**
+     */webhookAdd:function webhookAdd(webhookObj){if(webhookObj&&(typeof webhookObj==="undefined"?"undefined":_typeof2(webhookObj))==='object'&&validator.isWebhook(webhookObj)){// add secret if defined in Spark.options but not specificed as part of webhookObj
+if(_.has(Spark,'webhookSecret')&&!_.has(webhookObj,'webhookSecret')){var updatedWebhookObj=_.cloneDeep(webhookObj);updatedWebhookObj.secret=Spark.webhookSecret;return Spark.request('post','webhooks',updatedWebhookObj);}return Spark.request('post','webhooks',webhookObj);}return when.reject(new Error('invalid or missing webhook object'));},/**
      * @description Update a Webhook.
      *
      * @memberof Spark
@@ -802,6 +803,8 @@ return Spark.request('put','webhooks',webhookObj.id,webhookObj);}return when.rej
      *   webhookSecret: 'somesecr3t',
      * });
      *
+     * const port = parseInt(process.env.PORT || '3000', 10);
+     *
      * // add events
      * spark.on('messages-created', msg => console.log(`${msg.personEmail} said: ${msg.text}`));
      *
@@ -812,15 +815,20 @@ return Spark.request('put','webhooks',webhookObj.id,webhookObj);}return when.rej
      * app.post('/webhook', spark.webhookListen());
      *
      * // start express server
-     * const server = app.listen('3000', function() {
-     *   // create spark webhook directed back to express route defined above
-     *   spark.webhookAdd({
-     *     name: 'my webhook',
-     *     targetUrl: 'https://example.com/webhook',
-     *     resource: 'all',
-     *     event: 'all'
-     *   });
-     *   console.log('Listening on port %s', '3000');
+     * app.listen(port, function() {
+     *   // get exisiting webhooks
+     *   spark.webhooksGet()
+     *     // remove all existing webhooks
+     *     .then(webhooks => when.map(webhooks, webhook => spark.webhookRemove(webhook.id)))
+     *     // create spark webhook directed back to the externally accessible
+     *     // express route defined above. 
+     *     .then(() => spark.webhookAdd({
+     *       name: 'my webhook',
+     *       targetUrl: 'https://example.com/webhook',
+     *       resource: 'all',
+     *       event: 'all',
+     *     });
+     *   console.log(`Listening on port ${port}`);
      * });
      */webhookListen:function webhookListen(){/**
        * @description Function returned by spark.webhookListen()
@@ -915,7 +923,7 @@ if(req&&(typeof req==="undefined"?"undefined":_typeof2(req))==='object'&&_.has(r
 var headers=req.headers;// body
 var body={};// if body data type is object
 if(_typeof2(req[Spark.webhookReqNamespace])==='object'){body=when(req[Spark.webhookReqNamespace]);}else if(typeof req[Spark.webhookReqNamespace]==='string'){body=jsonParse(req[Spark.webhookReqNamespace]);}// hmac signature
-var sig=_.has(headers,'x-spark-signature')?headers['x-spark-signature']:false;if(sig&&Spark.webhookSecret){when(body).then(function(bodyObj){return Spark.webhookAuth(Spark.webhookSecret,sig,bodyObj);}).then(function(bodyObj){return when(processBody(bodyObj));}).catch(function(err){return console.error(err);});}if(xor(sig,Spark.webhookSecret)){console.error(new Error('webhookListen ignored callback due to inconsistent webhook signature or secret'));}else{when(body).then(function(bodyObj){return when(processBody(bodyObj));}).catch(function(err){return console.error(err);});}}else{console.error(new Error('invalid webhook received'));}};return webhookHandler;}};return webhooks;};module.exports=Webhooks;}).call(this,require("buffer").Buffer);},{"../validator":17,"buffer":119,"crypto":132,"lodash":225,"when":453}],16:[function(require,module,exports){(function(process){var _require=require('events'),EventEmitter=_require.EventEmitter;var when=require('when');var _request=require('request');var _=require('lodash');var validator=require('./validator');// spark resource methods
+var sig=_.has(headers,'x-spark-signature')?headers['x-spark-signature']:false;if(sig&&Spark.webhookSecret){when(body).then(function(bodyObj){return Spark.webhookAuth(Spark.webhookSecret,sig,bodyObj);}).then(function(bodyObj){return when(processBody(bodyObj));}).catch(function(err){return console.error(err);});}else if(xor(sig,Spark.webhookSecret)){console.error(new Error('webhookListen ignored callback due to inconsistent webhook signature or secret'));}else{when(body).then(function(bodyObj){return when(processBody(bodyObj));}).catch(function(err){return console.error(err);});}}else{console.error(new Error('invalid webhook received'));}};return webhookHandler;}};return webhooks;};module.exports=Webhooks;}).call(this,require("buffer").Buffer);},{"../validator":17,"buffer":119,"crypto":132,"lodash":225,"when":453}],16:[function(require,module,exports){(function(process){var _require=require('events'),EventEmitter=_require.EventEmitter;var when=require('when');var _request=require('request');var _=require('lodash');var validator=require('./validator');// spark resource methods
 var contents=require('./res/contents');var events=require('./res/events');var licenses=require('./res/licenses');var memberships=require('./res/memberships');var messages=require('./res/messages');var metrics=require('./res/metrics');var organizations=require('./res/organizations');var people=require('./res/people');var policies=require('./res/policies');var roles=require('./res/roles');var rooms=require('./res/rooms');var teamMemberships=require('./res/team-memberships');var teams=require('./res/teams');var webhooks=require('./res/webhooks');/**
  * @description Creates a Spark API instance that is then attached to a Spark Account.
  *

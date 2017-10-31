@@ -1239,6 +1239,8 @@ const spark = new Spark({
   webhookSecret: 'somesecr3t',
 });
 
+const port = parseInt(process.env.PORT || '3000', 10);
+
 // add events
 spark.on('messages-created', msg => console.log(`${msg.personEmail} said: ${msg.text}`));
 
@@ -1249,15 +1251,20 @@ app.use(bodyParser.json());
 app.post('/webhook', spark.webhookListen());
 
 // start express server
-const server = app.listen('3000', function() {
-  // create spark webhook directed back to express route defined above
-  spark.webhookAdd({
-    name: 'my webhook',
-    targetUrl: 'https://example.com/webhook',
-    resource: 'all',
-    event: 'all'
-  });
-  console.log('Listening on port %s', '3000');
+app.listen(port, function() {
+  // get exisiting webhooks
+  spark.webhooksGet()
+    // remove all existing webhooks
+    .then(webhooks => when.map(webhooks, webhook => spark.webhookRemove(webhook.id)))
+    // create spark webhook directed back to the externally accessible
+    // express route defined above. 
+    .then(() => spark.webhookAdd({
+      name: 'my webhook',
+      targetUrl: 'https://example.com/webhook',
+      resource: 'all',
+      event: 'all',
+    });
+  console.log(`Listening on port ${port}`);
 });
 ```
 <a name="Spark.webhookListen..webhookHandler"></a>
