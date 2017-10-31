@@ -797,6 +797,7 @@ return Spark.request('put','webhooks',webhookObj.id,webhookObj);}return when.rej
      * const Spark = require('node-sparky');
      * const express = require('express');
      * const bodyParser = require('body-parser');
+     * const when = require('when');
      *
      * const spark = new Spark({
      *   token: '<my token>',
@@ -821,7 +822,7 @@ return Spark.request('put','webhooks',webhookObj.id,webhookObj);}return when.rej
      *     // remove all existing webhooks
      *     .then(webhooks => when.map(webhooks, webhook => spark.webhookRemove(webhook.id)))
      *     // create spark webhook directed back to the externally accessible
-     *     // express route defined above. 
+     *     // express route defined above.
      *     .then(() => spark.webhookAdd({
      *       name: 'my webhook',
      *       targetUrl: 'https://example.com/webhook',

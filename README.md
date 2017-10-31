@@ -1233,6 +1233,7 @@ Returns function that accepts req, res, and next arguments.
 const Spark = require('node-sparky');
 const express = require('express');
 const bodyParser = require('body-parser');
+const when = require('when');
 
 const spark = new Spark({
   token: '<my token>',
@@ -1257,7 +1258,7 @@ app.listen(port, function() {
     // remove all existing webhooks
     .then(webhooks => when.map(webhooks, webhook => spark.webhookRemove(webhook.id)))
     // create spark webhook directed back to the externally accessible
-    // express route defined above. 
+    // express route defined above.
     .then(() => spark.webhookAdd({
       name: 'my webhook',
       targetUrl: 'https://example.com/webhook',
