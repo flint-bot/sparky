@@ -28,5 +28,5 @@ app.listen(process.env.PORT, () => {
       resource: 'all',
       event: 'all',
     }));
-  console.log('Listening on port %s', process.env.PORT);
+  console.log(`Listening on port ${process.env.PORT}`);
 });
