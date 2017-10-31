@@ -1,0 +1,12 @@
+{
+  "name": "examples",
+  "version": "0.0.1",
+  "description": "node-sparky examples",
+  "author": "Nicholas Marus <nmarus@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "when": "^3.7.8"
+  }
+}
