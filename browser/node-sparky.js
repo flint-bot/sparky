@@ -1108,7 +1108,7 @@ var spark=new Spark({token:token});return spark.personMe().then(function(person)
  * @memberof Validator
  * @param {Membership} membership Membership object
  * @returns {Boolean} result
- */Validator.isMembership=function(membership){var result=(typeof membership==="undefined"?"undefined":_typeof2(membership))==='object'&&membership.roomId&&membership.personId&&membership.personEmail&&validator.isEmail(membership.personEmail);return result;};/**
+ */Validator.isMembership=function(membership){var result=(typeof membership==="undefined"?"undefined":_typeof2(membership))==='object'&&membership.roomId&&(membership.personId||membership.personEmail&&validator.isEmail(membership.personEmail));return result;};/**
  * @description Validate Spark Membership Objects in Array.
  *
  * @function
