@@ -1513,6 +1513,7 @@ Spark Object Validation
     * [.isTeamMembershipSearch(searchObj)](#Validator.isTeamMembershipSearch) ⇒ <code>Boolean</code>
     * [.isWebhook(webhook)](#Validator.isWebhook) ⇒ <code>Boolean</code>
     * [.isWebhooks(webhooks)](#Validator.isWebhooks) ⇒ <code>Boolean</code>
+    * [.isWebhookSearch(searchObj)](#Validator.isWebhookSearch) ⇒ <code>Boolean</code>
 
 <a name="Validator.isFile"></a>
 
@@ -1937,6 +1938,18 @@ Validate Spark Webhook Objects in Array.
 | Param | Type | Description |
 | --- | --- | --- |
 | webhooks | <code>Array</code> | Array of Webhook objects |
+
+<a name="Validator.isWebhookSearch"></a>
+
+### Validator.isWebhookSearch(searchObj) ⇒ <code>Boolean</code>
+Validate Spark Webhook Search Object.
+
+**Kind**: static method of [<code>Validator</code>](#Validator)  
+**Returns**: <code>Boolean</code> - result  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| searchObj | <code>WebhookSearch</code> | TeamMembership object |
 
 <a name="event_memberships"></a>
 
