@@ -1143,7 +1143,7 @@ var spark=new Spark({token:token});return spark.personMe().then(function(person)
  * @memberof Validator
  * @param {MessageSearch} searchObj MessageSearch object
  * @returns {Boolean} result
- */Validator.isMessageSearch=function(searchObj){return(typeof messageSearch==="undefined"?"undefined":_typeof2(messageSearch))==='object'&&searchObj.roomId;};/**
+ */Validator.isMessageSearch=function(searchObj){return(typeof searchObj==="undefined"?"undefined":_typeof2(searchObj))==='object'&&searchObj.roomId;};/**
  * @description Validate Spark Organization Object.
  *
  * @function
