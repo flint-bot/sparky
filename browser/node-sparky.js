@@ -33,7 +33,46 @@ if(validator.isUrl(contentId)){id=contentId.match(/contents\/(.*)/)[1];}return S
      * spark.contentCreate('/some/local/file.png')
      *   .then(file => console.log(file.name))
      *   .catch(err => console.error(err));
-     */contentCreate:function contentCreate(filePath,timeout){var t=timeout&&typeof _timeout==='number'?timeout:15000;if(validator.isFilePath(filePath)){return fsp.readFile(filePath).timeout(t).then(function(bin){var file={};file.name=path.basename(filePath);file.ext=file.name.split('.').pop();file.type=mime.lookup(file.ext);file.binary=bin;file.base64=bin.toString('base64');return when(file);});}return when.reject(new Error("invalid or missing file at \""+filePath+"\""));}};return contents;};module.exports=Contents;}).call(this,require("buffer").Buffer);},{"../validator":17,"buffer":119,"fs":117,"mime-types":231,"path":251,"when":453,"when/node":452}],3:[function(require,module,exports){var Events=function Events(Spark){var events={};return events;};module.exports=Events;},{}],4:[function(require,module,exports){var when=require('when');var validator=require('../validator');/**
+     */contentCreate:function contentCreate(filePath,timeout){var t=timeout&&typeof _timeout==='number'?timeout:15000;if(validator.isFilePath(filePath)){return fsp.readFile(filePath).timeout(t).then(function(bin){var file={};file.name=path.basename(filePath);file.ext=file.name.split('.').pop();file.type=mime.lookup(file.ext);file.binary=bin;file.base64=bin.toString('base64');return when(file);});}return when.reject(new Error("invalid or missing file at \""+filePath+"\""));}};return contents;};module.exports=Contents;}).call(this,require("buffer").Buffer);},{"../validator":17,"buffer":119,"fs":117,"mime-types":231,"path":251,"when":453,"when/node":452}],3:[function(require,module,exports){var when=require('when');var validator=require('../validator');/**
+ * @description Event Object
+ *
+ * @namespace Event
+ * @property {String} id - Event ID
+ * @property {String} resource - Event resource
+ * @property {String} type - Event type
+ * @property {String} actorId - Person ID that triggered event
+ * @property {String} orgId - Organzation ID that event occurred in
+ * @property {String} appId - Application ID
+ * @property {String} created - Date Event created (ISO 8601)
+ * @property {Object} data - Event data object
+ */var Events=function Events(Spark){var events={/**
+     * @description List events in your organization. Several query parameters
+     * are available to filter the response. Long result sets will be split
+     * into pages. Requires admin permissions in organization.
+     *
+     * @memberof Spark
+     * @function
+     * @param {Object} [eventSearch] Spark Event Search Object
+     * @param {Integer} [max] Number of records to return (optional)
+     * @returns {Promise.Array.<Event>} Events Collection
+     *
+     * @example
+     * spark.eventsGet({ resource: 'messages' }, 10)
+     *   .then(events => events.forEach(event => console.log(event.data.text)))
+     *   .catch(err => console.error(err));
+     */eventsGet:function eventsGet(){for(var _len=arguments.length,args=Array(_len),_key2=0;_key2<_len;_key2++){args[_key2]=arguments[_key2];}var eventSearch=args.length>0&&_typeof2(args[0])==='object'?args.shift():{};var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;if(!validator.isEventSearch(eventSearch)){return when.reject(new Error('invalid search'));}eventSearch.max=Spark.maxPageItems;return Spark.request('get','events',eventSearch,maxResults);},/**
+     * @description Return details of Spark Event by ID.
+     *
+     * @memberof Spark
+     * @function
+     * @param {String} eventId Spark Event ID
+     * @returns {Promise.<Event>} Spark Event object
+     *
+     * @example
+     * spark.eventGet('Tm90aGluZyB0byBzZWUgaGVy')
+     *   .then(event => console.log(event.data.text))
+     *   .catch(err => console.error(err));
+     */eventGet:function eventGet(eventId){if(typeof eventId!=='string'){return when.reject(new Error('invalid arguments'));}return Spark.request('get','events',eventId);}};return events;};module.exports=Events;},{"../validator":17,"when":453}],4:[function(require,module,exports){var when=require('when');var validator=require('../validator');/**
  * @description License Object
  *
  * @namespace License
@@ -66,7 +105,7 @@ if(validator.isUrl(contentId)){id=contentId.match(/contents\/(.*)/)[1];}return S
      * spark.licensesGet(licenseSearchObj, 10)
      *   .then(licenses => licenses.forEach(license => console.log(license.name)))
      *   .catch(err => console.error(err));
-     */licensesGet:function licensesGet(){for(var _len=arguments.length,args=Array(_len),_key2=0;_key2<_len;_key2++){args[_key2]=arguments[_key2];}var licenseSearch=args.length>0&&_typeof2(args[0])==='object'?args.shift():{};var orgId=args.length>0&&typeof args[0]==='string'?args.shift():false;var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;licenseSearch.max=Spark.maxPageItems;if(orgId){licenseSearch.orgId=orgId;}if(!validator.isLicenseSearch(licenseSearch)){return when.reject(new Error('missing required argument'));}return Spark.request('get','licenses',licenseSearch,maxResults);},/**
+     */licensesGet:function licensesGet(){for(var _len2=arguments.length,args=Array(_len2),_key3=0;_key3<_len2;_key3++){args[_key3]=arguments[_key3];}var licenseSearch=args.length>0&&_typeof2(args[0])==='object'?args.shift():{};var orgId=args.length>0&&typeof args[0]==='string'?args.shift():false;var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;licenseSearch.max=Spark.maxPageItems;if(orgId){licenseSearch.orgId=orgId;}if(!validator.isLicenseSearch(licenseSearch)){return when.reject(new Error('missing required argument'));}return Spark.request('get','licenses',licenseSearch,maxResults);},/**
      * @description Returns a Spark License specified by License ID.
      *
      * @memberof Spark
@@ -103,7 +142,7 @@ if(validator.isUrl(contentId)){id=contentId.match(/contents\/(.*)/)[1];}return S
      * spark.membershipsGet({ roomId: 'Tm90aGluZyB0byBzZWUgaGVy' }, 10)
      *   .then(memberships => memberships.forEach(membership => console.log(membership.id)))
      *   .catch(err => console.error(err));
-     */membershipsGet:function membershipsGet(){for(var _len2=arguments.length,args=Array(_len2),_key3=0;_key3<_len2;_key3++){args[_key3]=arguments[_key3];}var membershipSearch=args.length>0&&_typeof2(args[0])==='object'?args.shift():{};var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;if(!validator.isMembershipSearch(membershipSearch)){membershipSearch={};}membershipSearch.max=Spark.maxPageItems;return Spark.request('get','memberships',membershipSearch,maxResults);},/**
+     */membershipsGet:function membershipsGet(){for(var _len3=arguments.length,args=Array(_len3),_key4=0;_key4<_len3;_key4++){args[_key4]=arguments[_key4];}var membershipSearch=args.length>0&&_typeof2(args[0])==='object'?args.shift():{};var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;if(!validator.isMembershipSearch(membershipSearch)){membershipSearch={};}membershipSearch.max=Spark.maxPageItems;return Spark.request('get','memberships',membershipSearch,maxResults);},/**
      * @description Returns Spark Membership by ID.
      *
      * @memberof Spark
@@ -141,7 +180,7 @@ if(validator.isUrl(contentId)){id=contentId.match(/contents\/(.*)/)[1];}return S
      * spark.membershipAdd(membershipObj)
      *   .then(membership => console.log(membership.id))
      *   .catch(err => console.error(err));
-     */membershipAdd:function membershipAdd(){for(var _len3=arguments.length,args=Array(_len3),_key4=0;_key4<_len3;_key4++){args[_key4]=arguments[_key4];}var membershipObj=args.length>0&&_typeof2(args[0])==='object'?args.shift():false;var roomId=args.length>0&&typeof args[0]==='string'?args.shift():false;var personEmail=args.length>0&&typeof args[0]==='string'?args.shift():false;var isModerator=args.length>0&&typeof args[0]==='boolean'?args.shift():false;if(membershipObj&&validator.isMembershipSearch(membershipObj)){return Spark.request('post','memberships',membershipObj);}if(roomId&&validator.isEmail(personEmail)){return Spark.request('post','memberships',{personEmail:personEmail,roomId:roomId,isModerator:typeof isModerator==='boolean'&&isModerator});}return when.reject(new Error('invalid arguments'));},/**
+     */membershipAdd:function membershipAdd(){for(var _len4=arguments.length,args=Array(_len4),_key5=0;_key5<_len4;_key5++){args[_key5]=arguments[_key5];}var membershipObj=args.length>0&&_typeof2(args[0])==='object'?args.shift():false;var roomId=args.length>0&&typeof args[0]==='string'?args.shift():false;var personEmail=args.length>0&&typeof args[0]==='string'?args.shift():false;var isModerator=args.length>0&&typeof args[0]==='boolean'?args.shift():false;if(membershipObj&&validator.isMembershipSearch(membershipObj)){return Spark.request('post','memberships',membershipObj);}if(roomId&&validator.isEmail(personEmail)){return Spark.request('post','memberships',{personEmail:personEmail,roomId:roomId,isModerator:typeof isModerator==='boolean'&&isModerator});}return when.reject(new Error('invalid arguments'));},/**
      * @description Update a Membership.
      *
      * @memberof Spark
@@ -200,7 +239,7 @@ return Spark.request('put','memberships',membership.id,membership);}return when.
      * spark.messagesGet({roomId: 'Tm90aGluZyB0byBzZWUgaGVy'}, 100)
      *   .then(messages => messages.forEach(message => console.log(message.text)))
      *   .catch(err => console.error(err));
-     */messagesGet:function messagesGet(){for(var _len4=arguments.length,args=Array(_len4),_key5=0;_key5<_len4;_key5++){args[_key5]=arguments[_key5];}var messageSearch=args.length>0&&_typeof2(args[0])==='object'?args.shift():{};var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;if(!validator.isMessageSearch(messageSearch)){return when.reject(new Error('invalid search'));}messageSearch.max=Spark.maxPageItems;return Spark.request('get','messages',messageSearch,maxResults);},/**
+     */messagesGet:function messagesGet(){for(var _len5=arguments.length,args=Array(_len5),_key6=0;_key6<_len5;_key6++){args[_key6]=arguments[_key6];}var messageSearch=args.length>0&&_typeof2(args[0])==='object'?args.shift():{};var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;if(!validator.isMessageSearch(messageSearch)){return when.reject(new Error('invalid search'));}messageSearch.max=Spark.maxPageItems;return Spark.request('get','messages',messageSearch,maxResults);},/**
      * @description Return details of Spark Message by ID.
      *
      * @memberof Spark
@@ -209,7 +248,7 @@ return Spark.request('put','memberships',membership.id,membership);}return when.
      * @returns {Promise.<Message>} Spark Message object
      *
      * @example
-     * spark.messageGet('Tm90aGluZyB0byBzZWUgaGVy', 100)
+     * spark.messageGet('Tm90aGluZyB0byBzZWUgaGVy')
      *   .then(message => console.log(message.text))
      *   .catch(err => console.error(err));
      */messageGet:function messageGet(messageId){if(typeof messageId!=='string'){return when.reject(new Error('invalid arguments'));}return Spark.request('get','messages',messageId);},/**
@@ -266,7 +305,7 @@ formData.files=[{value:file.binary,options:{filename:file.name,contentType:file.
      * spark.organizationsGet(10)
      *   .then(organizations => organizations.forEach(organization => console.log(organization.id)))
      *   .catch(err => console.error(err));
-     */organizationsGet:function organizationsGet(){for(var _len5=arguments.length,args=Array(_len5),_key6=0;_key6<_len5;_key6++){args[_key6]=arguments[_key6];}var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;return Spark.request('get','organizations',{max:Spark.maxPageItems},maxResults);},/**
+     */organizationsGet:function organizationsGet(){for(var _len6=arguments.length,args=Array(_len6),_key7=0;_key7<_len6;_key7++){args[_key7]=arguments[_key7];}var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;return Spark.request('get','organizations',{max:Spark.maxPageItems},maxResults);},/**
      * @description Return Spark Organization specified by License ID.
      *
      * @memberof Spark
@@ -311,7 +350,7 @@ formData.files=[{value:file.binary,options:{filename:file.name,contentType:file.
      * spark.peopleGet({ displayName: 'John' }, 10)
      *   .then(people => people.forEach(person => console.log(person.displayName)))
      *   .catch(err => console.error(err));
-     */peopleGet:function peopleGet(){for(var _len6=arguments.length,args=Array(_len6),_key7=0;_key7<_len6;_key7++){args[_key7]=arguments[_key7];}var personSearch=args.length>0&&_typeof2(args[0])==='object'?args.shift():{};var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;if(!validator.isPersonSearch(personSearch)){personSearch={};}personSearch.max=Spark.maxPageItems;return Spark.request('get','people',personSearch,maxResults);},/**
+     */peopleGet:function peopleGet(){for(var _len7=arguments.length,args=Array(_len7),_key8=0;_key8<_len7;_key8++){args[_key8]=arguments[_key8];}var personSearch=args.length>0&&_typeof2(args[0])==='object'?args.shift():{};var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;if(!validator.isPersonSearch(personSearch)){personSearch={};}personSearch.max=Spark.maxPageItems;return Spark.request('get','people',personSearch,maxResults);},/**
      * @description Returns a Spark Person Object specified by Person ID.
      *
      * @memberof Spark
@@ -408,7 +447,7 @@ return Spark.request('put','people',person.id,person);}return when.reject(new Er
      * spark.rolesGet(10)
      *   .then(roles => roles.forEach(role => console.log(role.name)))
      *   .catch(err => console.error(err));
-     */rolesGet:function rolesGet(){for(var _len7=arguments.length,args=Array(_len7),_key8=0;_key8<_len7;_key8++){args[_key8]=arguments[_key8];}var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;return Spark.request('get','roles',{max:Spark.maxPageItems},maxResults);},/**
+     */rolesGet:function rolesGet(){for(var _len8=arguments.length,args=Array(_len8),_key9=0;_key9<_len8;_key9++){args[_key9]=arguments[_key9];}var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;return Spark.request('get','roles',{max:Spark.maxPageItems},maxResults);},/**
      * Returns details for a Spark Role pecified by Role ID.
      *
      * @memberof Spark
@@ -447,7 +486,7 @@ return Spark.request('put','people',person.id,person);}return when.reject(new Er
      * spark.roomsGet({ type: 'group' }, 10)
      *   .then(rooms => rooms.forEach(room => console.log(room.title)))
      *   .catch(err => console.error(err));
-     */roomsGet:function roomsGet(){for(var _len8=arguments.length,args=Array(_len8),_key9=0;_key9<_len8;_key9++){args[_key9]=arguments[_key9];}var roomSearch=args.length>0&&_typeof2(args[0])==='object'?args.shift():{};var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;if(!validator.isRoomSearch(roomSearch)){roomSearch={};}roomSearch.max=Spark.maxPageItems;return Spark.request('get','rooms',roomSearch,maxResults);},/**
+     */roomsGet:function roomsGet(){for(var _len9=arguments.length,args=Array(_len9),_key10=0;_key10<_len9;_key10++){args[_key10]=arguments[_key10];}var roomSearch=args.length>0&&_typeof2(args[0])==='object'?args.shift():{};var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;if(!validator.isRoomSearch(roomSearch)){roomSearch={};}roomSearch.max=Spark.maxPageItems;return Spark.request('get','rooms',roomSearch,maxResults);},/**
      * @description Returns a Spark Room Object specified by Room ID.
      *
      * @memberof Spark
@@ -524,7 +563,7 @@ return Spark.request('put','people',person.id,person);}return when.reject(new Er
      * spark.teamMembershipsGet('Tm90aGluZyB0byBzZWUgaGVy', 100)
      *   .then(tms => tms.forEach(tm => console.log(tm.personEmail)))
      *   .catch(err => console.error(err));
-     */teamMembershipsGet:function teamMembershipsGet(){for(var _len9=arguments.length,args=Array(_len9),_key10=0;_key10<_len9;_key10++){args[_key10]=arguments[_key10];}var teamMembershipSearch=args.length>0&&_typeof2(args[0])==='object'?args.shift():{};var teamId=args.length>0&&typeof args[0]==='string'?args.shift():false;var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;teamMembershipSearch.max=Spark.maxPageItems;if(teamId){teamMembershipSearch.teamId=teamId;}if(!validator.isTeamMembershipSearch(teamMembershipSearch)){return when.reject(new Error('missing required argument'));}return Spark.request('get','team/memberships',teamMembershipSearch,maxResults);},/**
+     */teamMembershipsGet:function teamMembershipsGet(){for(var _len10=arguments.length,args=Array(_len10),_key11=0;_key11<_len10;_key11++){args[_key11]=arguments[_key11];}var teamMembershipSearch=args.length>0&&_typeof2(args[0])==='object'?args.shift():{};var teamId=args.length>0&&typeof args[0]==='string'?args.shift():false;var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;teamMembershipSearch.max=Spark.maxPageItems;if(teamId){teamMembershipSearch.teamId=teamId;}if(!validator.isTeamMembershipSearch(teamMembershipSearch)){return when.reject(new Error('missing required argument'));}return Spark.request('get','team/memberships',teamMembershipSearch,maxResults);},/**
      * @description Return Spark Team Membership specified by Membership ID.
      *
      * @memberof Spark
@@ -560,7 +599,7 @@ return Spark.request('put','people',person.id,person);}return when.reject(new Er
      * spark.teamMembershipAdd(teamMembershipObj)
      *   .then(tm => console.log(tm.personEmail))
      *   .catch(err => console.error(err));
-     */teamMembershipAdd:function teamMembershipAdd(){for(var _len10=arguments.length,args=Array(_len10),_key11=0;_key11<_len10;_key11++){args[_key11]=arguments[_key11];}var membershipObj=args.length>0&&_typeof2(args[0])==='object'?args.shift():false;var teamId=args.length>0&&typeof args[0]==='string'?args.shift():false;var personEmail=args.length>0&&typeof args[0]==='string'?args.shift():false;var isModerator=args.length>0&&typeof args[0]==='boolean'?args.shift():false;if(membershipObj&&validator.isTeamMembershipSearch(membershipObj)){return Spark.request('post','team/memberships',membershipObj);}if(teamId&&validator.isEmail(personEmail)){return Spark.request('post','team/memberships',{personEmail:personEmail,teamId:teamId,isModerator:typeof isModerator==='boolean'&&isModerator});}return when.reject(new Error('invalid arguments'));},/**
+     */teamMembershipAdd:function teamMembershipAdd(){for(var _len11=arguments.length,args=Array(_len11),_key12=0;_key12<_len11;_key12++){args[_key12]=arguments[_key12];}var membershipObj=args.length>0&&_typeof2(args[0])==='object'?args.shift():false;var teamId=args.length>0&&typeof args[0]==='string'?args.shift():false;var personEmail=args.length>0&&typeof args[0]==='string'?args.shift():false;var isModerator=args.length>0&&typeof args[0]==='boolean'?args.shift():false;if(membershipObj&&validator.isTeamMembershipSearch(membershipObj)){return Spark.request('post','team/memberships',membershipObj);}if(teamId&&validator.isEmail(personEmail)){return Spark.request('post','team/memberships',{personEmail:personEmail,teamId:teamId,isModerator:typeof isModerator==='boolean'&&isModerator});}return when.reject(new Error('invalid arguments'));},/**
      * @description Update a Team Membership.
      *
      * @memberof Spark
@@ -610,7 +649,7 @@ return Spark.request('put','people',teamMembership.id,teamMembership);}return wh
      * spark.teamsGet(10)
      *   .then(teams => teams.forEach(team => console.log(team.name)))
      *   .catch(err => console.error(err));
-     */teamsGet:function teamsGet(){for(var _len11=arguments.length,args=Array(_len11),_key12=0;_key12<_len11;_key12++){args[_key12]=arguments[_key12];}var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;return Spark.request('get','teams',{max:Spark.maxPageItems},maxResults);},/**
+     */teamsGet:function teamsGet(){for(var _len12=arguments.length,args=Array(_len12),_key13=0;_key13<_len12;_key13++){args[_key13]=arguments[_key13];}var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;return Spark.request('get','teams',{max:Spark.maxPageItems},maxResults);},/**
      * @description Returns a Spark Team Object specified by Team ID.
      *
      * @memberof Spark
@@ -692,7 +731,7 @@ var cryptoTimingSafeEqualStr=function cryptoTimingSafeEqualStr(a,b){if(typeof a=
      * spark.webhooksGet(10)
      *   .then(webhooks => webhooks.forEach(webhook => console.log(webhook.name)))
      *   .catch(err => console.error(err));
-     */webhooksGet:function webhooksGet(){for(var _len12=arguments.length,args=Array(_len12),_key13=0;_key13<_len12;_key13++){args[_key13]=arguments[_key13];}var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;return Spark.request('get','webhooks',{max:Spark.maxPageItems},maxResults);},/**
+     */webhooksGet:function webhooksGet(){for(var _len13=arguments.length,args=Array(_len13),_key14=0;_key14<_len13;_key14++){args[_key14]=arguments[_key14];}var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():0;return Spark.request('get','webhooks',{max:Spark.maxPageItems},maxResults);},/**
      * @description Returns all webhooks that match the search criteria
      *
      * @memberof Spark
@@ -705,7 +744,7 @@ var cryptoTimingSafeEqualStr=function cryptoTimingSafeEqualStr(a,b){if(typeof a=
      * spark.webhooksSearch({ name: 'My Awesome Webhook' })
      *   .then(webhooks => webhooks.forEach(webhook => console.log(webhook.name)))
      *   .catch(err => console.error(err));
-     */webhooksSearch:function webhooksSearch(){for(var _len13=arguments.length,args=Array(_len13),_key14=0;_key14<_len13;_key14++){args[_key14]=arguments[_key14];}var webhookSearch=args.length>0&&_typeof2(args[0])==='object'?args.shift():false;var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():10;if(webhookSearch&&validator.isWebhookSearch(webhookSearch)){return Spark.request('get','webhooks',{max:Spark.maxPageItems},0).then(function(webhooksAll){return when(_.filter(webhooksAll,webhookSearch).slice(0,maxResults));});}return when.reject(new Error('invalid arguments'));},/**
+     */webhooksSearch:function webhooksSearch(){for(var _len14=arguments.length,args=Array(_len14),_key15=0;_key15<_len14;_key15++){args[_key15]=arguments[_key15];}var webhookSearch=args.length>0&&_typeof2(args[0])==='object'?args.shift():false;var maxResults=args.length>0&&typeof args[0]==='number'?args.shift():10;if(webhookSearch&&validator.isWebhookSearch(webhookSearch)){return Spark.request('get','webhooks',{max:Spark.maxPageItems},0).then(function(webhooksAll){return when(_.filter(webhooksAll,webhookSearch).slice(0,maxResults));});}return when.reject(new Error('invalid arguments'));},/**
      * @description Returns details of Spark Webhook Object specified by Webhook ID.
      *
      * @memberof Spark
@@ -970,7 +1009,7 @@ _.merge(_this3,contents(_this3));_.merge(_this3,events(_this3));_.merge(_this3,l
    * @returns {Promise.<Response>} Response promise
    */},{key:"request",value:function request(){// if token is not defined
 if(!this.token||typeof this.token!=='string'){return when.reject(new Error('token not defined'));}var reMethod=/^(get|put|post|delete|form)$/i;var reResource=/^(contents|licenses|memberships|messages|organizations|people|roles|rooms|team\/memberships|teams|webhooks)$/i;// validate method
-for(var _len14=arguments.length,args=Array(_len14),_key15=0;_key15<_len14;_key15++){args[_key15]=arguments[_key15];}var method=args.length>0&&typeof args[0]==='string'&&args[0].match(reMethod)?args.shift():undefined;// validate resource
+for(var _len15=arguments.length,args=Array(_len15),_key16=0;_key16<_len15;_key16++){args[_key16]=arguments[_key16];}var method=args.length>0&&typeof args[0]==='string'&&args[0].match(reMethod)?args.shift():undefined;// validate resource
 var resource=args.length>0&&typeof args[0]==='string'&&args[0].match(reResource)?args.shift():undefined;// validate id
 var id=args.length>0&&typeof args[0]==='string'?args.shift():undefined;// validate data
 var data=args.length>0&&_typeof2(args[0])==='object'?args.shift():{};// validate max
@@ -1003,7 +1042,9 @@ return makeRequest(pOpts,processResponse);}}if(_.has(opts,'catItems')){resItems=
 return when(_res.body);}return when.reject(new Error('invalid response body'));};var process204=function process204(_res,_opts){return when({});};var process429=function process429(_res,_opts){// default retry delay
 var retryAfter=15;// attempt to determine true delay from api headers
 if(_.has(_res.headers,'retry-after')){retryAfter=_res.headers['retry-after'];}// log rate-limited event
-if(retryAfter>0){console.log("Spark API rate limit exceeded and response will be delayed for "+retryAfter+"s before being reattempted");}return when(true).delay(retryAfter*1000).then(function(){return makeRequest(_opts,processResponse);});};var processError=function processError(_res,_opts){var err=new Error("recieved error "+_res.statusCode+" for a "+_opts.method.toUpperCase()+" request to "+_opts.url);console.error(err);return when.reject(err);};// process by status code
+if(retryAfter>0){console.log("Spark API rate limit exceeded and response will be delayed for "+retryAfter+"s before being reattempted");}return when(true).delay(retryAfter*1000).then(function(){return makeRequest(_opts,processResponse);});};var processError=function processError(_res,_opts){var err=new Error("recieved error "+_res.statusCode+" for a "+_opts.method.toUpperCase()+" request to "+_opts.url);// attach statusCode to error.code
+err.code=_res.statusCode;// attach err.type
+if(parseInt(_res.statusCode,10)===400){err.type='ERR_REQUEST';}else if(parseInt(_res.statusCode,10)===401){err.type='ERR_UNAUTHORIZED';}else if(parseInt(_res.statusCode,10)===403){err.type='ERR_FORBIDDEN';}else if(parseInt(_res.statusCode,10)===409){err.type='ERR_CONFLICT';}else if(parseInt(_res.statusCode,10)===415){err.type='ERR_MEDIA';}else if(parseInt(_res.statusCode,10)===429){err.type='ERR_RATELIMIT';}else{err.type='ERR_STATUS';}console.error(err);return when.reject(err);};// process by status code
 if(res.statusCode===204){return process204(res,opts);}else if(res.statusCode===429){return process429(res,opts);}else if(res.statusCode===200){return process200(res,opts);}return processError(res,opts);};return makeRequest(requestOptions,processResponse);}var err=new Error('missing required arguemnts');console.error(err);return when.reject(err);}}]);return Spark;}(EventEmitter);module.exports=Spark;}).call(this,require('_process'));},{"./res/contents":2,"./res/events":3,"./res/licenses":4,"./res/memberships":5,"./res/messages":6,"./res/metrics":7,"./res/organizations":8,"./res/people":9,"./res/policies":10,"./res/roles":11,"./res/rooms":12,"./res/team-memberships":13,"./res/teams":14,"./res/webhooks":15,"./validator":17,"_process":259,"events":163,"lodash":225,"request":289,"when":453}],17:[function(require,module,exports){var validator=require('validator');var node=require('when/node');var when=require('when');var fs=require('fs');var _=require('lodash');var fsp=node.liftAll(fs);/**
  * @description Spark Object Validation
  *
@@ -1081,6 +1122,27 @@ var spark=new Spark({token:token});return spark.personMe().then(function(person)
  * options required in a file object
  * @returns {Boolean} result
  */Validator.isFile=function(file){var result=(typeof file==="undefined"?"undefined":_typeof2(file))==='object'&&file.name&&file.ext&&file.type&&file.binary&&file.base64;return result;};/**
+ * @description Validate Spark Event Object.
+ *
+ * @function
+ * @memberof Validator
+ * @param {Event} event Event object
+ * @returns {Boolean} result
+ */Validator.isEvent=function(event){var result=(typeof event==="undefined"?"undefined":_typeof2(event))==='object'&&event.id&&event.resource&&event.type&&event.actorId&&event.created&&event.data&&_typeof2(event.data)==='object';return result;};/**
+ * @description Validate Spark Event Objects in Array.
+ *
+ * @function
+ * @memberof Validator
+ * @param {Array} events Array of Event objects
+ * @returns {Boolean} result
+ */Validator.isEvents=function(events){if(events instanceof Array){return _.every(events,Validator.isEvent);}return false;};/**
+ * @description Validate Spark Event Search Object.
+ *
+ * @function
+ * @memberof Validator
+ * @param {EventSearch} searchObj EventSearch object
+ * @returns {Boolean} result
+ */Validator.isEventSearch=function(searchObj){if((typeof searchObj==="undefined"?"undefined":_typeof2(searchObj))!=='object'){return false;}return true;};/**
  * @description Validate Spark License Object.
  *
  * @function

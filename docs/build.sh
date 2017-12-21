@@ -7,6 +7,7 @@ cat header.md > ${README}
 
 ${JSDOC} ../lib/spark.js \
   ../lib/res/contents.js \
+  ../lib/res/events.js \
   ../lib/res/licenses.js \
   ../lib/res/memberships.js \
   ../lib/res/messages.js \

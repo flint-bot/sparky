@@ -116,6 +116,9 @@ npm run build
 <dt><a href="#File">File</a> : <code>object</code></dt>
 <dd><p>File Object</p>
 </dd>
+<dt><a href="#Event">Event</a> : <code>object</code></dt>
+<dd><p>Event Object</p>
+</dd>
 <dt><a href="#License">License</a> : <code>object</code></dt>
 <dd><p>License Object</p>
 </dd>
@@ -207,6 +210,8 @@ npm run build
     * _static_
         * [.contentGet(contentId)](#Spark.contentGet) ⇒ [<code>Promise.&lt;File&gt;</code>](#File)
         * [.contentCreate(filePath, [timeout])](#Spark.contentCreate) ⇒ [<code>Promise.&lt;File&gt;</code>](#File)
+        * [.eventsGet([eventSearch], [max])](#Spark.eventsGet) ⇒ [<code>Promise.Array.&lt;Event&gt;</code>](#Event)
+        * [.eventGet(eventId)](#Spark.eventGet) ⇒ [<code>Promise.&lt;Event&gt;</code>](#Event)
         * [.licensesGet([orgId], [max])](#Spark.licensesGet) ⇒ [<code>Promise.Array.&lt;License&gt;</code>](#License)
         * [.licenseGet(licenseId)](#Spark.licenseGet) ⇒ [<code>Promise.&lt;License&gt;</code>](#License)
         * [.membershipsGet([membershipSearch], [max])](#Spark.membershipsGet) ⇒ [<code>Promise.Array.&lt;Membership&gt;</code>](#Membership)
@@ -331,6 +336,45 @@ Create File Object from local file path.
 ```js
 spark.contentCreate('/some/local/file.png')
   .then(file => console.log(file.name))
+  .catch(err => console.error(err));
+```
+<a name="Spark.eventsGet"></a>
+
+### Spark.eventsGet([eventSearch], [max]) ⇒ [<code>Promise.Array.&lt;Event&gt;</code>](#Event)
+List events in your organization. Several query parameters
+are available to filter the response. Long result sets will be split
+into pages. Requires admin permissions in organization.
+
+**Kind**: static method of [<code>Spark</code>](#Spark)  
+**Returns**: [<code>Promise.Array.&lt;Event&gt;</code>](#Event) - Events Collection  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [eventSearch] | <code>Object</code> | Spark Event Search Object |
+| [max] | <code>Integer</code> | Number of records to return (optional) |
+
+**Example**  
+```js
+spark.eventsGet({ resource: 'messages' }, 10)
+  .then(events => events.forEach(event => console.log(event.data.text)))
+  .catch(err => console.error(err));
+```
+<a name="Spark.eventGet"></a>
+
+### Spark.eventGet(eventId) ⇒ [<code>Promise.&lt;Event&gt;</code>](#Event)
+Return details of Spark Event by ID.
+
+**Kind**: static method of [<code>Spark</code>](#Spark)  
+**Returns**: [<code>Promise.&lt;Event&gt;</code>](#Event) - Spark Event object  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| eventId | <code>String</code> | Spark Event ID |
+
+**Example**  
+```js
+spark.eventGet('Tm90aGluZyB0byBzZWUgaGVy')
+  .then(event => console.log(event.data.text))
   .catch(err => console.error(err));
 ```
 <a name="Spark.licensesGet"></a>
@@ -527,7 +571,7 @@ Return details of Spark Message by ID.
 
 **Example**  
 ```js
-spark.messageGet('Tm90aGluZyB0byBzZWUgaGVy', 100)
+spark.messageGet('Tm90aGluZyB0byBzZWUgaGVy')
   .then(message => console.log(message.text))
   .catch(err => console.error(err));
 ```
@@ -1298,6 +1342,25 @@ File Object
 | binary | <code>Buffer</code> | File contents as binary |
 | base64 | <code>String</code> | File contents as base64 encoded string |
 
+<a name="Event"></a>
+
+## Event : <code>object</code>
+Event Object
+
+**Kind**: global namespace  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| id | <code>String</code> | Event ID |
+| resource | <code>String</code> | Event resource |
+| type | <code>String</code> | Event type |
+| actorId | <code>String</code> | Person ID that triggered event |
+| orgId | <code>String</code> | Organzation ID that event occurred in |
+| appId | <code>String</code> | Application ID |
+| created | <code>String</code> | Date Event created (ISO 8601) |
+| data | <code>Object</code> | Event data object |
+
 <a name="License"></a>
 
 ## License : <code>object</code>
@@ -1487,6 +1550,9 @@ Spark Object Validation
     * [.isFilePath(path)](#Validator.isFilePath) ⇒ <code>Boolean</code>
     * [.isOptions(options)](#Validator.isOptions) ⇒ <code>Boolean</code>
     * [.isFile(file)](#Validator.isFile) ⇒ <code>Boolean</code>
+    * [.isEvent(event)](#Validator.isEvent) ⇒ <code>Boolean</code>
+    * [.isEvents(events)](#Validator.isEvents) ⇒ <code>Boolean</code>
+    * [.isEventSearch(searchObj)](#Validator.isEventSearch) ⇒ <code>Boolean</code>
     * [.isLicense(license)](#Validator.isLicense) ⇒ <code>Boolean</code>
     * [.isLicenses(licenses)](#Validator.isLicenses) ⇒ <code>Boolean</code>
     * [.isLicenseSearch(searchObj)](#Validator.isLicenseSearch) ⇒ <code>Boolean</code>
@@ -1626,6 +1692,42 @@ Validate File object
 | Param | Type | Description |
 | --- | --- | --- |
 | file | [<code>Object.&lt;File&gt;</code>](#File) | Validate that object passed includes all valid options required in a file object |
+
+<a name="Validator.isEvent"></a>
+
+### Validator.isEvent(event) ⇒ <code>Boolean</code>
+Validate Spark Event Object.
+
+**Kind**: static method of [<code>Validator</code>](#Validator)  
+**Returns**: <code>Boolean</code> - result  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| event | [<code>Event</code>](#Event) | Event object |
+
+<a name="Validator.isEvents"></a>
+
+### Validator.isEvents(events) ⇒ <code>Boolean</code>
+Validate Spark Event Objects in Array.
+
+**Kind**: static method of [<code>Validator</code>](#Validator)  
+**Returns**: <code>Boolean</code> - result  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| events | <code>Array</code> | Array of Event objects |
+
+<a name="Validator.isEventSearch"></a>
+
+### Validator.isEventSearch(searchObj) ⇒ <code>Boolean</code>
+Validate Spark Event Search Object.
+
+**Kind**: static method of [<code>Validator</code>](#Validator)  
+**Returns**: <code>Boolean</code> - result  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| searchObj | <code>EventSearch</code> | EventSearch object |
 
 <a name="Validator.isLicense"></a>
 
