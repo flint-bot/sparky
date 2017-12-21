@@ -1,3 +1,10 @@
+# 4.2.x
+
+* Extended error object to include code and type properties to address #10
+* Updated jsdoc-to-markdown to v3.0.3
+* Fixed typo in messages example
+* Added support for Spark Events API
+
 # 4.1.x
 
 * Code cleanup
