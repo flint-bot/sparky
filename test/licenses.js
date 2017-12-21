@@ -24,7 +24,7 @@ if (typeof process.env.TOKEN === 'string') {
   });
 
   describe('#Spark.licenseGet(licenseId)', () => {
-    it('returns an array of spark license objects', () => {
+    it('returns spark license object', () => {
       // skip licensesGet if orgLicenses is not defined
       if (!(orgLicenses instanceof Array && orgLicenses.length > 0)) {
         this.skip();
