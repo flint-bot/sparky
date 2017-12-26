@@ -13,6 +13,11 @@ if (typeof process.env.TOKEN === 'string') {
       .then(webhooks => when(assert(validator.isWebhooks(webhooks), 'invalid response'))));
   });
 
+  describe('#Spark.webhooksGet({resource: \'messages\'})', () => {
+    it('returns an array of spark webhook objects', () => spark.webhooksGet({ resource: 'messages' })
+      .then(webhooks => when(assert(validator.isWebhooks(webhooks), 'invalid response or no webhooks match search criteria'))));
+  });
+
   describe('#Spark.webhookAuth()', () => {
     it('calculates hmac-sha1 and verifies on test data.', () => {
       const secret = 'testSecret1234';
