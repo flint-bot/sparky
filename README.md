@@ -2,7 +2,11 @@
 
 [![NPM](https://nodei.co/npm/node-sparky.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/node-sparky/)
 
-#### Cisco Spark API for Node JS (Version 4)
+#### Cisco Spark API for Node JS
+
+This is a Cisco Spark API Library for Node JS. This project aims to simplify interaction with the Spark API while transparently handling more complex operations such as pagination, webhook creation, and webhook authentication. If you have a question, feature request, or have found a bug, please open an issue.
+
+#### Quick Start
 
 ```js
 const Spark = require('node-sparky');
@@ -24,7 +28,7 @@ spark.roomsGet(10)
 * Handles pagination transparently. (Receive unlimited records)
 * Support for [authenticated HMAC-SHA1 webhooks](https://developer.ciscospark.com/webhooks-explained.html#sensitive-data)
 
-## Using `node-sparky` as a Node JS Package
+## Using node-sparky as a Node JS Package
 
 This module can be installed via NPM:
 
@@ -32,7 +36,49 @@ This module can be installed via NPM:
 npm install node-sparky --save
 ```
 
-## Using `node-sparky` in the Browser
+## Using node-sparky webhook event parser in an Express App
+
+```js
+const Spark = require('node-sparky');
+const express = require('express');
+const bodyParser = require('body-parser');
+const when = require('when');
+
+const spark = new Spark({
+  token: '<my token>',
+  webhookSecret: 'somesecr3t',
+});
+
+const port = parseInt(process.env.PORT || '3000', 10);
+
+// add events
+spark.on('messages-created', msg => console.log(`${msg.personEmail} said: ${msg.text}`));
+
+const app = express();
+app.use(bodyParser.json());
+
+// add route for path that is listening for web hooks
+app.post('/webhook', spark.webhookListen());
+
+// start express server
+app.listen(port, function() {
+  // get exisiting webhooks
+  spark.webhooksGet()
+    // remove all existing webhooks
+    .then(webhooks => when.map(webhooks, webhook => spark.webhookRemove(webhook.id)))
+    // create spark webhook directed back to the externally accessible
+    // express route defined above.
+    .then(() => spark.webhookAdd({
+      name: 'my webhook',
+      targetUrl: 'https://example.com/webhook',
+      resource: 'all',
+      event: 'all',
+    });
+  console.log(`Listening on port ${port}`);
+});
+```
+
+## Using node-sparky in the Browser
 
 You can use node-sparky on the client side browser as well. Simply include
 `<script src="browser/node-sparky.js"></script>` in your page and you can use
@@ -80,7 +126,18 @@ application that makes use of oauth2 to cross authenticate the user to Spark to
 grab their token through a Spark integration should you use node-sparky in the
 browser side JS.**_
 
-## Tests
+## Contributing
+
+#### Build
+
+The `README.md` and `browser/node-sparky.*` files are auto-generated from the
+files in /lib and /docs. To regenerate these run:
+
+```bash
+npm run build
+```
+
+#### Test
 
 Tests require a user token and will not fully run using a bot token. It is
 assumed that the user token has Org Admin permissions. If not, certain tests
@@ -93,14 +150,11 @@ npm install
 TOKEN=someUserTokenHere npm test
 ```
 
-## Build
+# Support this Project
 
-The `README.md` and `browser/node-sparky.*` files are auto-generated from the
-files in /lib and /docs. To regenerate these run:
+Find this project useful? Help suppport the continued development by submitting issues, feature requests, or code. Alternatively, you can...
 
-```bash
-npm run build
-```
+<a href="https://ko-fi.com/S6S46XSW"><img src="https://az743702.vo.msecnd.net/cdn/kofi1.png?v=0" alt="Buy me a Coffee!" height="36"></a>
 
 # Reference
 ## Classes
@@ -248,8 +302,7 @@ npm run build
         * [.teamMembershipAdd(teamId, personEmail, isModerator)](#Spark.teamMembershipAdd) ⇒ [<code>Promise.&lt;TeamMembership&gt;</code>](#TeamMembership)
         * [.teamMembershipUpdate(teamMembership)](#Spark.teamMembershipUpdate) ⇒ [<code>Promise.&lt;TeamMembership&gt;</code>](#TeamMembership)
         * [.teamMembershipRemove(membershipId)](#Spark.teamMembershipRemove) ⇒ <code>Promise</code>
-        * [.webhooksGet([max])](#Spark.webhooksGet) ⇒ [<code>Promise.Array.&lt;Webhook&gt;</code>](#Webhook)
-        * [.webhooksSearch(webhookSearch, [max])](#Spark.webhooksSearch) ⇒ [<code>Promise.Array.&lt;Webhook&gt;</code>](#Webhook)
+        * [.webhooksGet([webhookSearch], [max])](#Spark.webhooksGet) ⇒ [<code>Promise.Array.&lt;Webhook&gt;</code>](#Webhook)
         * [.webhookGet(webhookId)](#Spark.webhookGet) ⇒ [<code>Promise.&lt;Webhook&gt;</code>](#Webhook)
         * [.webhookAdd(webhookObj)](#Spark.webhookAdd) ⇒ [<code>Promise.&lt;Webhook&gt;</code>](#Webhook)
         * [.webhookUpdate(webhookObj)](#Spark.webhookUpdate) ⇒ [<code>Promise.&lt;Webhook&gt;</code>](#Webhook)
@@ -1121,15 +1174,16 @@ spark.teamMembershipRemove('Tm90aGluZyB0byBzZWUgaGVy')
 ```
 <a name="Spark.webhooksGet"></a>
 
-### Spark.webhooksGet([max]) ⇒ [<code>Promise.Array.&lt;Webhook&gt;</code>](#Webhook)
-Return all Spark Webhooks that the authenticated account is
-in. If 'max' is not specifed, returns all.
+### Spark.webhooksGet([webhookSearch], [max]) ⇒ [<code>Promise.Array.&lt;Webhook&gt;</code>](#Webhook)
+Returns all webhooks for authenticated account with optional
+search criteria to filter results. If 'max' is not specifed, returns all.
 
 **Kind**: static method of [<code>Spark</code>](#Spark)  
 **Returns**: [<code>Promise.Array.&lt;Webhook&gt;</code>](#Webhook) - Array of Spark Webhook objects  
 
 | Param | Type | Description |
 | --- | --- | --- |
+| [webhookSearch] | <code>Object</code> | Webhook Search object |
 | [max] | <code>Integer</code> | Number of records to return |
 
 **Example**  
@@ -1138,22 +1192,9 @@ spark.webhooksGet(10)
   .then(webhooks => webhooks.forEach(webhook => console.log(webhook.name)))
   .catch(err => console.error(err));
 ```
-<a name="Spark.webhooksSearch"></a>
-
-### Spark.webhooksSearch(webhookSearch, [max]) ⇒ [<code>Promise.Array.&lt;Webhook&gt;</code>](#Webhook)
-Returns all webhooks that match the search criteria
-
-**Kind**: static method of [<code>Spark</code>](#Spark)  
-**Returns**: [<code>Promise.Array.&lt;Webhook&gt;</code>](#Webhook) - Array of Spark Webhook objects  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| webhookSearch | <code>Object</code> |  | Webhook Search object |
-| [max] | <code>Integer</code> | <code>10</code> | Number of records to return |
-
 **Example**  
 ```js
-spark.webhooksSearch({ name: 'My Awesome Webhook' })
+spark.webhooksGet({ name: 'My Awesome Webhook' }, 10)
   .then(webhooks => webhooks.forEach(webhook => console.log(webhook.name)))
   .catch(err => console.error(err));
 ```
