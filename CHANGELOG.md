@@ -1,3 +1,18 @@
+# 4.4.x
+* Updated changelog.
+* Changed order of preference for env vars. Env vars now take preference over config properties.
+* If webhook secret is not defined in env var or config, now a random 32 digit alpha numeric string is generated.
+
+# 4.3.x
+
+* Added experimental 'after' property that can be passed to messagesGet search object per issue #11.
+* Fixed spelling error from issue #12
+* Locked down package dependencies to minor version. Added moment.js as a dependency.
+* Deprecated webhooksSearch(). Added functionality to webhooksGet(). Created alias for webhooksSearch() to webhooksGet() for backwards compatibility. Added test for webhooksGet using a filter.
+* Removed placeholders for non-existing API endpoints. Added option to define maxPageItems for paginator
+* Updated docs to include example of using sparky in express app. Added donation link.
+* Updated jsdoc-to-markdown to avoid bug in dependent "marked" packaged
+
 # 4.2.x
 
 * Extended error object to include code and type properties to address #10
