@@ -1,3 +1,6 @@
+# 4.5.x
+* Redirected all console logging through debug module. Messages now accesses through `DUBUG=node_sparky` environment variable.
+
 # 4.4.x
 * Updated changelog.
 * Changed order of preference for env vars. Env vars now take preference over config properties.

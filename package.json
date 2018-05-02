@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/flint-bot/sparky#readme",
   "dependencies": {
+    "debug": "^3.1.0",
     "lodash": "4.13.1",
     "mime-types": "2.1.x",
     "moment": "2.20.x",
