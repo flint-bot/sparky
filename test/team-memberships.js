@@ -3,8 +3,8 @@ const when = require('when');
 const Spark = require('../');
 const validator = require('../validator');
 
-if (typeof process.env.TOKEN === 'string') {
-  const spark = new Spark({ token: process.env.TOKEN });
+if (typeof process.env.SPARKY_API_TOKEN === 'string') {
+  const spark = new Spark({ token: process.env.SPARKY_API_TOKEN });
 
   describe('#Spark.teamMembershipsGet(teamId)', () => {
     it('returns an array of spark membership objects', () => spark.teamsGet(5)

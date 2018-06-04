@@ -5,8 +5,8 @@ const validator = require('../validator');
 
 let orgEvents;
 
-if (typeof process.env.TOKEN === 'string') {
-  const spark = new Spark({ token: process.env.TOKEN });
+if (typeof process.env.SPARKY_API_TOKEN === 'string') {
+  const spark = new Spark({ token: process.env.SPARKY_API_TOKEN });
 
   describe('#Spark.eventsGet()', () => {
     it('returns an array of spark event objects', () => spark.eventsGet(10)

@@ -5,8 +5,8 @@ const validator = require('../validator');
 
 let orgLicenses;
 
-if (typeof process.env.TOKEN === 'string') {
-  const spark = new Spark({ token: process.env.TOKEN });
+if (typeof process.env.SPARKY_API_TOKEN === 'string') {
+  const spark = new Spark({ token: process.env.SPARKY_API_TOKEN });
 
   describe('#Spark.licensesGet()', () => {
     it('returns an array of spark license objects', () => spark.licensesGet()
