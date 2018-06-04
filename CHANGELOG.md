@@ -1,3 +1,8 @@
+# 4.6.x
+* Updated all package dependencies.
+* Added prefix to env variables.
+* Updated test options.
+
 # 4.5.x
 * Redirected all console logging through debug module. Messages now accesses through `DUBUG=node_sparky` environment variable.
 
