@@ -147,7 +147,7 @@ WILL fail. The tests can be run via:
 git clone https://github.com/flint-bot/sparky
 cd sparky
 npm install
-TOKEN=someUserTokenHere npm test
+SPARKY_API_TOKEN=someUserTokenHere npm test
 ```
 
 # Support this Project

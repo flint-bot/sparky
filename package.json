@@ -24,28 +24,29 @@
   "homepage": "https://github.com/flint-bot/sparky#readme",
   "dependencies": {
     "debug": "^3.1.0",
-    "lodash": "4.13.1",
-    "mime-types": "2.1.x",
-    "moment": "2.20.x",
-    "request": "2.79.x",
-    "validator": "9.1.x",
-    "when": "3.7.x"
+    "lodash": "^4.17.10",
+    "mime-types": "^2.1.18",
+    "moment": "^2.22.2",
+    "request": "^2.87.0",
+    "validator": "^10.3.0",
+    "when": "^3.7.8"
   },
   "devDependencies": {
-    "babel-eslint": "8.0.x",
-    "babel-preset-env": "1.6.x",
-    "eslint": "4.7.x",
-    "eslint-config-airbnb": "15.1.x",
-    "eslint-plugin-import": "2.7.x",
-    "eslint-plugin-jsx-a11y": "5.1.1",
-    "eslint-plugin-react": "7.3.x",
-    "grunt": "^1.0.1",
-    "grunt-babel": "^6.0.0",
-    "grunt-browserify": "^5.2.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.3",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.9.0",
+    "grunt": "^1.0.3",
+    "grunt-babel": "^7.0.0",
+    "grunt-browserify": "^5.3.0",
     "grunt-cli": "^1.2.0",
-    "grunt-contrib-uglify": "^2.2.0",
+    "grunt-contrib-uglify": "^3.3.0",
     "jsdoc-to-markdown": "^4.0.1",
-    "load-grunt-tasks": "^3.5.2",
-    "mocha": "^3.2.0"
+    "load-grunt-tasks": "^4.0.0",
+    "mocha": "^5.2.0"
   }
 }
