@@ -106,7 +106,7 @@ node-sparky just as you can with with node-js.
                 text: 'Hello world!'
             };
 
-            spark.messageAdd(message)
+            spark.messageSend(message)
                 .then(function(res) {
                     $('#messageId').html(res.id);
                 })
