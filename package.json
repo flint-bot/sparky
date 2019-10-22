@@ -1,6 +1,6 @@
 {
   "name": "node-sparky",
-  "version": "3.1.21",
+  "version": "3.1.22",
   "description": "Spark SDK for NodeJS",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,10 @@
     "spark teams",
     "spark bot",
     "spark machine accounts",
-    "flint"
+    "flint",
+    "webex",
+    "webex teams",
+    "webex bot"
   ],
   "author": "Nicholas Marus <nmarus@gmail.com>",
   "license": "MIT",
