@@ -141,6 +141,8 @@ var spark = new Spark({
     * [.personGet(personId)](#Spark+personGet) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
     * [.personMe()](#Spark+personMe) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
     * [.personByEmail(email)](#Spark+personByEmail) ⇒ <code>[Promise.&lt;Person&gt;](#Person)</code>
+    * [.attachmentActionGet(attachmentActionId)](#Spark+attachmentActionGet) ⇒ <code>Promise.&lt;AttachmentAction&gt;</code>
+    * [.attachmentActionCreate(attachmentAction)](#Spark+attachmentActionCreate) ⇒ <code>Promise.&lt;AttachmentAction&gt;</code>
     * [.messagesGet(roomId, [max])](#Spark+messagesGet) ⇒ <code>Promise.&lt;Array&gt;</code>
     * [.messageGet(messageId)](#Spark+messageGet) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
     * [.messageSendPerson(email, message)](#Spark+messageSendPerson) ⇒ <code>[Promise.&lt;Message&gt;](#Message)</code>
@@ -485,6 +487,53 @@ spark.personByEmail('aperson@company.com')
     // process error
     console.log(err);
   });
+```
+<a name="Spark+attachmentActionGet"></a>
+
+### spark.attachmentActionGet(attachmentActionId) ⇒ <code>Promise.&lt;AttachmentAction&gt;</code>
+Return details of an attachment action by ID.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+**Returns**: <code>Promise.&lt;AttachmentAction&gt;</code> - AttachmentAction object  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| attachmentActionId | <code>String</code> | AttachmentAction ID |
+
+**Example**  
+```js
+spark.attachmentActionGet('Tm90aGluZyB0byBzZWUgaGVy')
+  .then(attachmentAction => console.log(attachmentAction))
+  .catch(err => console.error(err));
+```
+<a name="Spark+attachmentActionCreate"></a>
+
+### spark.attachmentActionCreate(attachmentAction) ⇒ <code>Promise.&lt;AttachmentAction&gt;</code>
+Create an Attachment Action.
+
+**Kind**: instance method of <code>[Spark](#Spark)</code>  
+**Returns**: <code>Promise.&lt;AttachmentAction&gt;</code> - AttachmentAction object  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| attachmentAction | <code>Object.&lt;AttachmentAction&gt;</code> | Attachment Action to create |
+
+**Example**  
+```js
+const newAttachmentAction = {
+  type: 'submit',
+  messageId: 'Tm90aGluZyB0byBzZWUgaGVy',
+  "inputs": {
+     "Name": "John Andersen",
+     "Url": "https://example.com",
+     "Email": "john.andersen@example.com",
+     "Tel": "+1 408 526 7209"
+    }
+}
+
+spark.attachmentActionCreate(newAttachmentAction)
+  .then(attachmentAction => console.log(attachmentAction.id))
+  .catch(err => console.error(err));
 ```
 <a name="Spark+messagesGet"></a>
 
